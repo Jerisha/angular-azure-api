@@ -6,7 +6,7 @@
                   <div class="vf-flex-container-col"> 
                     <div style="display: flex; align-items: center; justify-content: center;">
                       <mat-form-field  [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
-                        <mat-label>Start Telephone No</mat-label>
+                        <mat-label>Start Tel No.</mat-label>
                         <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
                         <input formControlName="StartTelephoneNumber" class="leftAligned" (focus)='ClearBanner()' (paste)="onPaste($event)" (keypress)="numberOnly($event)" matInput maxlength="11"
                           placeholder="Start Tel No." (ngModelChange)="onChange($event,'StartTelephoneNumber')" [(ngModel)]="model.telno" #starttelno telNoPrefixValidator (change)="onChangeEvent($event,'StartTelephoneNumber')">
@@ -14,13 +14,13 @@
                         <mat-error>
                           <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
                             <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                            <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                            <div *ngIf="f.StartTelephoneNumber.errors?.pattern && !f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No should be 10 or 11 digit</div>
                           </div>
                         </mat-error>
                       </mat-form-field>
             
                       <mat-form-field  [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
-                        <mat-label>End Telephone No</mat-label>
+                        <mat-label>End Tel No.</mat-label>
                         <input formControlName="EndTelephoneNumber" class="leftAligned" (focus)='ClearBanner()' (paste)="onPaste($event)" matInput #endtelno maxlength="11" placeholder="End Tel No."
                           (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')" compareStartNo [startNo]="f.StartTelephoneNumber" [(ngModel)]="model.rangeEnd"  telNoPrefixValidator (change)="onChangeEvent($event,'EndTelephoneNumber')">
                         <!-- <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint> -->
@@ -28,7 +28,7 @@
                           <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
                             <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div>
                             <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                            <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                            <div *ngIf="f.EndTelephoneNumber.errors?.pattern && !f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No should be 10 or 11 digit</div>
                           </div>
                         </mat-error>
                       </mat-form-field>
@@ -163,7 +163,7 @@
                        <ng-container *ngIf="SourceFranchisearr  as config1">
                         <mat-form-field *ngIf = "enableFrancise"  [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:225px;">
                           <mat-label>Franchise *</mat-label>
-                          <input #franchise style="font-size:11px" formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
+                          <input #franchise style="font-size:11px" [ngStyle]="{'font-weight':(model.franchise===defaultfranchise) ? '900' : '' }" formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
                             [matAutocomplete]="autoFranchise" OptionsValidator [options]="config1.Franchise" />
                           
                             <span matSuffix mat-icon-button>
@@ -172,7 +172,7 @@
                           </span>
                           <mat-autocomplete    autoActiveFirstOption #autoFranchise="matAutocomplete">
                             <mat-option style="font-size:11px" *ngFor="let val of config1.Franchise | dropDownListFranchise: franchise.value" [value]="val">
-                              {{val}}
+                              <span [ngStyle]="{'font-weight':(val===defaultfranchise) ? '900' : '' }">{{val}}</span> 
                             </mat-option>
                           </mat-autocomplete>
                           <mat-error *ngIf="g.Franchise.errors?.validOptions">Value need to match available options</mat-error>
@@ -190,15 +190,15 @@
                               <ng-container *ngIf="SourceFranchisearr  as config1">
                                 <mat-form-field *ngIf = "enableSource"   [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:260px;">
                                   <mat-label>Source *</mat-label>
-                                  <input #source formControlName="Source" style="font-size:11px" [(ngModel)]="model.source"  (ngModelChange)="onmodelSourcechange($event,'CupID')" type="text" placeholder="Source" matInput
+                                  <input #source formControlName="Source" [ngStyle]="{'font-weight':(model.source===defaultsource) ? '900' : '' }" style="font-size:11px" [(ngModel)]="model.source"  (ngModelChange)="onmodelSourcechange($event,'CupID')" type="text" placeholder="Source" matInput
                                     [matAutocomplete]="autoSource" OptionsValidator [options]="config1.Source" />
                                   <span matSuffix mat-icon-button>
                                   
                                     <mat-icon style="display:contents!important" (click)="model.source=''">arrow_drop_down</mat-icon>
                                   </span>
                                   <mat-autocomplete (optionSelected)="onSourceChange($event)"   autoActiveFirstOption #autoSource="matAutocomplete">
-                                    <mat-option style="font-size:11px" *ngFor="let val of config1.Source | ddlFilter: source.value" [value]="val">
-                                      {{val}}
+                                    <mat-option   style="font-size:11px" *ngFor="let val of config1.Source | ddlFilter: source.value" [value]="val" >
+                                      <span [ngStyle]="{'font-weight':(val===defaultsource) ? '900' : '' }">{{val}}</span>
                                     </mat-option>
                                   </mat-autocomplete>
                                   <mat-error *ngIf="g.Source.errors?.validOptions">Value need to match available options</mat-error>
