@@ -64,6 +64,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   isExportImportSelected: Boolean = true;
   telephoneSet = "";
   audittelephonenumbers: any;
+  defaultsource:string="";
+  defaultfranchise:string="";
   model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
   transactionItem = new TransactionItem();
   @Output() AddressCheckSelected = new EventEmitter<any[]>();
@@ -365,6 +367,7 @@ GoBack()
       console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+       
       this.enableSource = true;
       this.enableFrancise = true;
       this.SourceFranchisearr={Source:this.SourceValues,Franchise:[]};
@@ -390,7 +393,7 @@ GoBack()
       this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
-       
+        this.defaultsource= this.SourceValues[0];
       if(this.model.franchise!='')
       {
         this.views.view3 = true;
@@ -410,6 +413,7 @@ GoBack()
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('default source values',modelsource);
       this.model.source = modelsource[0];
+      this.defaultsource=modelsource[0];
      // this.transactionItem.source = modelsource[0];
      // console.log('defalut source', this.model.source);
       let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
@@ -424,6 +428,7 @@ GoBack()
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         console.log('default franchise',modelfranchise);
       this.model.franchise = modelfranchise[0];
+      this.defaultfranchise=modelfranchise[0];
      // console.log('default franchise',this.model.franchise);
       this.enableSource = true;
       this.enableFrancise = true;
@@ -1168,7 +1173,7 @@ this.alertService.clear();
         if (count >= 10000) {
           this.countrange();
 
-          this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s ", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Unable to add the CLIs, as this will exceed the 10,000 CLIs limit", { autoClose: true, keepAfterRouteChange: false });
         }
         else if (!this.checktotalrange(count)) {
            this.alertService.notification("Unable to add the CLIs, as this will exceed the 10,000 CLIs limit", { autoClose: true, keepAfterRouteChange: false })

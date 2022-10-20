@@ -163,7 +163,7 @@
                        <ng-container *ngIf="SourceFranchisearr  as config1">
                         <mat-form-field *ngIf = "enableFrancise"  [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:225px;">
                           <mat-label>Franchise *</mat-label>
-                          <input #franchise style="font-size:11px" formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
+                          <input #franchise style="font-size:11px" [ngStyle]="{'font-weight':(model.franchise===defaultfranchise) ? '900' : '' }" formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
                             [matAutocomplete]="autoFranchise" OptionsValidator [options]="config1.Franchise" />
                           
                             <span matSuffix mat-icon-button>
@@ -172,7 +172,7 @@
                           </span>
                           <mat-autocomplete    autoActiveFirstOption #autoFranchise="matAutocomplete">
                             <mat-option style="font-size:11px" *ngFor="let val of config1.Franchise | dropDownListFranchise: franchise.value" [value]="val">
-                              {{val}}
+                              <span [ngStyle]="{'font-weight':(val===defaultfranchise) ? '900' : '' }">{{val}}</span> 
                             </mat-option>
                           </mat-autocomplete>
                           <mat-error *ngIf="g.Franchise.errors?.validOptions">Value need to match available options</mat-error>
@@ -190,15 +190,15 @@
                               <ng-container *ngIf="SourceFranchisearr  as config1">
                                 <mat-form-field *ngIf = "enableSource"   [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:260px;">
                                   <mat-label>Source *</mat-label>
-                                  <input #source formControlName="Source" style="font-size:11px" [(ngModel)]="model.source"  (ngModelChange)="onmodelSourcechange($event,'CupID')" type="text" placeholder="Source" matInput
+                                  <input #source formControlName="Source" [ngStyle]="{'font-weight':(model.source===defaultsource) ? '900' : '' }" style="font-size:11px" [(ngModel)]="model.source"  (ngModelChange)="onmodelSourcechange($event,'CupID')" type="text" placeholder="Source" matInput
                                     [matAutocomplete]="autoSource" OptionsValidator [options]="config1.Source" />
                                   <span matSuffix mat-icon-button>
                                   
                                     <mat-icon style="display:contents!important" (click)="model.source=''">arrow_drop_down</mat-icon>
                                   </span>
                                   <mat-autocomplete (optionSelected)="onSourceChange($event)"   autoActiveFirstOption #autoSource="matAutocomplete">
-                                    <mat-option style="font-size:11px" *ngFor="let val of config1.Source | ddlFilter: source.value" [value]="val">
-                                      {{val}}
+                                    <mat-option   style="font-size:11px" *ngFor="let val of config1.Source | ddlFilter: source.value" [value]="val" >
+                                      <span [ngStyle]="{'font-weight':(val===defaultsource) ? '900' : '' }">{{val}}</span>
                                     </mat-option>
                                   </mat-autocomplete>
                                   <mat-error *ngIf="g.Source.errors?.validOptions">Value need to match available options</mat-error>
