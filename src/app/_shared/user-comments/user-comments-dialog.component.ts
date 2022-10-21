@@ -30,13 +30,12 @@ import { AuditReportsService } from '../../auditreports/services/audit-reports.s
           :host::ng-deep app-table-selection .table-container {  
             height: 250px !important;
           } 
-          .custom-dialog-container .mat-dialog-content {
-            overflow-y: hidden !important;
-            overflow-x: hidden !important;
+          .mat-dialog-content {
+            overflow: hidden;          
           }
           .set-width{
-            width:350px
-          }
+            width:350px;
+          }         
         `
   ]
 })
@@ -44,7 +43,7 @@ export class UserCommentsDialogComponent {
   userCommentsTable!: TableItem;
 
   userCommentsTableDetails: any = [
-    { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
+    //{ headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     { headerValue: 'TelephoneNumber', header: 'Telephone Number', showDefault: true, isImage: false },
     { headerValue: 'CreatedBy', header: 'Created By', showDefault: true, isImage: false },
     { headerValue: 'CreateDate', header: 'Created Date', showDefault: true, isImage: false },
@@ -99,7 +98,7 @@ export class UserCommentsDialogComponent {
     this.userCommentsTable = {
       data: userCommentsQueryResult$,
       Columns: this.userCommentsTableDetails,
-      selectCheckbox: true,
+      selectCheckbox: false,
       removeNoDataColumns: true,
       disablePaginator: true
     }

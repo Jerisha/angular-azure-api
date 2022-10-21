@@ -57,7 +57,7 @@
             <mat-label>Source System</mat-label>
             <mat-select formControlName="Source">  
               <mat-option>-- Select --</mat-option> 
-              <mat-option *ngFor="let val of config.Source" [value]="val">
+              <mat-option *ngFor="let val of config.UnsolicitedSource" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
@@ -272,7 +272,7 @@
           </div>
 
 
-          <div *ngSwitchCase="2" class ="tab-container">
+          <div *ngSwitchCase="2" class ="tab-container transaction-history-left-margin">
             <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
             </app-transaction-errors>
           </div>

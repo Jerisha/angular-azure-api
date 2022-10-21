@@ -15,7 +15,6 @@ import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/_shared/alert';
-
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
     ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
@@ -47,7 +46,6 @@ const ELEMENT_DATA: TelephoneDetails[] = [
   {
     ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
-
 ];
 @Component({
   selector: 'app-telephone-details',
@@ -55,7 +53,6 @@ const ELEMENT_DATA: TelephoneDetails[] = [
   styleUrls: ['./telephone-details.component.css']
 })
 export class TelephoneDetailsComponent extends UserProfile implements OnChanges {
-
   select: string = 'Exp';
   isDisabled = true;
   myTable!: TableItem;
@@ -75,7 +72,6 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
   Datevalue?: string = '';
   @Input() StatisticDate!: string;
   @Input() Source!: string;
-
   constructor(private formBuilder: FormBuilder,
     private service: statisticalreport,
     private cdr: ChangeDetectorRef,
@@ -87,11 +83,6 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
       super(auth, actRoute);
     this.intializeUser();
      }
-
-  
-
-
-
   columns: ColumnDetails[] = [
     { header: 'Inventory', headerValue: 'ViewDetails', showDefault: false, isImage: true, },
     { header: 'Telephone Nos', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
@@ -103,12 +94,10 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
     { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true,isBold:true,isNumber:true  },
   ];
   queryResult$!: Observable<any>;
-
   ngOnChanges(changes: SimpleChanges): void {
     debugger;
     // if (changes.Source?.currentValue != changes.Source?.previousValue)  
       this.formsubmit(false);
-
   }
   formsubmit(isEmitted?: boolean) {
     // this.currentPage = isEmitted ? this.currentPage : '1';
@@ -116,7 +105,6 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
-
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
@@ -129,15 +117,10 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage  
         }
         return result;
       } else return { datasource: res };
     }));
-
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
@@ -149,10 +132,8 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
       imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1,toolTipText: 'View Audit Details' },],
       // showTotal: true,
       // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
-
     }
   }
-
   prepareQueryParams(pageNo?: any): any {
     var pageIndex = pageNo ? pageNo : '1'
     let attributes: any = [
@@ -160,14 +141,8 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
       { Name: 'PageNumber', Value: [`${pageIndex}`] },
       { Name: 'StatisticDate', Value: [this.StatisticDate] },
       { Name: 'Source', Value: [this.Source] }
-      //{ Name: 'StatisticDate', Value:['11-Mar-2022']},
-      //{ Name: 'Source', Value: ['A -AUDIT']}
     ];
-
-    // console.log(' telephone attributes',attributes);
-
     return attributes;
-
   }
   getNextSetRecords(pageEvent: any) {
     debugger;
@@ -181,7 +156,6 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
@@ -204,17 +178,10 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
       });
     }
   }
-
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
   newTab(tab: any) {
     this.addNewTab.emit({ tab });
   }
-
 }
-
-
-
-

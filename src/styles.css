@@ -649,6 +649,15 @@ th.mat-column-NotAvailable {
 
 }
 
+.mat-header-cell.mat-column-FirstDate,
+.mat-header-cell.mat-column-LastDate {
+  white-space: normal !important;
+}
+
+.mat-header-cell.mat-column-Difference {
+  white-space: normal !important;
+  min-width: 40px;
+}
 
 .mat-cell.mat-column-Remarks {
 
@@ -658,6 +667,17 @@ th.mat-column-NotAvailable {
     /* word-wrap: normal; */
   }
 
+  /* .mat-column-LatestUserComments:hover {
+
+    background-color: rgb(196, 23, 138);
+      
+    } */
+  .mat-cell.mat-column-LatestUserComments:hover {
+
+    background-color:blue;
+    color:white;
+     
+    }
   .side-content {
     overflow: hidden !important;
     /* min-height: 40em */
@@ -878,7 +898,8 @@ tr.audit-trail-example-detail-row {
   height: fit-content;
 }
 
-.audit-trail-liverecord-sec {
+.audit-trail-liverecord-sec,
+.audit-trail-inflight-sec {
   font: 500 12px/14px Roboto, "Helvetica Neue", sans-serif !important;
   min-width: 685px;
 }
@@ -948,4 +969,17 @@ mat-form-field.pb-0 .mat-form-field-wrapper {
 }
 .default-font-weight{
 font-weight: 500;
+}
+/* .mat-option {
+  line-height: 2em;
+  height: 2em!important;
+} */
+.mat-select-panel .mat-optgroup-label, .mat-select-panel .mat-option, .mat-option{
+  font-size: inherit;
+  line-height: 2em!important;
+  height: 2em!important;
+}
+/* .mat-select-panel{margin-top: 35px !important; } */
+.transaction-history-left-margin{
+  margin-left: 10px;
 }

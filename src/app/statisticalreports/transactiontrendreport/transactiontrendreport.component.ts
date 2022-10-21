@@ -29,9 +29,7 @@ import { UserProfile } from 'src/app/_auth/user-profile';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { AlertService } from 'src/app/_shared/alert';
-
 const moment = _rollupMoment || _moment;
-
 const MY_FORMATS = {
   parse: {
     dateInput: 'MMM-YYYY',
@@ -43,14 +41,9 @@ const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
-
-
-
 const ELEMENT_DATA_CHILD: Link[] = [{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' },
 { View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' },
 { View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }]
-
 const ELEMENT_DATA: Transactionsourcecommandhistory[] =
   [
     {
@@ -61,7 +54,6 @@ const ELEMENT_DATA: Transactionsourcecommandhistory[] =
         , { View: 'image', StatisticDate: '15/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
       StatisticMonth: '01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
-
     {
       Link: [{ View: 'image', StatisticDate: '11/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
         , { View: 'image', StatisticDate: '12/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
@@ -111,14 +103,11 @@ const ELEMENT_DATA: Transactionsourcecommandhistory[] =
         , { View: 'image', StatisticDate: '15/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
       StatisticMonth: '08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
-
   ]
 const Itemstwo: Select[] = [
   { view: 'StatisticMonth.', viewValue: 'StatisticMonth', default: true },
   { view: 'Source System', viewValue: 'Source', default: true }
-
 ]
-
 @Component({
   selector: 'app-transactiontrendreport',
   templateUrl: './transactiontrendreport.component.html',
@@ -139,7 +128,6 @@ const Itemstwo: Select[] = [
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
-
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
@@ -183,9 +171,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   isRemoveCache: number = DefaultIsRemoveCache;
   datevalue?: string;
   staticmontharray?:string;
-
   @ViewChild(MatTabGroup) tabGroup !: MatTabGroup;
-
   columns: ColumnDetails[] =
     [
       // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
@@ -199,7 +185,6 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
       { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true,isTotal:true,isFooter:true ,isNumber:true}
     ];
-
   columnsChild: ColumnDetails[] =
     [
       { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
@@ -212,18 +197,10 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false,isTotal:true,isNumber:true  },
       { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true ,isTotal:true ,isNumber:true}
     ];
-
-
-
   data1: Transactionsourcecommandhistory[] = ELEMENT_DATA;
   form: any;
-
   // constructor( private _snackBar: MatSnackBar) { }
-
-
-
   text: string | undefined;
-
   constructor(private formBuilder: FormBuilder,
     private service: statisticalreport,
     private cdr: ChangeDetectorRef,
@@ -234,23 +211,18 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
      {
       super(auth, actRoute);
     this.intializeUser();
-
       }
-
   private updateText() {
     this.text = this.form.value.enable ? "Asterisk OK" : "Should not show the asterisk";
   }
   onchange(enable: boolean) {
-
     this.isshow = !enable;
     if (this.isshow) {
       this.tabs[0].name = "M-O-M";
-
     }
     else {
       this.tabs[0].name = "D-2-D";
     }
-
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
@@ -259,7 +231,6 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     }
     this.selectedTab = 0;
   }
-
   queryResult$!: Observable<any>;
   queryResultMonthly$!: Observable<any>;
   configResult$!: Observable<any>;
@@ -278,10 +249,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         this.filterItems.push({ view: element, viewValue: element, default: false })
       });
     });
-
-
   }
-
   StatisticMonth = new FormControl();
   chosenYearHandler(normalizedYear: Moment) {
     this.StatisticMonth = new FormControl(moment());
@@ -296,9 +264,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     this.staticmontharray = event;
     }
   }
-
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-
     const ctrlValue = this.StatisticMonth.value;
     ctrlValue.month(normalizedMonth.month());
     //let datevaluetest=formatDate(ctrlValue, 'MMM-yyyy', 'en-US')
@@ -306,14 +272,10 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     this.datevalue = ctrlValue;
     datepicker.close();
   }
-
-
   changeView() {
     //window.alert('com')
     this.onFormSubmit(false);
   }
-
-
   getNextSetRecords(pageEvent: any) {
     debugger;
     this.currentPage = pageEvent.currentPage;
@@ -325,8 +287,6 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     this.currentPage = pageIndex;
     this.onFormSubmit(true);
   }
-
-
   onFormSubmit(isEmitted?: boolean): void {
     debugger
     if (!this.thisForm.valid) return;
@@ -336,7 +296,6 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
-
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
@@ -347,19 +306,11 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         let result = {
           datasource: res.data.DatewiseData,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage  
         }
         return result;
       } else return { datasource: res };
     }));
     let testresult: any[] = [];
-
-    //  this.queryResult$.subscribe(res =>(
-    //    console.log('one one two',res)
-    //  ));
     let requesttwo = Utils.preparePyQuery('MonthOnMonth', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
     console.log('Monthly Request',JSON.stringify(requesttwo));
     this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) => {
@@ -367,20 +318,10 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         let result = {
           datasource: res.data.MonthlyData,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber
         }
         return result;
       } else return { datasource: res };
     }));
-
-
-    // this.queryResultMonthly$.subscribe(result =>(
-    //   //console.log('Monthly Data Result',result)
-    // ));
-
-
     this.myTable = {
       data: this.queryResultMonthly$,
       childData: 'Link',
@@ -391,24 +332,15 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1,toolTipText: 'Telephone Details' }],
       removeNoDataColumns: true,
       isCustomFooter:true
-    
-      //totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
-
     }
     this.myTableChild = {
       data: this.queryResult$,
       Columns: this.columnsChild,
-      filter: true,
-      //selectCheckbox: true,      
+      filter: true,     
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 ,toolTipText: 'Telephone Details'}],
       selectCheckbox:true,
       isCustomFooter:true
     }
-
-    //this.datevalue="";
-
-
-
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
@@ -418,11 +350,9 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     // this.selectedTab = this.tabs.length;
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 0);
   }
-
   get f() {
     return this.thisForm.controls;
   }
-
   prepareQueryParams(pageNo?: any): any {
     debugger
     // const Source = this.thisForm.get('Source');
@@ -440,21 +370,12 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
           attributes.push({ Name: field });
       }
       if (field == 'StatisticMonth') {
-        // const StatisticMonth = this.datevalue;
-        // console.log('StatisticMonth',this.datevalue);
         if (this.staticmontharray)
         {
-         // attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
-      //   var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
-      //  var result = this.staticmontharray;
-      // var result= this.staticmontharray.replace(/,/g, "','") ;
-       //var newchar=  result.substring(1, result.length-1);
-        // console.log('result before',newresult);
         debugger
       //   attributes.push({ Name: 'StatisticMonth', Value: [`${result}`] });
         // let content:string=attributes[1].Value;
         // let contenttwo=content.replace(/'/g, '"');
-       
       // attributes[1].Value=contenttwo;
       if(this.staticmontharray?.length > 0)
       {
@@ -467,13 +388,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         else
           attributes.push({ Name: 'StatisticMonth' });
       }
-
       let operator: string = field + "Operator";
-
-      // console.log("op vals",this.expOperatorsKeyPair);
-
-      //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
-      //  console.log("op ",operatorVal);
       if (this.expOperatorsKeyPair.length != 0) {
         let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
         if (expvals.length != 0) {
@@ -492,9 +407,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
             else {
               attributes.push({ Name: operator, Value: ['Equal To'] });
             }
-
           }
-
         }
         else {
           if (field == 'Source' || field == 'StatisticMonth') {
@@ -506,23 +419,16 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         }
       }
       else {
-
         attributes.push({ Name: operator, Value: ['Equal To'] });
-
       }
     }
-
-
     console.log('attributes', attributes);
-
     return attributes;
-
   }
   getTupleValue(element: [string, string], keyvalue: string) {
     if (element[0] == keyvalue) { return element[1]; }
     else
       return "";
-
   }
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
@@ -531,7 +437,6 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     this.thisForm = this.formBuilder.group({
       StatisticMonth: new FormControl({ value: '' }),
       Source: new FormControl({ value: '', disabled: false }, []),
-
     })
     this.expOperatorsKeyPair.push(["StatisticMonthOperator", "Equal To"]);
     this.expOperatorsKeyPair.push(["SourceOperator", "Equal To"]);
@@ -546,7 +451,6 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       }
     });
   }
-
   rowDetect(item: any) {
     //debugger;
     if (item.length == 0) {
@@ -566,10 +470,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     }
   }
   OnOperatorClicked(val: [string, string]) {
-    // if (event.target.value !="")
-    //console.log("operators event","value " ,val );
     let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
-    //console.log("operators event1","vals " ,vals );
     if (vals.length == 0) {
       this.expOperatorsKeyPair.push(val);
       //console.log("if part",this.expOperatorsKeyPair);
@@ -583,31 +484,14 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
   selected(s: string): void {
     this.select = s;
   }
   // search(): void { };
   // onFormSubmit(): void { }
   resetForm(): void {
-    // this.thisForm.reset();
-    // this.tabs.splice(0);
-    // this.StatisticMonth.setValue('');
-    // this.datevalue = "";
-    // this.expressions = [expNumeric, expString, expDate];
-    // this.resetExp = !this.resetExp;
     window.location.reload();
   }
-
-  // resetForm(): void {
-  //   this._snackBar.open('Reset Form Completed!', 'Close', {
-  //     duration: 5000,
-  //     horizontalPosition: this.horizontalPosition,
-  //     verticalPosition: this.verticalPosition,
-  //   });
-  // }
-
-
   newTab(tab: any) {
     //console.log('tab details date wise',tab);
     switch (tab.tabType) {
@@ -618,7 +502,6 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         // console.log('static date',this.StatisticDate);
         // console.log('source',this.Source);
         /// this.telNo = tab.row.TelephoneNumber;
-
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
         if (!this.tabs.find(x => x.tabType == 1)) {
@@ -653,7 +536,6 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       }
     }
   }
-
   OnTelephoneDetailSelected(tab: any) {
     debugger
     //console.log('tab details monthly',tab);
@@ -666,12 +548,9 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         name: 'Telephone No Details'
       });
     }
-
     // this.selectedTab = 1;
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
-
   }
-
   OndayTodayselected(tab: any) {
     debugger
     // console.log('expansion tab',tab);
@@ -683,17 +562,13 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         name: 'Telephone No Details'
       });
       // this.selectedTab = 1;
-     
     }
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
-
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-
   ngAfterViewChecked() {
-
     this.cdr.detectChanges();
   }
   //Audit Trail Report(' + tab.row.TelephoneNumber + ')
@@ -714,5 +589,4 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     let updtab = this.tabs.find(x => x.tabType == 2);
     if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
   }
-
 }

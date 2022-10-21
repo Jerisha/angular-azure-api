@@ -125,19 +125,33 @@ const ELEMENT_DATA: any = [
     LatestCmtDate: '02-May-2019'
   },
 ];
-
-const FilterListItems: Select[] = [
+const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: true },
-  { view: 'Error Codes', viewValue: 'ErrorCode', default: true },
-  { view: '999 Ref', viewValue: 'Reference', default: true },
-  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
+  { view: 'Date Range', viewValue: 'DateRange', default: false },
+  { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
+  { view: '999 Ref', viewValue: 'Reference', default: false },
+  { view: 'Order Reference', viewValue: 'OrderReference', default: false },
+  { view: 'Lcp/Gcp', viewValue: 'LcpGcp', default: false }
+  
+
 ];
+// const FilterListItems: Select[] = [
+//   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+//   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
+//   { view: 'Source System', viewValue: 'Source', default: true },
+//   { view: 'Command', viewValue: 'Command', default: true },
+//   { view: 'Error Type', viewValue: 'ErrorType', default: true },
+//   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+//   { view: 'Date Range', viewValue: 'DateRange', default: false },
+//   { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
+//   { view: '999 Ref', viewValue: 'Reference', default: false },
+//   { view: 'Order Reference', viewValue: 'OrderReference', default: false }
+// ];
 
 @Component({
   selector: 'app-solicitederrors',
@@ -161,7 +175,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
-  filterItems: Select[] = FilterListItems;
+  // filterItems: Select[] = FilterListItems;
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
@@ -199,13 +213,15 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   maxDate = new Date();
   // make ExampleHeaderComponent type available in our template:
   readonly CustomHeaderComponent = CustomHeaderComponent;
-
+  listItems!: Select[];
   ngOnInit(): void {
     this.createForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode','LcpGcp']);
+    console.log('request',JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
+      console.log(res.data);
       this.errorCodes = res.data?.ErrorCode
     });
 
@@ -216,7 +232,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         this.updateDetails = res.data;
       });
     }
-   
+    this.listItems = Items;
     //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
@@ -298,22 +314,25 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       Command: new FormControl({ value: '', disabled: false }, []),
       Source: new FormControl({ value: '', disabled: false }, []),
       ResolutionType: new FormControl({ value: '', disabled: false }, []),
-      ErrorCode: new FormControl({ value: '', disabled: false }, []),
+      ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: false }, []),
-      Reference: new FormControl({ value: '', disabled: false }, []),
-      OrderReference: new FormControl({ value: '', disabled: false }, []),
+      Reference: new FormControl({ value: '', disabled: true }, []),
+      OrderReference: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
-        FromDate: new FormControl({ value: '', disabled: false }),
+        FromDate: new FormControl({ value: '', disabled:false }),
         ToDate: new FormControl({ value: '', disabled: false }),
-        disabled: false
-      })
+        disabled: true
+      }),
+      LcpGcp: new FormControl({ value: '', disabled: true }, [])
+      
     })
-  //  this.f['DateRange'].disable();
+   this.f['DateRange'].disable();
 
   }
 
   get f() {
     return this.thisForm.controls;
+   
   }
 
   // get s() {
@@ -335,7 +354,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },
-    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false }
+    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },
+    { header: 'Overdue', headerValue: 'Overdue', showDefault: true, isImage: false }
     // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
@@ -348,7 +368,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
-    debugger;
+   // debugger;
     let errMsg = '';
     this.alertService.clear();
     if (!this.thisForm.valid) return;
@@ -380,7 +400,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { "IsRemoveCache": this.isRemoveCache }];
 
     let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    // console.log('request', JSON.stringify(request))
+     console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -424,7 +444,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   onSaveSubmit(form: any): void {
     //console.log("save", form);
-    debugger;
+   // debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
       (this.Resolution && this.check999() && this.Remarks)) {
 
@@ -529,7 +549,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   rowDetect(selectedRows: any) {
-    debugger;
+    //debugger;
     selectedRows.forEach((item: any) => {
       // this.selectedRowsCount = item.length;
       if (item && item.length == 0) return
@@ -576,7 +596,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onPaste(event: any): boolean {
-    debugger;
+   // debugger;
     let clipboardData = event.clipboardData;
     let pastedText = clipboardData.getData('text');
     //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
@@ -641,13 +661,14 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
+            // name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
+            name: 'Transaction History(' + this.telNo +')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[tabIndex].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
+          this.tabs[tabIndex].name ='Transaction History(' + this.telNo +')';
         }
         break;
       default:
@@ -666,12 +687,24 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
 
   errorTypeChanges(event: any) {
-    debugger;
+   // debugger;
     let errType = event.value;
     let code = errType === 'Internal Errors' ? '2' : '1';
     this.errorCodes = this.configDetails?.ErrorCode.filter((x: string) => x.startsWith(code))
 
   }
+  autoGrowTextZone(e:any) {
+    // console.log(e.target.style);
+    // e.target.style.height = "58px";
+    // if(e.target.scrollHeight>58)
+    // {
+    //   e.target.style.height = (e.target.scrollHeight)+"px";
+    // }
+    // console.log(e.target.style);
+    // e.target.style.height = "0px";
+    // e.target.style.height = (e.target.scrollHeight)+"px";
+  }
+    
+  }
 
 
-}

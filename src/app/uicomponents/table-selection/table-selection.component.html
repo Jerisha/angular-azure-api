@@ -21,7 +21,7 @@
         </mat-optgroup>
         <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
           <mat-option
-            [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
+            [disabled]="cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
             style="min-width:220px;color: #3f51b5;" color="primary" (click)="optionClick()" [value]="cols.headerValue">
             {{ cols.header }}
           </mat-option>
@@ -148,16 +148,16 @@
 
   <div class="table-selection-bottom">
     <div class="tblpagination" style="float: right;
-        display: -webkit-box; align-items: center;">
+        display: -webkit-box; align-items: center;" >
       <mat-paginator  #paginator style="height: 5px; font-weight: bolder;" [pageSizeOptions]="[50,100,250,500]"
-        [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize" [hidePageSize]="disablePageSize"
+        [length]="totalRows"   [pageIndex]="currentPage" [pageSize]="pageSize" [hidePageSize]="disablePageSize"
         (page)="pageChanged($event)">
       </mat-paginator>
       <mat-form-field *ngIf="!disablePageSize"  style="width: 100px; align-items: baseline;">
-        <input numbersOnly matTooltip="Enter page no." [(ngModel)]="apiPageNumber" matInput autocomplete="off"
+        <input numbersOnly matTooltip="Enter page no." matTooltipPosition='above' [(ngModel)]="apiPageNumber" matInput autocomplete="off"
           placeholder="Page no.">
         <!-- <mat-icon style="font-size:20px; cursor: pointer;"  matTooltip= "Go to Page" (click)="pageChanged()">arrow_upward</mat-icon> -->
-        <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page" (click)="pageChanged()">fast_forward
+        <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page" matTooltipPosition='above' (click)="pageChanged()">fast_forward
         </mat-icon>
       </mat-form-field>
     </div>

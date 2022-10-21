@@ -17,11 +17,10 @@
       min-width:270px;
 
 }
-::ng-deep .mat-option {
-  font-size: inherit;
-  line-height: 3em;
-  height: 3em!important;
-}
+ /* .mat-option {
+  line-height: 2em;
+  height: 2em!important;
+} */
  @media only screen and (max-width: 1200px) {
  
   #vftrans1
@@ -174,4 +173,11 @@ vf-list-value1 {
   background-color:#fecb00;
   background-color:#eb9800;
   background-color:#000000;
+}
+input.leftAligned {
+  direction:ltr;
+  overflow:hidden;
+}
+input.leftAligned:not(:focus) {
+  text-align: center;
 }

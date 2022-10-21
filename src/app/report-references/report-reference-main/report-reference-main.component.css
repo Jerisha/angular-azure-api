@@ -275,11 +275,11 @@ tr.mat-header-row,tr.mat-row, tr.mat-footer-row {
   max-width: 180px  !important;
  
 }
-::ng-deep .mat-option {
+/* ::ng-deep .mat-option {
   line-height: 1em !important;
   height: 2em !important;
   font-size: .8571em !important;
-}
+} */
 
 /* Frachise new code */
 
