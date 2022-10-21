@@ -133,7 +133,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     { header: 'New Telephone No',headerValue:'NewTelephoneNumber', showDefault: true, isImage: false },
     { header: 'Cross Ref No',headerValue:'CrossReferenceNumber', showDefault: true, isImage: false },
     { header: 'Change Cupid',headerValue:'ChangeCupid', showDefault: true, isImage: false },
-    { header: 'Error List',headerValue:'ErrorList', showDefault: true, isImage: false },
+    { header: 'Error List',headerValue:'ErrorList', showDefault: true, isImage: false, showTooltip: true },
     { header: 'Error Count',headerValue:'ErrorCount', showDefault: true, isImage: false },
     { header: 'Cust Name Full',headerValue:'CustomerNameFull', showDefault: true, isImage: false },
     { header: 'Cust Name Compact',headerValue:'CustomerNameCompact', showDefault: true, isImage: false },
@@ -142,9 +142,9 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     { header: 'Sar Ref Num',headerValue:'SarReferenceNumber', showDefault: true, isImage: false }, //need to check with millan
     { header: 'Sar Trans Num',headerValue:'SarTransactionNumber', showDefault: true, isImage: false }, //need to check with millan
     { header: 'Comment',headerValue:'Comment', showDefault: true, isImage: false },
-    { header: 'Type of Line',headerValue:'TypeOfLine', showDefault: true, isImage: false }, //wire frame field na
+    { header: 'Type of Line',headerValue:'TypeOfLine', showDefault: true, isImage: false, showTooltip: true }, //wire frame field na
     { header: 'Service Type',headerValue:'ServiceType', showDefault: true, isImage: false }, //wire frame field na
-    { header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },//wire frame field na
+    // { header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },//wire frame field na
     { header: 'BT Responses',headerValue:'BtResponses', showDefault: true, isImage: false }, //wire frame field na
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false }, //wire frame field na
     { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
