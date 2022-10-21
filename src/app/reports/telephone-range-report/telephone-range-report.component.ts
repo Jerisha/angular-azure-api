@@ -143,6 +143,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
+      OrderReference: new FormControl({value: '', disabled: false})
     })
   }
   get f() {
@@ -160,8 +161,8 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
       const control = this.thisForm.get(field);
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
-        else
-          attributes.push({ Name: field });
+        // else
+        //   attributes.push({ Name: field });
     }
     console.log(JSON.stringify(attributes));
     return attributes;

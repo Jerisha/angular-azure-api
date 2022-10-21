@@ -54,6 +54,12 @@
             <div *ngIf="(f.EndTelephoneNumber.value-f.StartTelephoneNumber.value)>10000">Please enter range <= 10000</div>
           </div>
         </mat-error> -->
+        <mat-form-field [ngClass]="{'hidden':thisForm.controls.OrderReference.disabled}">
+          <mat-label>Order Ref</mat-label>
+          <input formControlName="OrderReference" matInput #input maxlength="50" placeholder="Order Reference">
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+        </mat-form-field>
+
       </div>
 
       <div class="matsidenav-footer">
