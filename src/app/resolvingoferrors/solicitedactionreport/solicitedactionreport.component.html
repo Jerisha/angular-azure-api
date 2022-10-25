@@ -19,7 +19,7 @@
                         matInput maxlength="11" placeholder="Telephone No"  #telno  telNoPrefixValidator>
                         <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
                         <mat-error>
-                            <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid"
+                            <div *ngIf="f.TelephoneNumber.touched"
                                 class="alert alert-danger">
                                 
                                  <div *ngIf="f.TelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>

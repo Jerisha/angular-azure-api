@@ -132,13 +132,11 @@ const Items: Select[] = [
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: false },
   { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
-  { view: '999 Ref', viewValue: 'Reference', default: false },
+  { view: '999 Ref', viewValue: 'Reference', default: true },
   { view: 'Order Reference', viewValue: 'OrderReference', default: false },
-  { view: 'Lcp/Gcp', viewValue: 'LcpGcp', default: false }
-  
-
+  { view: 'Lcp/Gcp', viewValue: 'LcpGcp', default: false },
+  { view: 'Date Range', viewValue: 'DateRange', default: false },
 ];
 // const FilterListItems: Select[] = [
 //   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },

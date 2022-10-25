@@ -8,7 +8,7 @@
                       <mat-form-field  [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
                         <mat-label>Start Tel No.</mat-label>
                         <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
-                        <input formControlName="StartTelephoneNumber" class="leftAligned" (focus)='ClearBanner()' (paste)="onPaste($event)" (keypress)="numberOnly($event)" matInput maxlength="11"
+                        <input  formControlName="StartTelephoneNumber" class="leftAligned" (focus)='ClearBanner()' (paste)="onPaste($event)" (keypress)="numberOnly($event)" matInput maxlength="11"
                           placeholder="Start Tel No." (ngModelChange)="onChange($event,'StartTelephoneNumber')" [(ngModel)]="model.telno" #starttelno telNoPrefixValidator (change)="onChangeEvent($event,'StartTelephoneNumber')">
                         <!-- <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint> -->
                         <mat-error>

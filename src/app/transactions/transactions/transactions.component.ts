@@ -32,6 +32,7 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
   addressDetails!: AddressDetails;
   customerAddress:ICustomerAddress =new CustomerAddress();
   AuditPopulatevalue:any=[];
+  auditCopyshow:boolean=false;
   @ViewChild(TelephoneAuditTrailComponent) auditTrailView!: TelephoneAuditTrailComponent;
   @ViewChild(TransactionsViewsComponent)childEvent!: TransactionsViewsComponent;
   transactionItem =new TransactionItem(); //need to fix
@@ -49,6 +50,7 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
    }
   ngOnInit(): void {
     this.addressDetails=new AddressDetails();
+    this.auditCopyshow=false;
    console.log("constructor values from main",this.AuditPopulatevalue);
   }
   ngAfterViewInit() {
@@ -67,16 +69,20 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
   OnAuditTrailSelected(initAuditTrail:any[])
   {
     debugger
+  
+    console.log('second event')
     this.audittrailNos=initAuditTrail;
     if(initAuditTrail.length>0)
     {
+
       this.auditTrailSuccess=true;
-      this.auditTeleNoselected=initAuditTrail[0];
-      this.telNo=initAuditTrail[0];
+     // this.auditTeleNoselected=initAuditTrail[0];
+     // this.telNo=initAuditTrail[0];
       if (!this.tabs.find(x => x.tabType == 2)) {
+        console.log('tabs inside tnetrer');
         this.tabs.push({
           tabType: 2,
-          name: 'Audit Trail Report(' + this.telNo + ')'
+          name: 'Audit Trail Report'
         });
         this.selectedTab = this.tabs.length;
       }
@@ -109,8 +115,11 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   OnTelephoneNoSelected(inittelno:any[])
   {
     debugger
+    this.auditCopyshow=true;
+    console.log('event three called',inittelno);
     this.auditTeleNoselected=inittelno;
     this.telNo=inittelno;
+    this.auditCopyshow=true;
     let updtab = this.tabs.find(x => x.tabType == 2);
     if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
   }

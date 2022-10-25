@@ -11,7 +11,7 @@ export class TelephoneNoComponent  {
   selectedTelNo:any;
 
   telNos:string[]=[];
-
+   inflight:string[]=[];
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges)
@@ -19,10 +19,15 @@ export class TelephoneNoComponent  {
     if(changes.telNoArray.currentValue != changes.telNoArray.previousValue)
     {
       debugger;
-      
       this.telNos=this.telNoArray;
-      this.selectedTelNo = this.telNos[0];
-      this.TelephoneNo_clicked();
+      // this.selectedTelNo = this.telNos[0].slice(0, -1);
+      this.telNoArray.forEach((element: any) => {
+        if(element.includes('P'))
+        //this.inflight.push(element.replace('P', ''))
+        this.inflight.push(element);
+      });
+      console.log('copied array',this.inflight);
+      //this.TelephoneNo_clicked();
     }
   }
 
@@ -36,7 +41,8 @@ export class TelephoneNoComponent  {
   TelephoneNo_clicked()
   {
     debugger
-    this.TelephoneNoSelected.emit(this.selectedTelNo)
+    this.selectedTelNo=this.selectedTelNo.slice(0, -1);
+    this.TelephoneNoSelected.emit(this.selectedTelNo);
   }
 
 }

@@ -145,7 +145,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
-    });
+    },{updateOn: 'change'} );
        this.viewForm = this.formBuilder.group({
           CupID: new FormControl({ value: '', disabled: false }, [Validators.required]),
           Franchise: new FormControl({ value: '', disabled: false }, [Validators.required]),

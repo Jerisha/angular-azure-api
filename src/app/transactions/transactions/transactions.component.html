@@ -32,8 +32,8 @@
         <ng-container *ngSwitchCase="2">
           <div>
             <app-telephone-no [telNoArray]="audittrailNos" (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
-            <button type="button" (click)="copied();" mat-mini-fab  style="width:30px;height:30px;margin-left:39%;margin-top:6px;font-size:small;line-height:0px !important;background-color:gray;" matTooltip="Update matched Details"  >
-              <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align: middle;">content_copy</mat-icon>
+            <button type="button"  *ngIf="auditCopyshow"  (click)="copied();" mat-mini-fab  style="width:30px;height:30px;margin-left:39%;margin-top:6px;font-size:small;line-height:0px !important;background-color:gray;" matTooltip="Update matched Details"  >
+              <mat-icon *ngIf="auditCopyshow"  style ="font-size:small;width:24px;height:24px;vertical-align: middle;">content_copy</mat-icon>
             </button>
           </div>
             <div class="audit-trail-view">
