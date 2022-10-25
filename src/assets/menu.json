@@ -8,31 +8,38 @@
         "displayName": "Solicited/Internal Discrepancy Process",
         "iconName": "",
         "route": "resolvingoferrors/solicitederrors",
-        "menuId" :"MENU01"
-      },
-      {
-        "displayName": "Solicited Resolution Report",
-        "iconName": "",
-        "route": "resolvingoferrors/solicitedresolutionreport",
-        "menuId" :"MENU02"
-      },
-      {
-        "displayName": "Solicited Actions Report",
-        "iconName": "",
-        "route": "resolvingoferrors/solicitedactionreport",
-        "menuId" :"MENU03"
+        "menuId": "MENU01"
       },
       {
         "displayName": "Unsolicited Process",
         "iconName": "",
         "route": "resolvingoferrors/unsolicitederrors",
-        "menuId" :"MENU04"
+        "menuId": "MENU04"
+      }
+    ]
+  },
+  {
+    "displayName": "Process Reports",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Solicited Resolution Report",
+        "iconName": "",
+        "route": "resolvingoferrors/solicitedresolutionreport",
+        "menuId": "MENU02"
+      },
+      {
+        "displayName": "Solicited Actions Report",
+        "iconName": "",
+        "route": "resolvingoferrors/solicitedactionreport",
+        "menuId": "MENU03"
       },
       {
         "displayName": "Unsolicited Actions Report",
         "iconName": "",
         "route": "resolvingoferrors/unsolicitedactionreport",
-        "menuId" :"MENU05"
+        "menuId": "MENU05"
       }
     ]
   },
@@ -45,13 +52,13 @@
         "displayName": "Create Record",
         "iconName": "",
         "route": "transactions/transactions",
-        "menuId" :"MENU12"
+        "menuId": "MENU12"
       },
       {
         "displayName": "Create Internal Cease",
         "iconName": "",
         "route": "transactions/ceasetransaction",
-        "menuId" :"MENU13"
+        "menuId": "MENU13"
       }
     ]
   },
@@ -60,41 +67,41 @@
     "iconName": "",
     "route": "",
     "children": [
-            {
+      {
         "displayName": "Full Audit Details",
         "iconName": "",
         "route": "auditreports/fullauditdetails",
-        "menuId" :"MENU10"
+        "menuId": "MENU10"
       },
       {
         "displayName": "Audit Discrepancy Report",
         "iconName": "",
         "route": "auditreports/auditdiscrepancyreport",
-        "menuId" :"MENU11"
+        "menuId": "MENU11"
       },
       {
         "displayName": "External Audit Details",
         "iconName": "",
         "route": "auditreports/externalauditdetails",
-        "menuId" :"MENU06"
+        "menuId": "MENU06"
       },
       {
         "displayName": "Full Audit History",
         "iconName": "",
         "route": "auditreports/fullaudithistory",
-        "menuId" :"MENU07"
+        "menuId": "MENU07"
       },
       {
         "displayName": "Audit User Action Summary",
         "iconName": "",
         "route": "auditreports/audituseractionsummary",
-        "menuId" :"MENU09"
+        "menuId": "MENU09"
       },
       {
         "displayName": "Separate Internal Audit Details",
         "iconName": "",
         "route": "auditreports/separateinternalauditdetails",
-        "menuId" :"MENU08"
+        "menuId": "MENU08"
       }
     ]
   },
@@ -107,25 +114,25 @@
         "displayName": "Live Records",
         "iconName": "",
         "route": "reports/liverecords",
-        "menuId" :"MENU20"
+        "menuId": "MENU20"
       },
       {
         "displayName": "InFlight Records",
         "iconName": "",
         "route": "reports/inflightreport",
-        "menuId" :"MENU22"
+        "menuId": "MENU22"
       },
       {
         "displayName": "Telephone Range Report",
         "iconName": "",
         "route": "reports/telephonerangereport",
-        "menuId" :"MENU23"
+        "menuId": "MENU23"
       },
       {
         "displayName": "Transaction Details Records",
         "iconName": "",
         "route": "reports/transactiondetailsreport",
-        "menuId" :"MENU21"
+        "menuId": "MENU21"
       }
     ]
   },
@@ -138,7 +145,7 @@
         "displayName": "Transaction Source Command Summary",
         "iconName": "",
         "route": "statisticalreports/transactionsourcecommandhistory",
-        "menuId" :"MENU24"
+        "menuId": "MENU24"
       }
     ]
   },
@@ -151,43 +158,43 @@
         "displayName": "Audit Status Tracker",
         "iconName": "",
         "route": "administration/auditstatustracker",
-        "menuId" :"MENU15"
+        "menuId": "MENU15"
       },
       {
         "displayName": "Audit Data Files",
         "iconName": "",
         "route": "administration/auditdatafiles",
-        "menuId" :"MENU14"
+        "menuId": "MENU14"
       },
       {
         "displayName": "Restore Solicited Errors",
         "iconName": "",
         "route": "administration/restoresolicitederrors",
-        "menuId" :"MENU26"
+        "menuId": "MENU26"
       },
       {
         "displayName": "Data Correction Summary",
         "iconName": "",
         "route": "administration/datacorrectionsummary",
-        "menuId" :"MENU16"
+        "menuId": "MENU16"
       },
       {
         "displayName": "Unresolved Transaction",
         "iconName": "",
         "route": "administration/unresolvedtransaction",
-        "menuId" :"MENU18"
+        "menuId": "MENU18"
       },
       {
         "displayName": "Unresolved Errors",
         "iconName": "",
         "route": "administration/unresolvederrors",
-        "menuId" :"MENU17"
+        "menuId": "MENU17"
       },
       {
         "displayName": "Manage Users",
         "iconName": "",
         "route": "administration/manageusers",
-        "menuId" :"MENU19"
+        "menuId": "MENU19"
       }
     ]
   },
@@ -200,9 +207,8 @@
         "displayName": "Reference List",
         "iconName": "",
         "route": "report-references/ReferenceList",
-        "menuId" :"MENU25"
+        "menuId": "MENU25"
       }
     ]
   }
-  
 ]
