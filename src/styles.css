@@ -672,7 +672,9 @@ th.mat-column-NotAvailable {
     background-color: rgb(196, 23, 138);
       
     } */
-  .mat-cell.mat-column-LatestUserComments:hover {
+  .mat-cell.mat-column-LatestUserComments:hover,
+  .mat-cell.mat-column-ErrorList:hover,
+  .mat-cell.mat-column-TypeOfLine:hover {
 
     background-color:blue;
     color:white;
