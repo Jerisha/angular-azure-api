@@ -542,7 +542,7 @@ box-sizing: border-box;
 .table-selection-bottom {
   /* height: 35px; */
   display: flow-root;
-  height: 3em;
+  /* height: 3em; */
   margin: 5px
 }
 
@@ -697,7 +697,8 @@ th.mat-column-NotAvailable {
     overflow: auto; 
     /* overflow: hidden !important;  */
     /* position: relative; */
-    height: calc(100vh - 46vh);
+    /* height: calc(100vh - 46vh); */
+    height: calc(100vh - 49vh);
     width: 100%;
     max-width: fit-content;
       
