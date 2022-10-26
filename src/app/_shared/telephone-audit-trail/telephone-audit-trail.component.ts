@@ -94,7 +94,9 @@ export class TelephoneAuditTrailComponent  {
         if(res.params?.TelephoneNumber) transform.TelephoneNumber = res.params.TelephoneNumber;
         this.isLoading = false;
         this.spinner.hide();
-        this.setAddressDetailsdefault('TransactionDetails', res.data?.AuditDetailedReport[0]?.DetailedReport);
+        if(res.data?.AuditDetailedReport) {
+          this.setAddressDetailsdefault('TransactionDetails', res.data?.AuditDetailedReport[0]?.DetailedReport);
+        }
         return transform;
 
       }

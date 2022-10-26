@@ -602,7 +602,8 @@ td.mat-cell,
 td.mat-footer-cell {
   white-space: nowrap;
   font-size: 0.8571em !important;
-  line-height: 0.8571em !important;
+  /* line-height: 0.8571em !important; */
+  line-height: 1.15em !important;
   padding-left: 0px;
   padding-left: 6px;
   padding-top: 0px;
