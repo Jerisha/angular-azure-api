@@ -23,6 +23,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -146,6 +147,7 @@ const FilterListItems: Select[] = [
 })
 export class UnsolicitederrorsComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
   myTable!: TableItem;
   informationTable1!: TableItem;
   informationTable2!: TableItem;

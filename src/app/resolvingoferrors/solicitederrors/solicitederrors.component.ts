@@ -21,6 +21,7 @@ import { AuthenticationService } from 'src/app/_auth/services/authentication.ser
 import { ActivatedRoute } from '@angular/router';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
@@ -179,6 +180,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   tranId?: any;
   repIdentifier = "SolicitedErrors";
 
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -691,7 +693,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     this.errorCodes = this.configDetails?.ErrorCode.filter((x: string) => x.startsWith(code))
 
   }
-  autoGrowTextZone(e:any) {
+
+
+  // autoGrowTextZone(e:any) {
     // console.log(e.target.style);
     // e.target.style.height = "58px";
     // if(e.target.scrollHeight>58)
@@ -701,7 +705,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     // console.log(e.target.style);
     // e.target.style.height = "0px";
     // e.target.style.height = (e.target.scrollHeight)+"px";
-  }
+  // }
     
   }
 
