@@ -314,7 +314,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       ResolutionType: new FormControl({ value: '', disabled: false }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: false }, []),
-      Reference: new FormControl({ value: '', disabled: true }, []),
+      Reference: new FormControl({ value: '', disabled: false }, []),
       OrderReference: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl({ value: '', disabled:false }),
