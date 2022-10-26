@@ -221,9 +221,9 @@ div.mat-tab-label {
   /* text-align: left; */
   white-space: pre-line;
   /* font-size: -8px !important; */
- background: #FED9B7 !important; 
+ /* background: #FED9B7 !important;  */
   /*#FED9B7  */
- color: #3f51b5;
+ /* color: #3f51b5; */
  font-weight: 600;
   /* margin-left: -8px !important; */
   /* border-radius: 10px solid rgb(20, 15, 15) !important; */
@@ -988,4 +988,9 @@ font-weight: 500;
 /* .mat-select-panel{margin-top: 35px !important; } */
 .transaction-history-left-margin{
   margin-left: 10px;
+}
+
+.paginator-control-tooltip,
+mat-paginator mat-tooltip-panel{
+  font-weight: 600;
 }

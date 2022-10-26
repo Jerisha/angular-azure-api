@@ -206,10 +206,10 @@
       </mat-paginator>
       <div class="go-to-page">
       <mat-form-field *ngIf="!disablePageSize"  style="width: 100px; align-items: baseline; padding-bottom: 0px;">
-        <input numbersOnly matTooltip="Enter page no." matTooltipPosition='above' [(ngModel)]="apiPageNumber" matInput autocomplete="off"
+        <input numbersOnly matTooltip="Enter page no." matTooltipClass="paginator-control-tooltip" matTooltipPosition='above' [(ngModel)]="apiPageNumber" matInput autocomplete="off"
           placeholder="Page no.">
         <!-- <mat-icon style="font-size:20px; cursor: pointer;"  matTooltip= "Go to Page" (click)="pageChanged()">arrow_upward</mat-icon> -->
-        <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page" matTooltipPosition='above' (click)="pageChanged()">fast_forward
+        <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page" matTooltipClass="paginator-control-tooltip" matTooltipPosition='above' (click)="pageChanged()">fast_forward
         </mat-icon>
       </mat-form-field>
     </div>
