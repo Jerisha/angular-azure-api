@@ -1,0 +1,15 @@
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-container-update-panel {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.flex-button-height {
+    height:fit-content;
+    margin-top: 0.65em;
+}

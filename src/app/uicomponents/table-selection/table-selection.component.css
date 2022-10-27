@@ -213,3 +213,18 @@ font-size: smaller;
 /* .mat-header-row {
   display: table-row;
 } */
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-container-paginator {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.go-to-page {
+  height: 2em;
+}

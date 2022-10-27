@@ -46,8 +46,8 @@
             <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}"> 
                 <mat-label>Date Range</mat-label>
                 <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
-                  <input readonly formControlName="StartDate" matStartDate placeholder="StartDate">
-                  <input readonly formControlName="EndDate" matEndDate placeholder="EndDate">
+                  <input matStartDate formControlName="FromDate" placeholder="Start date" />
+                  <input matEndDate formControlName="ToDate" placeholder="End date" />
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker [calendarHeaderComponent]="CustomHeaderComponent"></mat-date-range-picker>

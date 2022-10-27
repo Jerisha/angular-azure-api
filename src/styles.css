@@ -216,13 +216,15 @@ div.mat-tab-label {
 }
 
 .custom-tooltip {
+ 
   margin: 0px !important;
   /* text-align: left; */
   white-space: pre-line;
   /* font-size: -8px !important; */
-  /* background: white !important; */
+ /* background: #FED9B7 !important;  */
   /*#FED9B7  */
-  /* color: #3f51b5; */
+ /* color: #3f51b5; */
+ font-weight: 600;
   /* margin-left: -8px !important; */
   /* border-radius: 10px solid rgb(20, 15, 15) !important; */
   /* padding: 2px 0 !important; */
@@ -542,7 +544,7 @@ box-sizing: border-box;
 .table-selection-bottom {
   /* height: 35px; */
   display: flow-root;
-  height: 3em;
+  /* height: 3em; */
   margin: 5px
 }
 
@@ -600,7 +602,8 @@ td.mat-cell,
 td.mat-footer-cell {
   white-space: nowrap;
   font-size: 0.8571em !important;
-  line-height: 0.8571em !important;
+  /* line-height: 0.8571em !important; */
+  line-height: 1.15em !important;
   padding-left: 0px;
   padding-left: 6px;
   padding-top: 0px;
@@ -672,7 +675,9 @@ th.mat-column-NotAvailable {
     background-color: rgb(196, 23, 138);
       
     } */
-  .mat-cell.mat-column-LatestUserComments:hover {
+  .mat-cell.mat-column-LatestUserComments:hover,
+  .mat-cell.mat-column-ErrorList:hover,
+  .mat-cell.mat-column-TypeOfLine:hover {
 
     background-color:blue;
     color:white;
@@ -697,7 +702,8 @@ th.mat-column-NotAvailable {
     overflow: auto; 
     /* overflow: hidden !important;  */
     /* position: relative; */
-    height: calc(100vh - 46vh);
+    /* height: calc(100vh - 46vh); */
+    height: calc(100vh - 49vh);
     width: 100%;
     max-width: fit-content;
       
@@ -982,4 +988,12 @@ font-weight: 500;
 /* .mat-select-panel{margin-top: 35px !important; } */
 .transaction-history-left-margin{
   margin-left: 10px;
+}
+
+.paginator-control-tooltip,
+mat-paginator mat-tooltip-panel{
+  font-weight: 600;
+}
+.mat-date-range-input {
+  font-size: 0.72em;
 }

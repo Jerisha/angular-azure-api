@@ -62,7 +62,15 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-
+          <mat-form-field [ngClass]="{'hidden':f.ResolveTypeUnsol.disabled}">
+            <mat-label>Resolution Type</mat-label>
+            <mat-select formControlName="ResolveTypeUnsol">  
+              <mat-option>-- Select --</mat-option>
+              <mat-option *ngFor="let val of config.ResolveTypeUnsol" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           <!-- <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
@@ -113,12 +121,16 @@
               </mat-option>
             </mat-select>
           </mat-form-field> -->
-
+          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
+            <mat-label>999 Reference</mat-label>
+            <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
+            <mat-error *ngIf="f.Reference.errors?.valid999">Please provide a valid 999 Reference</mat-error>
+          </mat-form-field>
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
-            <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
-              <input readonly formControlName="FromDate" matStartDate placeholder="From ">
-              <input readonly formControlName="ToDate" matEndDate placeholder="To date">
+            <mat-date-range-input  [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
+              <input readonly formControlName="FromDate"  matStartDate placeholder="From ">
+              <input readonly formControlName="ToDate"  matEndDate placeholder="To date">
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker [calendarHeaderComponent]="CustomHeaderComponent"></mat-date-range-picker>
@@ -140,20 +152,8 @@
             <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field> -->
-          <mat-form-field [ngClass]="{'hidden':f.ResolveTypeUnsol.disabled}">
-            <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolveTypeUnsol">  
-              <mat-option>-- Select --</mat-option>
-              <mat-option *ngFor="let val of config.ResolveTypeUnsol" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
-            <mat-label>999 Reference</mat-label>
-            <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
-            <mat-error *ngIf="f.Reference.errors?.valid999">Please provide a valid 999 Reference</mat-error>
-          </mat-form-field>
+          
+         
 
         </ng-container>
       </div>
@@ -186,10 +186,12 @@
 
         </ng-template>
 
-        <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">          
+        <span [ngSwitch]="tab.tabType" class="span-container">
+          <div *ngSwitchCase="0" >  
+          <!-- <div *ngSwitchCase="0" style="height: calc(100% - 30px);" class="flex-container tab-container">           -->
 
-            <mat-icon class="info" matTooltip="Information" (click)="DisplayInformationTab()">information</mat-icon>
+            <div class="flex-container tab-container">
+              <div class="info-button-position"><mat-icon class="info" matTooltip="Information" (click)="DisplayInformationTab()">information</mat-icon></div>
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
             </app-table-selection>
@@ -199,7 +201,8 @@
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
                           <option *ngFor="let list of selectListItems"> {{list}} </option>
                         </select> -->
-                  <div style="display: inline-block;">
+                  <!-- <div style="display: inline-block;"> -->
+                    <div class="flex-container-update-panel">
                     <ng-container *ngIf="updateDetails  as con">
                       <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
@@ -226,8 +229,12 @@
 
                     <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                       <mat-label>Remarks</mat-label>
-                      <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
-                        [ngModelOptions]="{standalone: true}" matInput maxlength="500" placeholder="Remarks"></textarea>
+                      <!-- <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
+                        [ngModelOptions]="{standalone: true}"  #input matInput maxlength="500" placeholder="Remarks"
+                        rows="4"></textarea> -->
+                        <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
+                        [ngModelOptions]="{standalone: true}" cdkTextareaAutosize #autosize="cdkTextareaAutosize"  #input matInput maxlength="500" placeholder="Remarks"
+                        cdkAutosizeMinRows="4"></textarea>
                       <mat-hint align="end">{{remarks.value?.length || 0}}/500</mat-hint>
                       <mat-error>
                         <div *ngIf="remarks.errors?.required" class="alert alert-danger">
@@ -239,7 +246,7 @@
 
                     
                     <!-- <button [disabled]="!(selectedGridRows.length>0)" type="submit" mat-raised-button color="primary"> -->
-                    <button [disabled]="isSaveDisable" type="submit" mat-raised-button color="primary">
+                    <button [disabled]="isSaveDisable" type="submit" mat-raised-button color="primary" class="flex-button-height">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
@@ -256,6 +263,7 @@
 
               </div>
             </form>
+          </div>
           </div>
           <div *ngSwitchCase="1" class ="tab-container">
             <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>

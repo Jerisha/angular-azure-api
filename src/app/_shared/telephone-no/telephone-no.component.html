@@ -1,8 +1,9 @@
 <button mat-button [matMenuTriggerFor]="menu" class="vf-panel-title-btn">Select Telephone No</button>
 <mat-menu #menu="matMenu">  
-  <mat-radio-group   (change)="TelephoneNo_clicked()" [(ngModel)]="selectedTelNo" aria-label="Select an option">
-    <mat-radio-button  *ngFor="let telNo of telNos; let telNoIndex = index"  [value]="telNo" [checked]="telNoIndex === 0">
-      {{telNo}}
+  <mat-radio-group  [ngModelOptions]="{standalone: true}"   (change)="TelephoneNo_clicked()" [(ngModel)]="selectedTelNo" aria-label="Select an option">
+    <mat-radio-button  *ngFor="let telNo of telNos; let telNoIndex = index"  [value]="telNo" >
+     
+      <span  [ngStyle]="{'color':inflight.indexOf(telNo) > -1? 'Green' : '' }"> {{telNo.slice(0, -1)}}</span>
     </mat-radio-button>
   </mat-radio-group>
 </mat-menu>

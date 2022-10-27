@@ -70,7 +70,7 @@
 
   </div>
 
-  <div class="table-container">
+  <div class="table-container flex-container">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
 
@@ -107,10 +107,42 @@
           <td mat-footer-cell class="totalRow" *matFooterCellDef> {{getTotal(disCol.headerValue)}} </td>
         </div>
 
-        <!-- Other Columns -->
-        <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
+        <!-- Error List Columns -->
+        <div *ngIf="disCol.headerValue === 'ErrorList'">
           <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
           <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" matTooltipClass="custom-tooltip"
+            [matTooltipDisabled]="!disCol.showTooltip" matTooltip="{{element[disCol.headerValue]}}"
+            [ngStyle]="highlightCell(element,disCol)">
+            {{element.InternalErrors}}
+          </td>
+          </div>
+
+          <!-- Type Of Line Columns -->
+        <div *ngIf="disCol.headerValue === 'TypeOfLine'">
+          <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
+          <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" matTooltipClass="custom-tooltip"
+            [matTooltipDisabled]="!disCol.showTooltip" matTooltip="{{element[disCol.headerValue]}}"
+            [ngStyle]="highlightCell(element,disCol)">
+            {{element.TypeOfLineCode}}
+          </td>
+          </div>
+          <div *ngIf="colIndex ===1">
+            <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
+            <td mat-cell  (click)="selectRow($event,element)"  (click)="$event ? selection.toggle(element) : null"  *matCellDef="let element" (click)="$event.stopPropagation()" matTooltipClass="custom-tooltip"
+              [matTooltipDisabled]="!disCol.showTooltip" matTooltip="{{element[disCol.headerValue]}}"
+              [ngStyle]="highlightCell(element,disCol)">
+  
+              <!-- {{element[disCol.headerValue]}} -->
+              <span
+              [ngClass]="disCol.isBold === true ? 'bold-blackfont' : 'default-font-weight'">{{disCol.isNumber?(element[disCol.headerValue]|
+                number) :element[disCol.headerValue]}}</span>
+            </td>
+            <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getTotal(disCol.headerValue)|number}}</td>
+            </div>
+        <!-- Other Columns -->
+        <div *ngIf="colIndex !=1&&disCol.headerValue != 'Select' && !disCol.isImage && disCol.headerValue != 'ErrorList' && disCol.headerValue != 'TypeOfLine'">
+          <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
+          <td mat-cell    *matCellDef="let element" (click)="$event.stopPropagation()" matTooltipClass="custom-tooltip"
             [matTooltipDisabled]="!disCol.showTooltip" matTooltip="{{element[disCol.headerValue]}}"
             [ngStyle]="highlightCell(element,disCol)">
 
@@ -146,23 +178,7 @@
     </table>
   </div>
 
-  <div class="table-selection-bottom">
-    <div class="tblpagination" style="float: right;
-        display: -webkit-box; align-items: center;" >
-      <mat-paginator  #paginator style="height: 5px; font-weight: bolder;" [pageSizeOptions]="[50,100,250,500]"
-        [length]="totalRows"   [pageIndex]="currentPage" [pageSize]="pageSize" [hidePageSize]="disablePageSize"
-        (page)="pageChanged($event)">
-      </mat-paginator>
-      <mat-form-field *ngIf="!disablePageSize"  style="width: 100px; align-items: baseline;">
-        <input numbersOnly matTooltip="Enter page no." matTooltipPosition='above' [(ngModel)]="apiPageNumber" matInput autocomplete="off"
-          placeholder="Page no.">
-        <!-- <mat-icon style="font-size:20px; cursor: pointer;"  matTooltip= "Go to Page" (click)="pageChanged()">arrow_upward</mat-icon> -->
-        <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page" matTooltipPosition='above' (click)="pageChanged()">fast_forward
-        </mat-icon>
-      </mat-form-field>
-    </div>
-
-
+  <div class="table-selection-bottom flex-container-paginator">
     <!-- <div class="test-wrapper"> -->
     <div>
       <button *ngIf="tableitem?.selectCheckbox" type="button" mat-raised-button color="primary"
@@ -180,6 +196,23 @@
           <mat-icon>email</mat-icon> Export to email
         </button>
       </span>
+    </div>
+
+    <div class="tblpagination" style="float: right;
+        display: -webkit-box; align-items: center;" >
+      <mat-paginator  #paginator style="height: 5px; font-weight: bolder;" [pageSizeOptions]="[50,100,250,500]"
+        [length]="totalRows"   [pageIndex]="currentPage" [pageSize]="pageSize" [hidePageSize]="disablePageSize"
+        (page)="pageChanged($event)">
+      </mat-paginator>
+      <div class="go-to-page">
+      <mat-form-field *ngIf="!disablePageSize"  style="width: 100px; align-items: baseline; padding-bottom: 0px;">
+        <input numbersOnly matTooltip="Enter page no." matTooltipClass="paginator-control-tooltip" matTooltipPosition='above' [(ngModel)]="apiPageNumber" matInput autocomplete="off"
+          placeholder="Page no.">
+        <!-- <mat-icon style="font-size:20px; cursor: pointer;"  matTooltip= "Go to Page" (click)="pageChanged()">arrow_upward</mat-icon> -->
+        <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page" matTooltipClass="paginator-control-tooltip" matTooltipPosition='above' (click)="pageChanged()">fast_forward
+        </mat-icon>
+      </mat-form-field>
+    </div>
     </div>
   </div>
 </div>

@@ -21,6 +21,7 @@ import { AuthenticationService } from 'src/app/_auth/services/authentication.ser
 import { ActivatedRoute } from '@angular/router';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
@@ -132,13 +133,11 @@ const Items: Select[] = [
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: false },
   { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
-  { view: '999 Ref', viewValue: 'Reference', default: false },
+  { view: '999 Ref', viewValue: 'Reference', default: true },
   { view: 'Order Reference', viewValue: 'OrderReference', default: false },
-  { view: 'Lcp/Gcp', viewValue: 'LcpGcp', default: false }
-  
-
+  { view: 'Lcp/Gcp', viewValue: 'LcpGcp', default: false },
+  { view: 'Date Range', viewValue: 'DateRange', default: false },
 ];
 // const FilterListItems: Select[] = [
 //   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -181,6 +180,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   tranId?: any;
   repIdentifier = "SolicitedErrors";
 
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -316,7 +316,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       ResolutionType: new FormControl({ value: '', disabled: false }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: false }, []),
-      Reference: new FormControl({ value: '', disabled: true }, []),
+      Reference: new FormControl({ value: '', disabled: false }, []),
       OrderReference: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl({ value: '', disabled:false }),
@@ -568,16 +568,20 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
-      this.f.EndTelephoneNumber?.value?.length >= 10 &&
-      this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
+    if ((this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === ""
       && this.f.ErrorType.value === ""
       && this.f.Reference.value === ""
-      && this.f.OrderReference.value === "")
-      || (this.selectedGridRows.length > 0)) {
+      && this.f.OrderReference.value === ""
+      && (this.Resolution!="" && this.Remarks!=""))
+       && (this.selectedGridRows.length > 0) ) 
+        {
       this.isSaveDisable = false;
-    }
+    } 
+    else if(this.f.StartTelephoneNumber?.value?.length >= 10 &&
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&  (this.Resolution!="" && this.Remarks!="")){
+        this.isSaveDisable = false;
+      } 
     else
       this.isSaveDisable = true;
     //console.log('isSaveDisable',this.isSaveDisable)
@@ -693,7 +697,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     this.errorCodes = this.configDetails?.ErrorCode.filter((x: string) => x.startsWith(code))
 
   }
-  autoGrowTextZone(e:any) {
+
+
+  // autoGrowTextZone(e:any) {
     // console.log(e.target.style);
     // e.target.style.height = "58px";
     // if(e.target.scrollHeight>58)
@@ -703,7 +709,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     // console.log(e.target.style);
     // e.target.style.height = "0px";
     // e.target.style.height = (e.target.scrollHeight)+"px";
-  }
+  // }
     
   }
 
