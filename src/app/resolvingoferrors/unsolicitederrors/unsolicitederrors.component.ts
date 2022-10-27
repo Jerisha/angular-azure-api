@@ -23,6 +23,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -146,6 +147,7 @@ const FilterListItems: Select[] = [
 })
 export class UnsolicitederrorsComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
   myTable!: TableItem;
   informationTable1!: TableItem;
   informationTable2!: TableItem;
@@ -396,14 +398,17 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
 
   isEnable() {
    // debugger   
-if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
-      this.f.EndTelephoneNumber?.value?.length >= 10 &&
-      this.f.Source?.value === ""
+if ((      this.f.Source?.value === ""
       && this.f.ErrorType?.value === "")
       // && this.f.Final?.value === "")
-      || (this.selectedGridRows?.length > 0)) {
+      && (this.Resolution!="" && this.Remarks!="")
+      && (this.selectedGridRows?.length > 0)) {
       this.isSaveDisable = false;
     }
+    else if(this.f.StartTelephoneNumber?.value?.length >= 10 &&
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&  (this.Resolution!="" && this.Remarks!="")){
+        this.isSaveDisable = false;
+      } 
     else {
       this.isSaveDisable = true;
     }
