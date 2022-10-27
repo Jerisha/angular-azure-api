@@ -994,3 +994,6 @@ font-weight: 500;
 mat-paginator mat-tooltip-panel{
   font-weight: 600;
 }
+.mat-date-range-input {
+  font-size: 0.72em;
+}
