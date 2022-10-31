@@ -62,7 +62,15 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-
+          <mat-form-field [ngClass]="{'hidden':f.ResolveTypeUnsol.disabled}">
+            <mat-label>Resolution Type</mat-label>
+            <mat-select formControlName="ResolveTypeUnsol">  
+              <mat-option>-- Select --</mat-option>
+              <mat-option *ngFor="let val of config.ResolveTypeUnsol" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           <!-- <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
@@ -113,12 +121,16 @@
               </mat-option>
             </mat-select>
           </mat-form-field> -->
-
+          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
+            <mat-label>999 Reference</mat-label>
+            <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
+            <mat-error *ngIf="f.Reference.errors?.valid999">Please provide a valid 999 Reference</mat-error>
+          </mat-form-field>
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
-            <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
-              <input readonly formControlName="FromDate" matStartDate placeholder="From ">
-              <input readonly formControlName="ToDate" matEndDate placeholder="To date">
+            <mat-date-range-input  [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
+              <input readonly formControlName="FromDate"  matStartDate placeholder="From ">
+              <input readonly formControlName="ToDate"  matEndDate placeholder="To date">
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker [calendarHeaderComponent]="CustomHeaderComponent"></mat-date-range-picker>
@@ -140,20 +152,8 @@
             <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field> -->
-          <mat-form-field [ngClass]="{'hidden':f.ResolveTypeUnsol.disabled}">
-            <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolveTypeUnsol">  
-              <mat-option>-- Select --</mat-option>
-              <mat-option *ngFor="let val of config.ResolveTypeUnsol" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
-            <mat-label>999 Reference</mat-label>
-            <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
-            <mat-error *ngIf="f.Reference.errors?.valid999">Please provide a valid 999 Reference</mat-error>
-          </mat-form-field>
+          
+         
 
         </ng-container>
       </div>

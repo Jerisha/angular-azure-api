@@ -170,7 +170,7 @@
                             
                             <mat-icon style="display:contents!important" (click)="model.franchise=''">arrow_drop_down</mat-icon>
                           </span>
-                          <mat-autocomplete    autoActiveFirstOption #autoFranchise="matAutocomplete">
+                          <mat-autocomplete (optionSelected)="onFranchiseChange($event)"   autoActiveFirstOption #autoFranchise="matAutocomplete">
                             <mat-option style="font-size:11px" *ngFor="let val of config1.Franchise | dropDownListFranchise: franchise.value" [value]="val">
                               <span [ngStyle]="{'font-weight':(val===defaultfranchise) ? '900' : '' }">{{val}}</span> 
                             </mat-option>
@@ -228,7 +228,7 @@
           </ng-container>
         <ng-container *ngIf="views.view3">          
             <mat-card-content >    
-              <form [formGroup]="view3Form"  autocomplete="off" class="vf-box-shadow1">
+              <form [formGroup]="view3Form"  (keydown.enter)="$event.preventDefault()" autocomplete="off" class="vf-box-shadow1">
                 <ng-container *ngIf="configDetails  as config">
                 <div class="vf-flex-container-col">
                   <div class="vf-flex-container">
@@ -291,8 +291,8 @@
                           <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'112px' :'225px'}">
                             <mat-label class="vf-label">Order Ref. *</mat-label>
                             <input type="text" formControlName="OrderReference" 
-                            [(ngModel)]="transactionItem.orderRef"
-                            (blur)="makeUppercase(transactionItem.orderRef,'OrderReference')" 
+                            [(ngModel)]="model.orderRef"
+                            (blur)="makeUppercase(model.orderRef,'OrderReference')" 
                             matInput #input  placeholder="Order Ref. *"  size="12"  value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')"> Enter OrderRef</mat-error>
                         

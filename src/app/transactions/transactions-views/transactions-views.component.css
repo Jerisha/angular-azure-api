@@ -181,3 +181,6 @@ input.leftAligned {
 input.leftAligned:not(:focus) {
   text-align: center;
 }
+.mat-input-element {
+  color: #3f51b5;
+}

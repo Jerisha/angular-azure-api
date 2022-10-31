@@ -66,7 +66,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   audittelephonenumbers: any;
   defaultsource:string="";
   defaultfranchise:string="";
-  model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
+  model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"",orderRef:"" };
   transactionItem = new TransactionItem();
   @Output() AddressCheckSelected = new EventEmitter<any[]>();
   @Output() AuditTrailSelected = new EventEmitter<any[]>();
@@ -319,6 +319,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
       console.log('default franchise',modelfranchise);
     this.model.franchise = modelfranchise[0];
+    this.defaultfranchise=modelfranchise[0];
     this.SourceFranchisearr={Franchise:this.franchiseValues};
    // console.log('default franchise',this.model.franchise);
     this.enableSource = true;
@@ -347,6 +348,13 @@ GoBack()
   this.btncolor = "secondary";
   this.addbtncolor = "secondary";
 }
+onFranchiseChange(event: any)
+{
+  if(this.model.franchise!='')
+  {
+    this.views.view3 = true;
+  }
+}
   onCupIDChange(event: any) {
     debugger
     this.isExportImportSelected = false;
@@ -367,7 +375,7 @@ GoBack()
       console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-       
+        this.defaultsource= '';
       this.enableSource = true;
       this.enableFrancise = true;
       this.SourceFranchisearr={Source:this.SourceValues,Franchise:[]};
@@ -476,6 +484,7 @@ GoBack()
   }
   onChangeEvent(event: any, control: string) {
     debugger
+    
 this.alertService.clear();
     if (control == "StartTelephoneNumber") {
       this.model.telno.trim();
@@ -1006,7 +1015,7 @@ this.alertService.clear();
   /* field Validation End */
   resetTel(sf: any) {
     this.backstate=false;
-    this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" ,source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
+    this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" ,source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"",orderRef:"" };
     this.transactionItem.customerAddress = { customerName: "", address1: "", address2: "", address3: "", address4: "", postcode: "" };
     this.clirangecount='';
     this.clirangecountOnsave='';
@@ -1138,7 +1147,7 @@ this.alertService.clear();
     if(!isNaN(Number(this.model.telno.toString())))
     {
     if (this.model.telno != "" || this.model.rangeEnd != "") {
-      // const sum = this.CliRangeSet.filter(item => item. === '25.00') 
+      // const sum = this.onChangeEventCliRangeSet.filter(item => item. === '25.00') 
       let count = 1;
       if (this.model.rangeEnd == "" ||this.model.rangeEnd==undefined || this.model.telno == this.model.rangeEnd) {
         count = 1;
@@ -1151,10 +1160,11 @@ this.alertService.clear();
       }
       if (count <= 10000 && count > 0 && this.checktotalrange(count)) {
         if (this.checkduplicate(this.model.telno, this.model.rangeEnd)) {
-          this.CliRangeSetMain.push([this.model.telno, this.model.rangeEnd, count,false]);
+          //this.CliRangeSetMain.push([this.model.telno, this.model.rangeEnd, count,false]);
+          this.CliRangeSetMain.unshift([this.model.telno, this.model.rangeEnd, count,false]);
           this.searchTelState = false;
           this.btncolor = "vf-primary-btn";
-          // this.model = { telno: "", rangeEnd: "" };
+          // this.model = { telno: f"", rangeEnd: "" };
           this.model.telno='';
           this.model.rangeEnd='';
         }
