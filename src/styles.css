@@ -215,16 +215,16 @@ div.mat-tab-label {
   border-top-left-radius: 10px;
 }
 
-.custom-tooltip {
+.custom-tooltip1 {
  
   margin: 0px !important;
   /* text-align: left; */
   white-space: pre-line;
   /* font-size: -8px !important; */
- /* background: #FED9B7 !important;  */
+ background: #FED9B7 !important; 
   /*#FED9B7  */
- /* color: #3f51b5; */
- font-weight: 600;
+ color: #3f51b5;
+ /* font-weight: 600; */
   /* margin-left: -8px !important; */
   /* border-radius: 10px solid rgb(20, 15, 15) !important; */
   /* padding: 2px 0 !important; */
@@ -482,6 +482,7 @@ margin-top: 90px;*/
   /* your own custom styles here */
   background-color: white;
   color: #3f51b5 !important;
+  font-weight: 600;
   /* font-size: 12px; */
   font-size: 0.8571em !important;
 }
@@ -990,10 +991,13 @@ font-weight: 500;
   margin-left: 10px;
 }
 
-.paginator-control-tooltip,
-mat-paginator mat-tooltip-panel{
-  font-weight: 600;
-}
 .mat-date-range-input {
   font-size: 0.72em;
+}
+
+.cdk-overlay-container .mat-tooltip-panel .custom-tooltip {
+  color:white !important;
+  background-color: #00b0ca;
+  font-weight: 500;
+  margin: 0px;
 }
