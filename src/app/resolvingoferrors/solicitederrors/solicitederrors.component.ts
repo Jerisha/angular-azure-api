@@ -342,8 +342,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
 
   columns: ColumnDetails[] = [
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false,isSticky:true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true,isSticky:true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'LCP/GCP', headerValue: 'ChangeCupId', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
@@ -380,7 +380,11 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         disableClose: true,
         data: { enableOk: false, message: errMsg, }
       });
-      rangeConfirm.afterClosed().subscribe(result => { return result; })
+      rangeConfirm.afterClosed().subscribe(
+        result => { return result; })
+        this.thisForm.reset();
+      //this.thisForm.get('StartTelephoneNumber')?.setValue('');
+      //this.thisForm.get('EndTelephoneNumber')?.setValue('');
       return;
     }
     this.tabs.splice(0);
@@ -423,7 +427,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       removeNoDataColumns: true,
       //isFavcols:true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }],
+     // isSticky:true  
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {

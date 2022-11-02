@@ -15,6 +15,7 @@ export interface TableItem {
     isCustomFooter?: boolean;
     excelQuery?:any;
     isFavcols?:boolean;
+    isSticky?:boolean;
 }
 export interface ViewColumn {
     headerValue: string;
@@ -36,6 +37,7 @@ export interface ColumnDetails {
     isBold?:boolean;
     isNumber?:boolean;
     showTooltip?:boolean;
+    isSticky?:boolean;
 }
 
 export interface CellAttributes{

@@ -30,7 +30,9 @@
     </mat-form-field>
     <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox">No of selected rows :
       <b> {{selection.selected.length}}</b></span> &nbsp;
-
+      <mat-slide-toggle style="margin-top:7px" *ngIf="tableitem?.isSticky" (change)="changeView()"  [(ngModel)]="isCheckedtoggle" class="toggleclass">
+        {{isCheckedtoggle?'Freeze Columns':'UnFreeze  Columns'}} </mat-slide-toggle>
+    
       
     <ng-container *ngIf="showFavCols">
       <span style="padding: 10px; margin-left: 30px;">
@@ -72,7 +74,7 @@
 
   <div class="table-container flex-container">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-      <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
+      <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}"  [sticky]="stickycolumnEnable && disCol?.isSticky">
 
         <!-- Checkbox Column -->
         <div *ngIf="disCol.headerValue === 'Select'">

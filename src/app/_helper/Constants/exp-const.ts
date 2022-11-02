@@ -35,7 +35,7 @@ export const expDate = {
         { viewValue: '>=', view: 'Greater than or Equal To', default: false },
         { viewValue: '<', view: 'Less than', default: false },
         { viewValue: '>', view: 'Greater than', default: false },
-        { viewValue: '<>', view: 'Not Equal to', default: false },
+       // { viewValue: '<>', view: 'Not Equal to', default: false },
     ]
 };
 
