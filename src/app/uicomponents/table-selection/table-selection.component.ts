@@ -104,7 +104,9 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   showFavCols: boolean = false;
   selectedUserProfileId: any;
   enableCustomization: boolean = false;
-
+  stickycolumnEnable:boolean;
+  isCheckedtoggle?: boolean = false;
+  isChecked?:boolean;
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
     private service: UIService,
@@ -223,6 +225,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
     this.showCustomFooter = this.tableitem?.isCustomFooter;
+    console.log('config sticky value',this.tableitem?.isSticky);
     if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
@@ -819,6 +822,22 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     }
     else {
       this.showFavCols = false;
+    }
+  }
+  isSticky (column: string): boolean {
+    console.log('column name',column);
+    return column === 'TelephoneNumber' ? true : false;
+  }
+  changeView()
+  {
+    if(!this.isCheckedtoggle)
+    {
+      this.stickycolumnEnable=false;
+    this.isChecked=true;
+    }
+    else{
+      this.isChecked=false;
+      this.stickycolumnEnable=true;
     }
   }
 }

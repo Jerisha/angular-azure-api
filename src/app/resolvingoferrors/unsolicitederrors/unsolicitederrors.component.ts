@@ -517,8 +517,10 @@ if ((      this.f.Source?.value === ""
         }
       });
       rangeConfirm.afterClosed().subscribe(result => {
+        this.thisForm.reset();
         return result;
       })
+      
       return;
     }
     this.tabs.splice(0);

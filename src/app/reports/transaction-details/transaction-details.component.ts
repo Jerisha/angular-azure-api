@@ -99,8 +99,8 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
 
 
   columns: ColumnDetails[] = [    
-    { header: 'Telephone No',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Inventory',headerValue:'Links', showDefault: true, isImage: true },
+    { header: 'Telephone No',headerValue:'TelephoneNumber', showDefault: true, isImage: false,isSticky:true },
+    { header: 'Inventory',headerValue:'Links', showDefault: true, isImage: true,isSticky:true },
     { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
     { header: 'Provide Date',headerValue:'ProvideDate', showDefault: true, isImage: false },
@@ -342,6 +342,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
 
       removeNoDataColumns: true,
+      isSticky:true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
                   { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]  }
     

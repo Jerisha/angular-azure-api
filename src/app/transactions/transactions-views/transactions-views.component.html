@@ -235,7 +235,7 @@
                       <div class="vf-flex-container-col" style="margin: 2px; width: 273px;display: block;text-align: center;"> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.TransactionType.disabled}">
-                            <mat-label>Transaction Type *</mat-label>
+                            <mat-label style="font-size:smaller">Transaction Type *</mat-label>
                             <input #transactiontype style="font-size:11px" formControlName="TransactionType" [(ngModel)]="model.TransactionType" type="text" placeholder="Transaction Type" matInput
                               [matAutocomplete]="autoTransactionType" OptionsValidator [options]="config.TransactionType" />
                             <span matSuffix mat-icon-button>
@@ -253,7 +253,7 @@
                         </div> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.LineType.disabled}">
-                            <mat-label>Line Type </mat-label>
+                            <mat-label style="font-size:smaller">Line Type </mat-label>
                             <input style="font-size:11px" #linetype formControlName="LineType" [(ngModel)]="model.LineType"  type="text" placeholder="Line Type" matInput
                               [matAutocomplete]="autoLineType" OptionsValidator [options]="config.LineType" />
                             <span matSuffix mat-icon-button>
@@ -272,7 +272,7 @@
                         </div> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.TypeOfLine.disabled}">
-                            <mat-label>Type of Line *</mat-label>
+                            <mat-label style="font-size:smaller">Type of Line *</mat-label>
                             <input style="font-size:11px" #typeofline formControlName="TypeOfLine" [(ngModel)]="model.TypeOfLine" type="text" placeholder="TypeOf Line" matInput
                               [matAutocomplete]="autoTypeOfLine" OptionsValidator [options]="config.TypeOfLine" />
                             <span matSuffix mat-icon-button>
