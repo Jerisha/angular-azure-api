@@ -369,6 +369,16 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     //this.spinner.hide();
   }
 
+  selectAllRows() {
+    this.dataSource.data.forEach(row => this.selection.select(row));
+    this.rowChanges.emit(this.dataSource.data);
+  }
+
+  deSelectAllRows() {
+    this.selection.clear();
+    this.rowChanges.emit(this.dataSource.data);
+  }
+
   applyFilter() {
     this.dataSource.filter = this.fltvalue.trim().toLowerCase();
     if (this.dataSource.paginator) {
