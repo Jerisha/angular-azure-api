@@ -7,6 +7,8 @@ import { map } from 'rxjs/operators';
 import {  Utils } from 'src/app/_http';
 import { exporttoexcelService } from './services/exporttoexcel.service';
 import { HttpResponse } from '@angular/common/http';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
 
 const myData = [
@@ -64,7 +66,11 @@ const myData = [
 export class ExporttoexcelComponent implements OnInit {
   // repIdentifier: string;
   // ExportSummary$: Observable<any>;
-
+  activeDownloads: string[] = [];
+color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 40;
+  spinnerSize: number =20;
   constructor(private service: exporttoexcelService,    
     private cdr: ChangeDetectorRef) { }    
     dataSource =new MatTableDataSource<any>()
@@ -140,6 +146,7 @@ export class ExporttoexcelComponent implements OnInit {
     // FileFullPath ='TelephoneRangeReports_BEEMA_20220613_101009.xlsx'
     let request = Utils.preparePydownloadFile(FileFullPath);
     //console.log(request,'download Request')
+    this.activeDownloads.push(FileFullPath);
     this.service.downloadFileDetails(request).subscribe((response: any) => {     
       //console.log(response,'res')
       if (response.ok) {        
@@ -149,15 +156,27 @@ export class ExporttoexcelComponent implements OnInit {
           this.service.blob2File(response,type,FileFullPath.substring(FileFullPath.lastIndexOf('/')+1))
       }
       else {
-        console.log(response,'Download File request Error Response')       
+        console.log(response,'Download File request Error Response'); 
+        if(this.activeDownloads.length > 0) {
+          let index = this.activeDownloads.indexOf(FileFullPath);
+           this.activeDownloads.splice(index,1);
+        }
+        
       }         
    },       
    (error: any) => {
      //  console.log(error,'Download File API Function')  
-
+     if(this.activeDownloads.length > 0) { 
+      let index = this.activeDownloads.indexOf(FileFullPath);
+           this.activeDownloads.splice(index,1);
+     }
    },
    ()=>{
      // console.log('Download File API Completed','Download File API Function')
+     if(this.activeDownloads.length > 0) {
+      let index = this.activeDownloads.indexOf(FileFullPath);
+           this.activeDownloads.splice(index,1);
+     }
    });
    
     

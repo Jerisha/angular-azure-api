@@ -162,11 +162,12 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
         //alert(JSON.stringify(res))
         this.dataSource.data = res.datasource;
         this.loadDataRelatedAttributes(this.dataSource.data);
-        this.totalRows = (res?.params?.TotalCount) as number;
+        // this.totalRows = (res?.params?.TotalCount) as number;
         this.apiPageNumber = (res?.params?.PageNumber) as number;
         this.currentPage = this.apiPageNumber - 1;
         this.pageSize = (res?.params?.Recordsperpage) as number;
         this.reportIdentifier = res?.params?.ReportIdentifier;
+        this.reportIdentifier === 'TelephoneRangeReports' ? this.totalRows = (parseInt(res?.params?.LiveRecordsTotal) + parseInt(res?.params?.InactiveRecordsTotal) + parseInt(res?.params?.NotAvailableTotal)) as number : this.totalRows = (res?.params?.TotalCount) as number;
         this.screenIdentifier = res?.params?.ScreenIdentifier;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
         // this.dataSource.sort = this.sort;

@@ -69,7 +69,9 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;  
   expressions: any = [expNumeric, expString, expDate, expDropdown];
-   
+
+  localityremoveExp:any=['<>','!%'];
+ 
   expOperatorsKeyPair:[string,string][] =[]; 
   resetExp: boolean=false;
   
@@ -95,6 +97,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
   isRemoveCache: number = DefaultIsRemoveCache;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  localityExp:any;
 
 
 
@@ -149,10 +152,15 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false }, //wire frame field na
     { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
   ];
+
+
+
   ngOnInit(): void {    
     let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine','Status','SourceType','InternalErrors','BTResponses']);
     this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res.data));  
-    this.createForm();   
+    this.createForm();     
+    this.localityExp = this.expressions[1].default.filter((x:any)=> !this.localityremoveExp.includes(x.viewValue))
+    //alert(JSON.stringify(this.expressions[1].default))
   }
 
   splitData(data: string): string[] { 
