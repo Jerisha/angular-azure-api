@@ -381,8 +381,10 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         data: { enableOk: false, message: errMsg, }
       });
       rangeConfirm.afterClosed().subscribe(
-        result => { return result; })
-        this.thisForm.reset();
+        result => {
+          this.thisForm.reset();
+          return result; })
+        
       //this.thisForm.get('StartTelephoneNumber')?.setValue('');
       //this.thisForm.get('EndTelephoneNumber')?.setValue('');
       return;
