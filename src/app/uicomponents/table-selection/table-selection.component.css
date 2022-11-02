@@ -228,3 +228,10 @@ font-size: smaller;
 .go-to-page {
   height: 2em;
 }
+
+.selectall-deselectall-button{
+  font-size: 1em;
+  height: fit-content;
+  width: fit-content;
+  cursor: default;
+}
