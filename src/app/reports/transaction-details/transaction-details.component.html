@@ -93,15 +93,24 @@
             </mat-form-field>
           </div>
 
-          <div [ngStyle]="{'display':thisForm.controls.Cupid.disabled ? 'none' : 'block'}">
-            <!-- <app-select-exp [listItems]="expressions[0].default" [resetvalue]="resetExp" #CupidOperator
-              (click)="OnOperatorClicked(['CupidOperator',CupidOperator.selectedViewValue])"></app-select-exp> -->
+          <!-- <div [ngStyle]="{'display':thisForm.controls.Cupid.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[0].default" [resetvalue]="resetExp" #CupidOperator
+              (click)="OnOperatorClicked(['CupidOperator',CupidOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Cupid.disabled}">
               <mat-label>Cupid</mat-label>
               <input formControlName="Cupid" (keypress)="numberOnly($event)"
                matInput #Cupid maxlength="100" placeholder="Cupid">
             </mat-form-field>
-          </div>
+          </div> -->
+          <mat-form-field [ngClass]="{'hidden':thisForm.controls.Cupid.disabled}">
+            <mat-label>Cupid</mat-label>
+            <mat-select formControlName="Cupid">
+              <mat-option>-- Select --</mat-option> 
+              <mat-option *ngFor="let val of config.InternalCupID" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <!-- <div [ngStyle]="{'display':thisForm.controls.Source.disabled? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp" #SourceOperator

@@ -156,7 +156,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
 
 
   ngOnInit(): void {    
-    let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine','Status','SourceType','InternalErrors','BTResponses']);
+    let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine','Status','SourceType','InternalErrors','BTResponses','InternalCupID']);
     this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res.data));  
     this.createForm();     
     this.localityExp = this.expressions[1].default.filter((x:any)=> !this.localityremoveExp.includes(x.viewValue))
