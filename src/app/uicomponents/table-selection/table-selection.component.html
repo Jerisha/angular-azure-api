@@ -35,8 +35,10 @@
     
       
     <ng-container *ngIf="showFavCols">
-      <span style="padding: 10px; margin-left: 30px;">
-         Preferred Headerlist</span> &nbsp;
+      <span style="padding: 5px 10px;">
+         Preferred
+          <br/> 
+          Headerlist</span> &nbsp;
       <mat-form-field class="colfilter">
         <mat-select placeholder="User Profiles" [(ngModel)]="selectedUserProfileId"
           (selectionChange)="getSelectedProfile($event.value)">
