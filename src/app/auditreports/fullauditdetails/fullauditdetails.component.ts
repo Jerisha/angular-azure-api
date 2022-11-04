@@ -399,7 +399,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
 
     let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "AuditSource", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
-    console.log('config', JSON.stringify(request))
+    // console.log('config', JSON.stringify(request))
 
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
       .subscribe(results => {
@@ -472,7 +472,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     { "IsRemoveCache": this.isRemoveCache }];
     this.wmPageNumber = this.currentPage;
     let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.wmPageNumber.toString()), reqParams);
-    console.log('Audit req', JSON.stringify(request))
+    // console.log('Audit req', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -749,7 +749,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
         //update 
-        console.log('remarks', JSON.stringify(request))
+        // console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
             this.onFormSubmit(true);
@@ -803,7 +803,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         if (result) {
           let request = Utils.preparePyUpdate('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
           //update
-          console.log('auto correction', JSON.stringify(request));
+          // console.log('auto correction', JSON.stringify(request));
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
               this.alertService.success("Save successful", { autoClose: true, keepAfterRouteChange: false });
@@ -835,7 +835,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         if (result) {
           if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
             let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
-            console.log('manual', JSON.stringify(request));
+            // console.log('manual', JSON.stringify(request));
             this.service.updateDetails(request).subscribe(x => {
               if (x.StatusCode === 'EUI000') {
                 this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
@@ -985,7 +985,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     })
     this.getSelectedDataCorrection();
     this.getPnlControlAttributes();
-    console.log('selcted', this.selectListItems)
+    // console.log('selcted', this.selectListItems)
   }
 
   monthlyRefreshReportInit(auditACTID: any, telno: any) {
@@ -1077,7 +1077,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     ];
 
     let request = Utils.preparePyQuery('MoriCircuitDetails', 'FullAuditDetails', attributes);
-    console.log('mori', JSON.stringify(request))
+    // console.log('mori', JSON.stringify(request))
     this.moriCircuitStatusQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -1107,7 +1107,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     ];
 
     let request = Utils.preparePyQuery('OverlappingRange', 'FullAuditDetails', attributes);
-    console.log('overlapling', JSON.stringify(request))
+    // console.log('overlapling', JSON.stringify(request))
     this.overlappingQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {

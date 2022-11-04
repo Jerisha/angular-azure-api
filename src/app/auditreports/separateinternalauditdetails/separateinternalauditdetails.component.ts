@@ -218,7 +218,7 @@ export class SeparateinternalauditdetailsComponent extends UserProfile implement
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']); 
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
     .subscribe(results => {
-      console.log('Result from ts file',JSON.stringify(results));
+      // console.log('Result from ts file',JSON.stringify(results));
     this.configDetails = results[0].data;
     this.rowRange = this.configDetails.AutoCorrectionVolume[0];
     this.defaultACTID = this.configDetails.SepInternalAuditActID[0];    
@@ -446,7 +446,7 @@ else{
   }
   //attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
     attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
-   console.log('console attributes',attributes);
+  //  console.log('console attributes',attributes);
     return attributes;
   }
   prepareQueryParamsfullAudit(pageNo: string,TelphoneNumber:string): any {
@@ -501,10 +501,10 @@ else{
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('SeparateInternalAuditDetails', 'SeparateInternalAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    console.log('query request',JSON.stringify(request));
+    // console.log('query request',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
-        console.log('query response',JSON.stringify(res));
+        // console.log('query response',JSON.stringify(res));
         let result = {
           datasource: res.data.SeparateInternalAuditDetails,
           params: res.params
@@ -553,7 +553,7 @@ else{
         if (result) {
           if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
             let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
-            console.log('manual', JSON.stringify(request));
+            // console.log('manual', JSON.stringify(request));
             this.service.updateDetails(request).subscribe(x => {
               if (x.StatusCode === 'EUI000') {
                 this.onFormSubmit(true);
@@ -703,7 +703,7 @@ else{
     TelehponeNumbers+=telno+',';
   }
   TelehponeNumbers=TelehponeNumbers.slice(0,-1);
-  console.log('telephonestring',TelehponeNumbers);
+  // console.log('telephonestring',TelehponeNumbers);
   this.DisplayFullAuditDetailsTab(TelehponeNumbers);
   if (!this.tabs.find(x => x.tabType == 2)) {
       this.tabs.push({
@@ -724,7 +724,7 @@ else{
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'SeparateInternalAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
         //update 
-        console.log('remarks', JSON.stringify(request))
+        // console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
             this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
@@ -832,7 +832,7 @@ else{
     });
   }
   selChangeSingle(matSelect: MatSelect) {
-    console.log(matSelect.value);
+    // console.log(matSelect.value);
     this.selected = matSelect.value;
   }
 }

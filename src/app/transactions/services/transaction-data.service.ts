@@ -21,7 +21,7 @@ export class TransactionDataService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }
   queryDetails(request: any): Observable<any> {
-    console.log('service called',request);
+    // console.log('service called',request);
     debugger
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
@@ -30,13 +30,13 @@ export class TransactionDataService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
   create(request: any): Observable<any> {
-    console.log('create called',request);
+    // console.log('create called',request);
     debugger
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
   }
   pafqueryDetails(request: any): Observable<any> {
-    console.log('service called',request);
+    // console.log('service called',request);
     debugger
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.PAFQUERY, request);

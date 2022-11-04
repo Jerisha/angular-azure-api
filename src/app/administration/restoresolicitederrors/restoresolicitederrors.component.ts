@@ -209,7 +209,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'RestoreSolResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res))
+      // console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
 
@@ -270,7 +270,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
 
       }
     }
-    console.log(attributes);
+    // console.log(attributes);
 
     return attributes;
 
@@ -615,7 +615,7 @@ this.f['DateRange'].disable();
 
     switch (tab.tabType) {
       case 1:
-        //console.log('New Tab: '+ JSON.stringify(tab.row) )
+        //s'New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
 
         if (!this.tabs?.find(x => x.tabType == 1)) {

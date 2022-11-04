@@ -111,10 +111,10 @@ export class FullAuditComponent implements OnInit {
     this.attributes.push({ Name: 'PageNumber', Value: [this.currentPage] })
     //this.attributes.push({ Name: 'PageNumber', Value: ['1'] })
     let request = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.attributes,reqParams);
-    console.log('query request',JSON.stringify(request));
+    // console.log('query request',JSON.stringify(request));
     this.queryResultfullAuditpage$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
-        console.log('query response from full audit',JSON.stringify(res));
+        // console.log('query response from full audit',JSON.stringify(res));
         let result = {
           datasource: res.data.TelephoneNumbers,
           // totalrecordcount: res.TotalCount,

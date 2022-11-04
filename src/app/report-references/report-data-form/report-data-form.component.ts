@@ -73,12 +73,12 @@ ngOnInit(): void {
       // console.log(this.referenceForm,'ij')
       // console.log(this.referenceForm.controls['Franchise']?.value)
       if(this.referenceForm.controls['Franchise']?.value !=  ''){
-        console.log("!null init")
+        // console.log("!null init")
         //console.log("valujesnull",this.referenceForm.controls['Franchise'])
         this.referenceForm.controls['UsedCount'].enable();
         }
         else{
-          console.log("null init")
+          // console.log("null init")
         this.referenceForm.controls['UsedCount'].disable();
         }
       }  
@@ -123,11 +123,11 @@ ngOnChanges(changes: SimpleChanges) {
       // console.log(this.referenceForm,'ijc')
       // console.log(this.referenceForm.controls['Franchise']?.value)
       if(this.referenceForm.controls['Franchise']?.value !=  ''){
-        console.log("!null changes")
+        // console.log("!null changes")
       this.referenceForm.controls['UsedCount'].enable();
       }
       else{
-        console.log("null changes")
+        // console.log("null changes")
       this.referenceForm.controls['UsedCount'].disable();
       }
       } 
@@ -276,7 +276,7 @@ onEditRecord(record:any,event:Event){
 }
 onDropDownChange(event:any,filterName? : string){
 // alert('dp:'+event.value)
-console.log(event,'l');
+// console.log(event,'l');
 let Olo = event.option.value;
 this.setCompanyDropdownValue(Olo);
 this.referenceForm.controls['Company'].enable();

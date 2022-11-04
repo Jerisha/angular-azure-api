@@ -16,13 +16,14 @@
           <div *ngIf ="disCol.headerValue=='Filepath'" >
               <th mat-header-cell *matHeaderCellDef class="nowrap-cell-head" >{{disCol.header}}</th>
                 <td mat-cell *matCellDef="let element" class="nowrap-cell" > 
-                  <ng-container *ngIf="activeDownloads.includes(element[disCol.headerValue]);">
+                  <!-- <ng-container *ngIf="activeDownloads.includes(element[disCol.headerValue]);">
                     <mat-progress-spinner style="display: inline; padding: 3px 6px; margin-right: 10px;" [color]="color" [mode]="mode" [value]="value" [diameter]="spinnerSize"></mat-progress-spinner>
-                  </ng-container>
+                  </ng-container> -->
                   <ng-container>
                   <!-- <a href="..\..\..\assets\export.xlsx" download={{element[disCol.headerValue]}}>{{element[disCol.headerValue]}}</a> -->
                   <!-- <a href={{FilePath}} download={{element[disCol.headerValue]}}>{{element[disCol.headerValue]}}</a> -->  
-                  <button type="button"  [disabled] = " element.Status != 'Available' ? true : activeDownloads.includes(element[disCol.headerValue])" [ngClass]="element.Status =='Available'? activeDownloads.includes(element[disCol.headerValue])? 'removelink' : 'hyberlinkbtn' : 'removelink'" (click)="downloadFile(element[disCol.headerValue]);">{{ element[disCol.headerValue].substring(element[disCol.headerValue].lastIndexOf('/')+1)}}</button>
+                  <!-- <button type="button"  [disabled] = " element.Status != 'Available' ? true : activeDownloads.includes(element[disCol.headerValue])" [ngClass]="element.Status =='Available'? activeDownloads.includes(element[disCol.headerValue])? 'removelink' : 'hyberlinkbtn' : 'removelink'" (click)="downloadFile(element[disCol.headerValue]);">{{ element[disCol.headerValue].substring(element[disCol.headerValue].lastIndexOf('/')+1)}}</button> -->
+                  <button type="button"  [disabled] = " element.Status != 'Available' ? true : false" [ngClass]="element.Status =='Available'? 'hyberlinkbtn' : 'removelink'" (click)="downloadFile(element[disCol.headerValue]);">{{ element[disCol.headerValue].substring(element[disCol.headerValue].lastIndexOf('/')+1)}}</button>
                   <!-- <a href=${pageContext.request.contextPath} download={{element[disCol.headerValue]}}>{{element[disCol.headerValue]}}</a> -->                  
                   </ng-container>
                 </td>

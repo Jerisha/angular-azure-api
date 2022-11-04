@@ -67,7 +67,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
 
   queryFetch() {
     let request = Utils.preparePyQuery('InternalAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
-    console.log(JSON.stringify(request));
+    // console.log(JSON.stringify(request));
     this.spinner.show();
     this.observerResult = this.service.queryDetails(request).pipe(map((res: any) => {
       this.spinner.hide();

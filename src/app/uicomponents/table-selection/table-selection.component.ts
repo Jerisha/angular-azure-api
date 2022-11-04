@@ -226,7 +226,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
     this.showCustomFooter = this.tableitem?.isCustomFooter;
-    console.log('config sticky value',this.tableitem?.isSticky);
+    // console.log('config sticky value',this.tableitem?.isSticky);
     if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
@@ -425,7 +425,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
-    //console.log('datacols', this.dataColumns)
+    //// console.log('datacols', this.dataColumns)
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
     //   this.tableitem?.coulmnHeaders : undefined;filter
@@ -594,11 +594,11 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     let newStatus = true;
     let selectedColumns = this.favProfile?.find(x => x.favprofileid === val)?.favcolumnlist;
     //selectedColumns.push('RangeReportFlag')
-    console.log('selectedcols', selectedColumns)    
+    // console.log('selectedcols', selectedColumns)    
     selectedColumns = this.ColumnDetails.filter(x => selectedColumns?.includes(x.headerValue)).map(x => x.headerValue)
     //selectedColumns = this.nonemptyColumns.filter(x => x.includes(selectedColumns)).map(x => x);
     
-    console.log('latest coldetails', this.ColumnDetails)
+    // console.log('latest coldetails', this.ColumnDetails)
     selectedColumns = selectedColumns ? selectedColumns : []
     this.enableCustomization = this.favProfile?.find(x => x.favprofileid === val)?.isdefaultprofile === 1 ? false : true;
 
@@ -674,7 +674,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     let temp: any = {}
     this.gridFilter.forEach(x => {
       if (selectedCol.includes(x.headerValue)) {
-        //console.log(`"${x.headerValue}":"${x.header}"`)
+        //// console.log(`"${x.headerValue}":"${x.header}"`)
         //tempColumns +=`'${x.headerValue}':'${x.header}',`
         temp[x.headerValue] = x.header
         //ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))        
@@ -682,7 +682,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     });
     //ColumnMapping.push(`{${tempColumns}}`)
     ColumnMapping.push(temp)
-    //console.log(ColumnMapping,'columnMapping')
+    //// console.log(ColumnMapping,'columnMapping')
 
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
@@ -714,7 +714,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       }
     });
 
-    //console.log(this.ColumnDetails, selectedColumns)
+    //// console.log(this.ColumnDetails, selectedColumns)
     //this.requestExport2Excel.emit(excelHeaderParams);
   }
 
@@ -836,7 +836,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     }
   }
   isSticky (column: string): boolean {
-    console.log('column name',column);
+    // console.log('column name',column);
     return column === 'TelephoneNumber' ? true : false;
   }
   changeView()

@@ -208,7 +208,7 @@ export class ExternalAuditDetailsComponent extends UserProfile implements OnInit
     rangeConfirm.afterClosed().subscribe(result => {
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'ExternalAuditDetails', this.prepareUpdateIdentifiers(), [{}]);
-        console.log('remarks', JSON.stringify(request))
+        // console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
             

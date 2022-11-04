@@ -164,7 +164,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
         // else
         //   attributes.push({ Name: field });
     }
-    console.log(JSON.stringify(attributes));
+    // console.log(JSON.stringify(attributes));
     return attributes;
 
   }
@@ -205,7 +205,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
       let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-      console.log(JSON.stringify(request));
+      // console.log(JSON.stringify(request));
       this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
         if (Object.keys(res).length) {
           let result = {
@@ -278,7 +278,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
         this.selectedGridRows.splice(index, 1)
       }
     })
-    console.log("selectedGridRows" + this.selectedGridRows)
+    // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   removeTab(index: number) {
@@ -361,7 +361,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
       }
     });
     dialogRef.afterClosed().subscribe(result=>{
-      console.log("Dialog" + result);
+      // console.log("Dialog" + result);
       return result;
     })
   }
