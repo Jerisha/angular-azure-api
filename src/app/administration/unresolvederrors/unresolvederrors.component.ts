@@ -145,7 +145,7 @@ export class UnresolvederrorsComponent extends UserProfile implements OnInit, Af
 
     this.createForm();
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'UnresolvedErrorStatus']);
-    console.log("res: " + JSON.stringify(request))
+    // console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
      debugger
@@ -212,7 +212,7 @@ export class UnresolvederrorsComponent extends UserProfile implements OnInit, Af
 
       }
     }
-    console.log(attributes);
+    // console.log(attributes);
 
     return attributes;
 
@@ -534,7 +534,7 @@ check999() {
   }
 
   selChangeSingle(matSelect: MatSelect) {
-    console.log(matSelect.value);
+    // console.log(matSelect.value);
     this.selected = matSelect.value;
   }
 

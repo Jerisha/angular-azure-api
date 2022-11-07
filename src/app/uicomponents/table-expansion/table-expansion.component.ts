@@ -101,7 +101,7 @@ export class TableExpansionComponent implements OnDestroy {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
     //   return;
     debugger
-    console.log('transaction command data', this.tableitem?.data)
+    // console.log('transaction command data', this.tableitem?.data)
     this.dataObs$ = this.tableitem?.data;
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
@@ -328,7 +328,7 @@ export class TableExpansionComponent implements OnDestroy {
     return applyStyles;
   }
   newTab(tab: any) {
-    console.log('event log');
+    // console.log('event log');
     this.addNewTab.emit({ tab });
   }
 

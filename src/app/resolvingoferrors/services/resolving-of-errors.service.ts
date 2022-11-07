@@ -15,7 +15,7 @@ export class ResolvingOfErrorsService {
       console.log("res: " + JSON.stringify(res))
       this.test = res
     });
-    console.log("test " + this.test)
+    // console.log("test " + this.test)
   }
 
   configDetails(request: any): Observable<any> {

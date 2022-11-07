@@ -14,7 +14,7 @@ export class statisticalreport {
   constructor(private wrapperService: HttpWrapperService) { }
 
   queryDetails(request: any): Observable<any> {
-console.log('request',request);
+// console.log('request',request);
     // let ReportIdentifier: string = request.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName;
     // console.log('ReportIdentifier', ReportIdentifier);
     // if (ReportIdentifier == 'DayToDay') {
@@ -46,7 +46,7 @@ console.log('request',request);
   custom(data: any) {
     try
     {
-    console.log('service.custom' + JSON.stringify(data));
+    // console.log('service.custom' + JSON.stringify(data));
     let arrdate: any[] = [];
     let testdata: any = data[0].DatewiseData;
     if (testdata != undefined && testdata.length > 0) {
@@ -105,7 +105,7 @@ console.log('request',request);
       });
       //console.log(arrmonth);
       data[0].MonthlyData = arrmonth;
-      console.log(data[0].MonthlyData);
+      // console.log(data[0].MonthlyData);
     }
     return data;
   }catch

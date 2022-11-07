@@ -141,7 +141,7 @@ export class InflightreportComponent extends UserProfile implements OnInit {
     refresh(event: any) {
         this.refreshClick = true;
         this.onFormSubmit(true);
-        // console.log('refresh');
+        // // console.log('refresh');
     }
     onFormSubmit(isEmitted?: boolean): void {
 
@@ -218,17 +218,17 @@ export class InflightreportComponent extends UserProfile implements OnInit {
 
     OnOperatorClicked(val: [string, string]) {
         // if (event.target.value !="")
-        console.log("operators event", "value ", val);
+        // console.log("operators event", "value ", val);
         let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
-        console.log("operators event1", "vals ", vals);
+        // console.log("operators event1", "vals ", vals);
         if (vals.length == 0) {
             this.expOperatorsKeyPair.push(val);
-            console.log("if part", this.expOperatorsKeyPair);
+            // console.log("if part", this.expOperatorsKeyPair);
         }
         else {
             this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
             this.expOperatorsKeyPair.push(val);
-            console.log("else part", this.expOperatorsKeyPair);
+            // console.log("else part", this.expOperatorsKeyPair);
         }
     }
 
@@ -254,7 +254,7 @@ export class InflightreportComponent extends UserProfile implements OnInit {
                     attributes.push({ Name: field });
             }
         }
-        console.log(attributes);
+        // console.log(attributes);
 
         return attributes;
 

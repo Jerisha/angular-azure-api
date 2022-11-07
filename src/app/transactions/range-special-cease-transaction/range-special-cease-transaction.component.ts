@@ -124,7 +124,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     } else {
       this.AuditTrailSelected.emit(["true", [this.audittelephonenumbers]]);
     }
-    console.log('audit telephone numbers length', this.audittelephonenumbers);
+    // console.log('audit telephone numbers length', this.audittelephonenumbers);
   }
   
   validation_messages = {
@@ -269,10 +269,10 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
       this.startTelNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value ? this.splCeaseTransForm.controls['StartTelephoneNumber'].value : '';
       this.endTelNo = this.splCeaseTransForm.controls['EndTelephoneNumber'].value ? this.splCeaseTransForm.controls['EndTelephoneNumber'].value : '';
       let request = Utils.preparePyQuery('TelephoneRangeReports', 'CeaseTransaction', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-      console.log('request from ts file', JSON.stringify(request));
+      // console.log('request from ts file', JSON.stringify(request));
       this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
         if (Object.keys(res).length) {
-          console.log('result from ts file', res);
+          // console.log('result from ts file', res);
           let result = {
             datasource: res.data.TelephoneNumbers,
             params: res.params
@@ -324,7 +324,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
       { Name: 'EndTelephoneNumber', Value: [`${this.endTelNo}`] },
 
     ];
-    console.log("Tel no list params " + JSON.stringify(attributes));
+    // console.log("Tel no list params " + JSON.stringify(attributes));
     return attributes;
   }
   fetchTelNoList() {
@@ -357,13 +357,13 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
       else
         attributes.push({ Name: field });
     }
-    console.log(JSON.stringify(attributes));
+    // console.log(JSON.stringify(attributes));
     return attributes;
   }
 
   OnAuditTrailSelected(initAuditTrail: any[]) {
-    console.log('audit phone numbers', initAuditTrail);
-    console.log('event is calling audit', initAuditTrail);
+    // console.log('audit phone numbers', initAuditTrail);
+    // console.log('event is calling audit', initAuditTrail);
     this.audittrailNos = initAuditTrail;
     this.auditTrailSuccess = initAuditTrail[0];
     this.auditTeleNoselected = this.audittrailNos[1][0];
@@ -380,10 +380,10 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   OnTelephoneNoSelected(selectedTelNo: any) {
     this.telNo = selectedTelNo;
     let request = Utils.preparePyQuery('TelephoneNumberList', 'CeaseTransaction', this.prepareQueryParams(this.currentPage.toString()));
-    console.log('request from ts file', JSON.stringify(request));
+    // console.log('request from ts file', JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
-        console.log('result from ts file', res);
+        // console.log('result from ts file', res);
         let result = {
           datasource: res.data.TelephoneNumbers,
 
@@ -421,7 +421,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   isauditenable(islivedata : boolean)
   {
     this.isLiveAudit = islivedata
-    console.log(this.isLiveAudit, 'isLiveAudit')
+    // console.log(this.isLiveAudit, 'isLiveAudit')
   }
   openAuditTrail(isEmitted?: boolean) {
     this.isAuditTrail = isEmitted ? false : true;
@@ -438,7 +438,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
         this.fetchTelNoList();
       } else {
         this.telNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value
-        console.log(this.telNo, 'teleno')
+        // console.log(this.telNo, 'teleno')
       }
     }
     let updtab = this.tabs.find(x => x.tabType == 1);
@@ -499,7 +499,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   ngOnDestroy() {
     this.destroy$.next(true);
     //debugger;
-    //console.log('destroying')
+    //// console.log('destroying')
     // Unsubscribe from the subject
     this.destroy$.unsubscribe();
   }
@@ -507,20 +507,20 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     //debugger
     if (this.selectedGridRows.length > 0){
     for (let value of this.selectedGridRows) {
-     // console.log(value, 'value')
+     // // console.log(value, 'value')
       
         if (value.LiveRecords > 0  ) {
           this.isLiveRecords = false;
        // this.isCeaseDisable = true;
          // this.isEnable();
-         // console.log('live', this.isLiveRecords)
-         // console.log(this.isLiveAudit, 'isliveaudit')
+         // // console.log('live', this.isLiveRecords)
+         // // console.log(this.isLiveAudit, 'isliveaudit')
           break;
         } else {
           this.isLiveRecords = true
           //this.isCeaseDisable = false;
-        //  console.log('live1', this.isLiveRecords)
-         // console.log(this.isLiveAudit, 'isliveaudit1')
+        //  // console.log('live1', this.isLiveRecords)
+         // // console.log(this.isLiveAudit, 'isliveaudit1')
         }
       }
       } else {
@@ -543,7 +543,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
       let request = Utils.preparePyUpdate('CeaseTransaction', 'CeaseTransaction', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
       //update 
       this.service.updateDetails(request).subscribe(x => {
-        console.log('status msg', x)
+        // console.log('status msg', x)
         if (x.StatusMessage === 'Ceased Successfully') {
 
           //success message and same data reload
@@ -560,7 +560,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
 
   });
   }
-     // console.log('update request', JSON.stringify(request));
+     // // console.log('update request', JSON.stringify(request));
       //this.ceaseupdate.reset();
     
   }
@@ -581,7 +581,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
       }
     })
       this.isEnable();
-      console.log("selectedGridRows" + this.selectedGridRows)
+      // console.log("selectedGridRows" + this.selectedGridRows)
   }
   prepareUpdateIdentifiers() {
     // debugger
@@ -599,7 +599,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
         //} else
         // identifiers.push({ Name: 'StartTelephoneNumber', Value: [""] });
       }
-      console.log(starttelearr, 'test')
+      // console.log(starttelearr, 'test')
       if (this.selectedGridRows.length > 0) {
         identifiers.push({ Name: 'TelephoneNumberRange', Value: [`${starttelearr.toString()}`] });
       } else
@@ -618,7 +618,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     else {
       identifiers.push({ Name: "CeaseRemarks" });
     }
-    console.log('update identifiers', identifiers);
+    // console.log('update identifiers', identifiers);
     return identifiers;
   }
   createForm() {

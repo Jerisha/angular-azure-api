@@ -296,7 +296,7 @@ export class AuditUserActionSummaryComponent extends UserProfile {
       else
         attributes.push({ Name: genOpt, Value: ['Equal To'] });
     }
-    console.log('attri', attributes);
+    // console.log('attri', attributes);
 
     return attributes;
 
@@ -307,7 +307,7 @@ export class AuditUserActionSummaryComponent extends UserProfile {
     let operator: string = fieldName + "Operator";
     if (this.expOperatorsKeyPair.length != 0) {
       let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-      console.log("expvals " + expvals.length);
+      // console.log("expvals " + expvals.length);
 
       if (expvals.length != 0) {
         attribute = { Name: operator, Value: [expvals[0][1]] };

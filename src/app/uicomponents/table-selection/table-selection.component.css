@@ -233,5 +233,5 @@ font-size: smaller;
   font-size: 1em;
   height: fit-content;
   width: fit-content;
-  cursor: default;
+  cursor: pointer;
 }

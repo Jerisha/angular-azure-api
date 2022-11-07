@@ -645,22 +645,32 @@ th.mat-column-NotAvailable {
 
 }
 
-.mat-cell.mat-column-CustomerName {
+.mat-header-cell.mat-column-FirstDate,
+.mat-header-cell.mat-column-LastDate,
+.mat-header-cell.mat-column-TransactionCommand,
+.mat-header-cell.mat-column-BtCommand,
+.mat-header-cell.mat-column-ParentCupid,
+.mat-header-cell.mat-column-ChildCupid,
+.mat-header-cell.mat-column-LineType,
+.mat-header-cell.mat-column-ChangeCupid,
+.mat-header-cell.mat-column-ErrorCount,
+.mat-header-cell.mat-column-SourceType,
+.mat-header-cell.mat-column-TypeOfLine,
+.mat-header-cell.mat-column-Difference,
+.mat-header-cell.mat-column-AddressIdSource {
   white-space: normal !important;
-  word-wrap: break-word !important;
-  /* background-color: aqua; */
-  max-width: 200px;
-
 }
 
-.mat-header-cell.mat-column-FirstDate,
-.mat-header-cell.mat-column-LastDate {
-  white-space: normal !important;
+.mat-header-cell.mat-column-TypeOfLine {
+  min-width: 44px;
 }
 
 .mat-header-cell.mat-column-Difference {
-  white-space: normal !important;
   min-width: 40px;
+}
+
+.mat-header-cell.mat-column-AddressIdSource {
+  min-width: 60px;
 }
 
 .mat-cell.mat-column-Remarks {

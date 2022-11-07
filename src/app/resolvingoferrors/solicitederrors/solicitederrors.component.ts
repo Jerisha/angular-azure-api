@@ -218,10 +218,10 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     this.createForm();
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode','LcpGcp']);
-    console.log('request',JSON.stringify(request));
+    // console.log('request',JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
-      console.log(res.data);
+      // console.log(res.data);
       this.errorCodes = res.data?.ErrorCode
     });
 
@@ -406,7 +406,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { "IsRemoveCache": this.isRemoveCache }];
 
     let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-     console.log('request', JSON.stringify(request))
+    //  console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {

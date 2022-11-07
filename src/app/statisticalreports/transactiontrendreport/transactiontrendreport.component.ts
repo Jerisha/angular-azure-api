@@ -243,7 +243,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     //console.log('worked');
     let request = Utils.preparePyConfig(['Search'], ['Source','StatisticMonth']);
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("config details: " + JSON.stringify(res))
+      // console.log("config details: " + JSON.stringify(res))
       this.configDetails = res.data;
       res.data.StatisticMonth?.forEach((element: any) => {
         this.filterItems.push({ view: element, viewValue: element, default: false })
@@ -260,7 +260,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   multipleSelect(event: any) {
     // console.log(event)
     if (event) {
-      console.log(event);
+      // console.log(event);
     this.staticmontharray = event;
     }
   }
@@ -312,7 +312,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     }));
     let testresult: any[] = [];
     let requesttwo = Utils.preparePyQuery('MonthOnMonth', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
-    console.log('Monthly Request',JSON.stringify(requesttwo));
+    // console.log('Monthly Request',JSON.stringify(requesttwo));
     this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) => {
       if (Object.keys(res)?.length) {
         let result = {
@@ -422,7 +422,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         attributes.push({ Name: operator, Value: ['Equal To'] });
       }
     }
-    console.log('attributes', attributes);
+    // console.log('attributes', attributes);
     return attributes;
   }
   getTupleValue(element: [string, string], keyvalue: string) {

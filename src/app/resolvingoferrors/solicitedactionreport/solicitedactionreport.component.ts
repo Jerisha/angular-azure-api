@@ -187,7 +187,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Source', 'AllResolutionType', 'TransactionCommand', 'ErrorStatus']);
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res))
+      // console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
 
@@ -321,7 +321,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       else
         attributes.push({ Name: genOpt, Value: ['Equal To'] });
     }
-    console.log('attri', attributes);
+    // console.log('attri', attributes);
 
     return attributes;
 

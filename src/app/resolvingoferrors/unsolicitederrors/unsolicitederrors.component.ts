@@ -207,9 +207,9 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     //this.UpdateForm();
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['UnsolicitedSource', 'ErrorDescription', 'ResolveTypeUnsol']);
-    console.log("res: " + JSON.stringify(request))
+    // console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res))
+      // console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
 
     });
@@ -675,7 +675,7 @@ if ((      this.f.Source?.value === ""
   }
 
   selChangeSingle(matSelect: MatSelect) {
-    console.log(matSelect.value);
+    // console.log(matSelect.value);
     this.selected = matSelect.value;
   }
 

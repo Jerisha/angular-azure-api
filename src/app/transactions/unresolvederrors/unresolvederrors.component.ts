@@ -349,7 +349,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   }
 
   selChangeSingle(matSelect: MatSelect) {
-    console.log(matSelect.value);
+    // console.log(matSelect.value);
     this.selected = matSelect.value;
   }
 

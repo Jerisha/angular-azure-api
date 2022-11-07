@@ -69,7 +69,7 @@ export class ExternalAuditTypeComponent implements OnInit {
 
   queryFetch() {
     let request = Utils.preparePyQuery('ExternalAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
-    console.log(JSON.stringify(request));
+    // console.log(JSON.stringify(request));
     this.spinner.show();
     this.observerResult = this.service.queryDetails(request).pipe(map((res: any) => {
       return res.data

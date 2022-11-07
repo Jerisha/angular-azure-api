@@ -81,7 +81,7 @@ export class FullAuditHistoryComponent extends UserProfile implements OnInit {
     this.alertService.clear();
     this.spinner.show();
     let request = Utils.preparePyGet('FullAuditHistory','FullAuditHistory',[{}]);
-    console.log(request)
+    // console.log(request)
     this.service.getDetails(request).pipe(takeUntil(this.onDestroy)).subscribe((res:any)=> {
       this.fullAuditHistory = res.data.AuditHistory;
       this.isLoading = false; 

@@ -984,10 +984,10 @@ export class ManageUsersComponent implements OnInit {
     this.UserProfileForm?.get('profiledescription')?.disable();
     debugger
     let profileMenu: any;
-    //console.log('profileitems',JSON.stringify(profileitems));
+    //// console.log('profileitems',JSON.stringify(profileitems));
     let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile', '', ProfileName);
     //let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','',ProfileName);
-    console.log('request', request);
+    // console.log('request', request);
     this.bindtreeedataview([]);
     this.spinner.show();
     this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
@@ -1004,7 +1004,7 @@ export class ManageUsersComponent implements OnInit {
           var tempMyObj = Object.values(array);
           //JSON.parse(JSON.stringify(TREE_DATA_View));
         //  clone(TREE_DATA_View); Object.assign({}, TREE_DATA_View);
-         console.log('temp object length',tempMyObj.length);
+        //  // console.log('temp object length',tempMyObj.length);
           if (tempMyObj != undefined && tempMyObj.length > 0) {
             for (var i = 0; i < tempMyObj.length; i++) {
               let Tree = tempMyObj[i];
@@ -1039,18 +1039,18 @@ export class ManageUsersComponent implements OnInit {
                 }
               }
             }
-            console.log('temp object',tempMyObj);
+            // console.log('temp object',tempMyObj);
             this.bindtreeedataview(tempMyObj[0].children);
           }
         else {
           this.bindtreeedataview([]);
-          //console.log('api menuitems',this.ApiMenuattributes);
+          //// console.log('api menuitems',this.ApiMenuattributes);
         }
       }
       else{
        this.resettreetreeviewforadmin();
         this.bindtreeedataview(TREE_DATA_View);
-        console.log('treeview data',TREE_DATA_View);
+        // console.log('treeview data',TREE_DATA_View);
       }
         this.spinner.hide();
       });
@@ -1062,17 +1062,17 @@ export class ManageUsersComponent implements OnInit {
     if (Event != 'Create') {
       debugger
       let profileMenu: any;
-      console.log('profileitems', JSON.stringify(profileitems));
+      // console.log('profileitems', JSON.stringify(profileitems));
       let Treedataupdate: any = TREE_DATA_three;
       let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile', '', Profilename);
-      console.log('request', request);
+      // console.log('request', request);
       this.bindtreedata(Treedataupdate);
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           debugger
           //  this.userAccessData.data = res.Data;
-          console.log('data of Profile', res.Data);
+          // console.log('data of Profile', res.Data);
           this.ApiMenuattributes = [];
           profileitems = res.Data[0]?.profileitems;
           this.eventName = 'Update';
@@ -1114,7 +1114,7 @@ export class ManageUsersComponent implements OnInit {
             }
           }
           this.bindtreedata(Treedataupdate);
-          console.log('api menuitems', this.ApiMenuattributes);
+          // console.log('api menuitems', this.ApiMenuattributes);
         }
       );
     }
@@ -1150,7 +1150,7 @@ export class ManageUsersComponent implements OnInit {
     let request = Utils.preparePyConfig(['Search'], ['Source']);
     this.filterItems = [];
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("source from config: " + JSON.stringify(res))
+      // console.log("source from config: " + JSON.stringify(res))
       res.data.Source?.forEach((element: any) => {
         this.filterItems.push({ view: element, viewValue: element, default: false })
       });
@@ -1159,7 +1159,7 @@ export class ManageUsersComponent implements OnInit {
   bindtreedata(treestructure: any) {
     this.spinner.hide();
     const data = this.buildFileTree(treestructure, 0);
-    console.log(data);
+    // console.log(data);
     this.dataSource.data = data;
     // Notify the change.
     this.dataChange.next(data);
@@ -1243,7 +1243,7 @@ export class ManageUsersComponent implements OnInit {
     debugger
     this.spinner.hide();
     const data = this.buildFileTree(treestructure, 0);
-    console.log(data);
+    // console.log(data);
     this.datasourceview.data = data;
     // Notify the change.
     this.dataChange.next(data);
@@ -1322,7 +1322,7 @@ export class ManageUsersComponent implements OnInit {
   GetCheckAll() {
     // console.log(this.treeControl.dataNodes);
     var checklistSelection = new SelectionModel<TodoItemFlatNode>(true);
-    console.log('get selected', checklistSelection);
+    // console.log('get selected', checklistSelection);
   }
   getLevel = (node: TodoItemFlatNode) => node.level;
   isExpandable = (node: TodoItemFlatNode) => node.expandable;
@@ -1377,23 +1377,23 @@ export class ManageUsersComponent implements OnInit {
     // Force update for the parent
     descendants.every((child) => this.checklistSelection.isSelected(child));
     this.checkAllParentsSelection(node);
-    console.log('node change event', node, event.checked);
+    // console.log('node change event', node, event.checked);
     const partialSelection = this.treeControl.dataNodes.filter(x =>
       this.descendantsPartiallySelected(x));
-    console.log('final result', this.checklistSelection.selected);
+    // console.log('final result', this.checklistSelection.selected);
     debugger
     descendants.forEach((char: any) => {
       this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== char.MenuID);
       if (char.MenuID != undefined)
         this.Menuattributes.push({ 'menuid': char.MenuID, 'isChecked': event.checked });
     });
-    console.log('attributes', this.Menuattributes);
-    console.log('final result', partialSelection);
+    // console.log('attributes', this.Menuattributes);
+    // console.log('final result', partialSelection);
   }
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: TodoItemFlatNode, event: MatCheckboxChange): void {
     this.checklistSelection.toggle(node);
-    console.log('chnage event node', node, event.checked);
+    // console.log('chnage event node', node, event.checked);
     node.isChecked ? (node.isChecked = false) : (node.isChecked = true);
     this.checkAllParentsSelection(node);
     debugger
@@ -1401,7 +1401,7 @@ export class ManageUsersComponent implements OnInit {
     // delete this.Menuattributes[this.Menuattributes.findIndex((item: { MenuID: any; }) => item.MenuID == node.MenuID)];
     //this.Menuattributes.splice()
     this.Menuattributes.push({ 'menuid': node.MenuID, 'isChecked': event.checked });
-    console.log('attributes', this.Menuattributes);
+    // console.log('attributes', this.Menuattributes);
   }
   /* Checks all the parents when a leaf node is selected/unselected */
   checkAllParentsSelection(node: TodoItemFlatNode): void {
@@ -1470,8 +1470,8 @@ export class ManageUsersComponent implements OnInit {
   removeTabLeftPanel(index: number) {
     let indexnew = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
     let indexuseraccess = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
-    console.log('button status', this.Profilebutton)
-    console.log(indexnew);
+    // console.log('button status', this.Profilebutton)
+    // console.log(indexnew);
     if (index == indexnew) {
       if (this.Profilebutton) {
         this.tabsLeft.splice(index, 1);
@@ -1565,12 +1565,12 @@ export class ManageUsersComponent implements OnInit {
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
-          console.log('userdata from response', res.Data);
+          // console.log('userdata from response', res.Data);
           this.userAccessData.data = res.Data[0].userdata;
           // User Profile Dropdown
           this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
           this.userProfilesDropdown.push('Custom');
-          console.log('data of manage users', this.userAccessData);
+          // console.log('data of manage users', this.userAccessData);
           this.spinner.hide();
         }
       );
@@ -1611,7 +1611,7 @@ export class ManageUsersComponent implements OnInit {
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.startupusermsgs.data = res.Data;
-          console.log('news data',res.Data);
+          // console.log('news data',res.Data);
           this.spinner.hide();
         }
       );
@@ -1631,7 +1631,7 @@ export class ManageUsersComponent implements OnInit {
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
-          console.log('profile data',res.Data);
+          // console.log('profile data',res.Data);
           if(res.Data.length>1)
           {
           res.Data.length=res.Data.length-1;
@@ -1650,12 +1650,12 @@ useraccessdetailsupdate()
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
-          console.log('userdata from response', res.Data);
+          // console.log('userdata from response', res.Data);
           this.userAccessData.data = res.Data[0].userdata;
           // User Profile Dropdown
           this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
           this.userProfilesDropdown.push('Custom');
-          console.log('data of manage users', this.userAccessData);
+          // console.log('data of manage users', this.userAccessData);
           this.spinner.hide();
         }
       );
@@ -1697,7 +1697,7 @@ useraccessdetailsupdate()
     event.stopPropagation();
   }
   onSelectEvent(value: any) {
-    console.log('event name', this.eventName);
+    // console.log('event name', this.eventName);
     if (value == 'Custom') {
       this.Profilebutton = false;
       this.Menuattributes = [];
@@ -1736,8 +1736,8 @@ useraccessdetailsupdate()
           this.Resultattributes.push({ 'menuid': element.menuid, 'accesslevel': '1111', 'isfullaccess': 1 });
         }
       });
-      console.log('Update Result ', this.Resultattributes);
-      console.log('Update Result2 ', this.Resultattributes);
+      // console.log('Update Result ', this.Resultattributes);
+      // console.log('Update Result2 ', this.Resultattributes);
     }
     else {
       this.Menuattributes.forEach((char: any) => {
@@ -1745,7 +1745,7 @@ useraccessdetailsupdate()
           this.Resultattributes.push({ 'menuid': char.menuid, 'accesslevel': '1111', 'isfullaccess': (char.isChecked) ? 1 : 0 });
         }
       });
-      console.log('Create Result', this.Resultattributes);
+      // console.log('Create Result', this.Resultattributes);
     }
   }
   redirecttoForm() {
@@ -1869,7 +1869,7 @@ useraccessdetailsupdate()
     this.clearalert();
     this.tabsLeft.splice(0);
     this.Header = "Start Up User Messages";
-    console.log(JSON.stringify(record));
+    // console.log(JSON.stringify(record));
     this.UserDetailsForm = false;
     this.StartupForm = true;
     this.UserProfilesForm = false;
@@ -1884,7 +1884,7 @@ useraccessdetailsupdate()
         start?.setValue(new Date(record['startdate']));
         let end = this.StartupUsermsgsForm.get('DateRange.expirydate');
         end?.setValue(new Date(record['expirydate']));
-        console.log("Date  " + new Date(record['expirydate']));
+        // console.log("Date  " + new Date(record['expirydate']));
       }
       else {
         control?.setValue(record[field]);
@@ -1894,7 +1894,7 @@ useraccessdetailsupdate()
   }
   changeevent(event: any) {
     debugger
-    console.log('event called', event);
+    // console.log('event called', event);
     //  this.Sourcedata=event;
     //this.referenceForm.get('sources')?.setValue(JSON.stringify(event));
   }
@@ -1925,7 +1925,7 @@ useraccessdetailsupdate()
     this.StartupForm = false;
     this.UserProfilesForm = false;
     this.isLeftPanel = true;
-    console.log('Edit Record');
+    // console.log('Edit Record');
     this.eventName = "Update";
     debugger
     this.record = record;
@@ -1937,7 +1937,7 @@ useraccessdetailsupdate()
             x.default = false;
            //false;
           });
-      console.log(this.filterItems,'filter items');
+      // console.log(this.filterItems,'filter items');
         let arr: any[] = record['sources'].split(',');
         //arr.push('SAS/COMS');
         arr.forEach((value: any) => {
@@ -2047,7 +2047,7 @@ useraccessdetailsupdate()
   }
   onCreateuserDetails() {
     let request1 = Utils.preparePyUICreateFirstRequest('ManageUsers', 'UserAccess', 'KasimJ3', "1");
-    console.log("Create first  request1 : " + JSON.stringify(request1));
+    // console.log("Create first  request1 : " + JSON.stringify(request1));
     this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
       (res: any) => {
         if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2103,7 +2103,7 @@ useraccessdetailsupdate()
     // alert("Create/Edit Completed..");
     this.isLeftPanel = false;
     // this.showDetailsForm=true;
-    //  console.log("event name "+ this.eventName);
+    // console.log("event name "+ this.eventName);
     if (this.eventName === 'Update') {
       switch (reportIdentifier) {
         case 'User Access Details':
@@ -2115,7 +2115,7 @@ useraccessdetailsupdate()
           updateConfirm1.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
               let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm, 'UserAccess'));
-              console.log("Update request1 : " + JSON.stringify(request1));
+              // console.log("Update request1 : " + JSON.stringify(request1));
               this.service.uiUpdateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2140,7 +2140,7 @@ useraccessdetailsupdate()
           updateConfirm2.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
               let request2 = Utils.preparePyUIUpdate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
-              console.log("Update request2 : " + JSON.stringify(request2));
+              // console.log("Update request2 : " + JSON.stringify(request2));
               this.service.uiUpdateDetails(request2).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2165,7 +2165,7 @@ useraccessdetailsupdate()
           updateConfirm3.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
               let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.UserEditForm, 'UserProfileUpdate'));
-              console.log("Update request3 : " + JSON.stringify(request3));
+              // console.log("Update request3 : " + JSON.stringify(request3));
               this.service.uiUpdateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2188,7 +2188,7 @@ useraccessdetailsupdate()
       switch (reportIdentifier) {
         case 'User Access Details':
           let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm, 'UserAccess'));
-          console.log("Create request1 : " + JSON.stringify(request1));
+          // console.log("Create request1 : " + JSON.stringify(request1));
           this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
             (res: any) => {
               if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2201,10 +2201,10 @@ useraccessdetailsupdate()
           break;
         case 'Start Up User Messages':
           let request2 = Utils.preparePyUICreate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
-          console.log("Create request2 : " + JSON.stringify(request2));
+          // console.log("Create request2 : " + JSON.stringify(request2));
           this.service.uiCreateDetails(request2).pipe(takeUntil(this.onDestroyQuery)).subscribe(
             (res: any) => {
-              console.log('news uicreate response',res.Status[0].StatusMessage);
+              // console.log('news uicreate response',res.Status[0].StatusMessage);
               if (res.Status && res.Status[0].StatusMessage === 'Success') {
                 //success message and same data reload
                 // this.refreshData();
@@ -2215,7 +2215,7 @@ useraccessdetailsupdate()
           break;
         case 'User Profiles':
           let request3 = Utils.preparePyUICreate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.UserEditForm, 'UserProfileCreate'));
-          console.log("Create request3 : " + JSON.stringify(request3));
+          // console.log("Create request3 : " + JSON.stringify(request3));
           this.service.uiCreateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
             (res: any) => {
               if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2242,7 +2242,7 @@ useraccessdetailsupdate()
         updateConfirm1.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
             let request1 = Utils.preparePyUIDelete('ManageUsers', 'UserAccess', 'UserName', this.prepareDeleteData(record, reportName));
-            console.log("Delete request1 : " + JSON.stringify(request1));
+            // console.log("Delete request1 : " + JSON.stringify(request1));
             this.service.uiDeleteDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
               (res: any) => {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2268,7 +2268,7 @@ useraccessdetailsupdate()
         updateConfirm2.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
             let request2 = Utils.preparePyUIDelete('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareDeleteData(record, reportName));
-            console.log("Delete request2 : " + JSON.stringify(request2));
+            // console.log("Delete request2 : " + JSON.stringify(request2));
             this.service.uiDeleteDetails(request2).pipe(takeUntil(this.onDestroyQuery)).subscribe(
               (res: any) => {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2294,7 +2294,7 @@ useraccessdetailsupdate()
         updateConfirm3.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
             let request3 = Utils.preparePyUIDelete('ManageUsers', 'UserProfile', 'ProfileName', this.prepareDeleteData(record, reportName));
-            console.log("Delete request3 : " + JSON.stringify(request3));
+            // console.log("Delete request3 : " + JSON.stringify(request3));
             this.service.uiDeleteDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
               (res: any) => {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
@@ -2316,7 +2316,7 @@ useraccessdetailsupdate()
   multipleSelect(event: any) {
     // console.log(event)
     if (event) {
-      console.log(event.toString());
+      // console.log(event.toString());
       this.Sourcedata = event.toString();
     }
   }
@@ -2330,7 +2330,7 @@ useraccessdetailsupdate()
           reportname: [this.filterUserofReportForm.controls['reportname'].value ? this.filterUserofReportForm.controls['reportname'].value : ''],
           sources: [this.filterUserofReportForm.controls['sources'].value ? this.filterUserofReportForm.controls['sources'].value : '']
         }
-        console.log(JSON.stringify(filteritem1));
+        // console.log(JSON.stringify(filteritem1));
         this.datauserreports.filter = JSON.stringify(filteritem1);
         break;
       case 'UserAccessDetails':
@@ -2338,7 +2338,7 @@ useraccessdetailsupdate()
           username: [this.filterUserAccessForm.controls['username'].value ? this.filterUserAccessForm.controls['username'].value : ''],
           profilename: [this.filterUserAccessForm.controls['profilename'].value ? this.filterUserAccessForm.controls['profilename'].value : '']
         }
-        console.log(JSON.stringify(filteritem2));
+        // console.log(JSON.stringify(filteritem2));
         this.userAccessData.filter = JSON.stringify(filteritem2);
         break;
       case 'StartUpUserMessages':
@@ -2347,7 +2347,7 @@ useraccessdetailsupdate()
           startdate: [this.filterNewsUpdateForm.controls['startdate'].value ? this.filterNewsUpdateForm.controls['startdate'].value : ''],
           expirydate: [this.filterNewsUpdateForm.controls['expirydate'].value ? this.filterNewsUpdateForm.controls['expirydate'].value : '']
         }
-        console.log(JSON.stringify(filteritem3));
+        // console.log(JSON.stringify(filteritem3));
         this.startupusermsgs.filter = JSON.stringify(filteritem3);
         break;
       case 'UserProfiles':
@@ -2355,7 +2355,7 @@ useraccessdetailsupdate()
           profilename: [this.filterUserProfilesForm.controls['profilename'].value ? this.filterUserProfilesForm.controls['profilename'].value : ''],
           createdby: [this.filterUserProfilesForm.controls['createdby'].value ? this.filterUserProfilesForm.controls['createdby'].value : '']
         }
-        console.log(JSON.stringify(filteritem4));
+        // console.log(JSON.stringify(filteritem4));
         this.userprofilesdata.filter = JSON.stringify(filteritem4);
         break;
     }
@@ -2497,8 +2497,8 @@ useraccessdetailsupdate()
         let isProfileName = false;
         let isCreatedBy = false;
         if (searchString.profilename.length) {
-          console.log('profile name',searchString.profilename);
-          console.log('data profilename',data.profilename?.toLowerCase());
+          // console.log('profile name',searchString.profilename);
+          // console.log('data profilename',data.profilename?.toLowerCase());
           for (const d of searchString.profilename) {
             }
           }
@@ -2525,7 +2525,7 @@ useraccessdetailsupdate()
       }
   }
   prepareData(form: FormGroup, action?: string) {
-    console.log('form group data', form);
+    // console.log('form group data', form);
     debugger;
     let attribute: any = {};
     let profilename: string = "";
@@ -2594,7 +2594,7 @@ useraccessdetailsupdate()
       attribute['profileitems'] = this.Resultattributes;
       // attribute['profiledata']=newattribute;
     }
-    console.log(JSON.stringify(attribute));
+    // console.log(JSON.stringify(attribute));
     return attribute;
   }
   prepareDeleteData(record: any, reportName: string) {
@@ -2683,18 +2683,18 @@ useraccessdetailsupdate()
     }
   }
   onExport(tableHeader: any, tabName: string, tableData: any) {
-    console.log('tab name',tabName);
+    // console.log('tab name',tabName);
     if (tableData.data != undefined && (tableData.data != [] && tableData.data.length != 0)) {
       //  let header = this.reportReferenceService.getDownLoadHeaders(currentReportName)
       let header = tableHeader;
-      console.log('table header',tableHeader);
+      // console.log('table header',tableHeader);
       // header.filter((x:any) => x.headerValue != 'Actions');
       let copydata = JSON.parse(JSON.stringify(tableData.data));
     //  var c = document.createElement("a");
       let data: any = [];
       let dataHeaderRow = Object.assign({}, ...header.map((x: any) => ({ [x.headerValue]: x.header })))
       Reflect.deleteProperty(dataHeaderRow, "Actions");
-    console.log('header row',dataHeaderRow);
+    // console.log('header row',dataHeaderRow);
       // data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
       copydata.forEach((row: any) => {
         for (const i of ['Actions', 'firstname', 'lastname', 'userprofiles', 'updateddttm', 'updatedby', 'profileitems', 'newsid', 'iseditprofile', 'iscustomprofile', 'isdefaultprofile', 'isdelete']) {
@@ -2713,16 +2713,16 @@ useraccessdetailsupdate()
         let disp = Object.assign({}, ...header.map((x: any) => ({ [x.headerValue]: " " })))
         Reflect.deleteProperty(disp, "Actions");
         // console.log( "data value" +JSON.stringify(row));
-         console.log( "header data value", header);
+         // console.log( "header data value", header);
         let dataRow = Object.assign(disp, row);
         data.push(dataRow);
       });
-  console.log('data',data);
+  // console.log('data',data);
   let index=header.findIndex((x: { header: string; })=>x.header==='Actions');
 if(index>-1)
   header.splice(index,1);
   //delete header[Object.keys(header)[0]];
-  console.log('header splice',header);
+  // console.log('header splice',header);
       this.service.downloadXlsxFile(tabName, data, [header.map((x: {header : any; }) => x.header)])
       if(tabName=='User_Of_Reports')
       {

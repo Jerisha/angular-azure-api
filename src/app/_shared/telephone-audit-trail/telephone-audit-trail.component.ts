@@ -154,7 +154,7 @@ export class TelephoneAuditTrailComponent  {
     // console.log(element.details.postcode);
 debugger
     if (section === 'TransactionDetails') {
-      console.log('audit trail live data',element);
+      // console.log('audit trail live data',element);
       this.addressDetails.isData = true;
       this.addressDetails.postcode = element.Postcode;
       this.addressDetails.CustomerName = element.CustomerName;

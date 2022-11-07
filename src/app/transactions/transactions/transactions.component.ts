@@ -45,13 +45,13 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
      this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
     if (this.passedRouteData) {
       this.AuditPopulatevalue=this.passedRouteData;
-      console.log('constructer name' + JSON.stringify(this.passedRouteData))
+      // console.log('constructer name' + JSON.stringify(this.passedRouteData))
     }
    }
   ngOnInit(): void {
     this.addressDetails=new AddressDetails();
     this.auditCopyshow=false;
-   console.log("constructor values from main",this.AuditPopulatevalue);
+   // console.log("constructor values from main",this.AuditPopulatevalue);
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -64,13 +64,13 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
   }
   onTabChange(tabChange:any)
   {
-    console.log(tabChange);
+    // console.log(tabChange);
   }
   OnAuditTrailSelected(initAuditTrail:any[])
   {
     debugger
   
-    console.log('second event')
+    // console.log('second event')
     this.audittrailNos=initAuditTrail;
     if(initAuditTrail.length>0)
     {
@@ -79,7 +79,7 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
      // this.auditTeleNoselected=initAuditTrail[0];
      // this.telNo=initAuditTrail[0];
       if (!this.tabs.find(x => x.tabType == 2)) {
-        console.log('tabs inside tnetrer');
+        // console.log('tabs inside tnetrer');
         this.tabs.push({
           tabType: 2,
           name: 'Audit Trail Report'
@@ -97,13 +97,13 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
   OnAddressFill(Addressval:any[])
   {
 let s:string=this.childEvent.FillPaffAddress(Addressval);
-    console.log("Address values from child",Addressval);
+    // console.log("Address values from child",Addressval);
   }
   OnAddressCheckSelected(initAddressCheck:any[])
   {
     this.addressCheckSuccess=initAddressCheck[0];
     this.addressvalues=initAddressCheck;
-    console.log('this adress selected from second view component',initAddressCheck);
+    // console.log('this adress selected from second view component',initAddressCheck);
     if (!this.tabs?.find(x => x.name == 'Address Check')) 
     {
       this.tabs.push({tabType: 1,name: 'Address Check'});  
@@ -116,7 +116,7 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   {
     debugger
     this.auditCopyshow=true;
-    console.log('event three called',inittelno);
+    // console.log('event three called',inittelno);
     this.auditTeleNoselected=inittelno;
     this.telNo=inittelno;
     this.auditCopyshow=true;
@@ -137,7 +137,7 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   }
   AuditTrailAddress(AuditAddress:any)
   {
-    console.log('audit address from clicked in audit',AuditAddress);
+    // console.log('audit address from clicked in audit',AuditAddress);
     this.addressDetails = AuditAddress[0];
   }
 }

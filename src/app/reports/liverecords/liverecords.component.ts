@@ -629,10 +629,10 @@ resetExp:boolean = false;
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    console.log('request', JSON.stringify(request))
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
-        console.log(JSON.stringify (res.data.LiveRecords), "datatest");
+        // console.log(JSON.stringify (res.data.LiveRecords), "datatest");
         let result = {
           datasource: res.data.LiveTelephoneNumberDetails,
           params: res.params
@@ -734,7 +734,7 @@ resetExp:boolean = false;
       }
     }
 
-    console.log('attri', attributes);
+    // console.log('attri', attributes);
     return attributes;
 
   }

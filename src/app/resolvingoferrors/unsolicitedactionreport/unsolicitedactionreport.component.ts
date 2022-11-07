@@ -187,7 +187,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Source', 'AllResolutionType', 'TransactionCommand', 'ErrorStatus']);
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res))
+      // console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
 
@@ -523,7 +523,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
       }
       }
     }
-    console.log('attri',attributes);
+    // console.log('attri',attributes);
 
     return attributes;
 
@@ -655,7 +655,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   }
 
   selChangeSingle(matSelect: MatSelect) {
-    console.log(matSelect.value);
+    // console.log(matSelect.value);
     this.selected = matSelect.value;
   }
 
