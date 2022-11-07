@@ -192,7 +192,9 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
             message: errMsg,
           }
         });
-        rangeConfirm.afterClosed().subscribe(result => { return result; })
+        rangeConfirm.afterClosed().subscribe(result => { 
+          this.thisForm.reset();
+          return result; })
         return;
       }
       this.tabs.splice(0);

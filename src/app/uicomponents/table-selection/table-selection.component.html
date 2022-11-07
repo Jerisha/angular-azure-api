@@ -21,7 +21,7 @@
         </mat-optgroup>
         <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
           <mat-option
-            [disabled]="cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
+            [disabled]="cols.header==='Inventory' ||cols.header==='Start Tel No'|| cols.headerValue ==='TelephoneNumber' ? true:false"
             style="min-width:220px;color: #3f51b5;" color="primary" (click)="optionClick()" [value]="cols.headerValue">
             {{ cols.header }}
           </mat-option>
@@ -112,14 +112,20 @@
         </div>
 
         <!-- Error List Columns -->
-        <div *ngIf="disCol.headerValue === 'ErrorList'">
-          <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
-          <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" matTooltipClass="custom-tooltip"
+        <div *ngIf="disCol.headerValue === 'ErrorList' && disCol.header==='Error List'">
+          <th mat-header-cell *matHeaderCellDef >{{disCol.header}}</th>
+          <td mat-cell *matCellDef="let element"  class='tooltiphilight' (click)="$event.stopPropagation()" matTooltipClass="custom-tooltip"
             [matTooltipDisabled]="!disCol.showTooltip" matTooltip="{{element[disCol.headerValue]}}"
             [ngStyle]="highlightCell(element,disCol)">
             {{element.InternalErrors}}
           </td>
           </div>
+          <div *ngIf="disCol.headerValue === 'ErrorList' && disCol.header==='Error Codes'">
+            <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
+            <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+              {{element[disCol.headerValue]}}
+            </td>
+            </div>
 
           <!-- Type Of Line Columns -->
         <div *ngIf="disCol.headerValue === 'TypeOfLine'">

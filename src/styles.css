@@ -676,8 +676,12 @@ th.mat-column-NotAvailable {
     background-color: rgb(196, 23, 138);
       
     } */
+    .tooltiphilight
+    {
+      color:#3f51b5;
+    }
   .mat-cell.mat-column-LatestUserComments:hover,
-  .mat-cell.mat-column-ErrorList:hover,
+  .mat-cell.mat-column-ErrorList.tooltiphilight:hover,
   .mat-cell.mat-column-TypeOfLine:hover {
 
     background-color:blue;
