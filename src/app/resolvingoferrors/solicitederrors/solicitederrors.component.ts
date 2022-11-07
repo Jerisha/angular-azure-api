@@ -135,7 +135,7 @@ const Items: Select[] = [
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
   { view: '999 Ref', viewValue: 'Reference', default: true },
-  { view: 'Order Reference', viewValue: 'OrderReference', default: false },
+  { view: 'Order Ref', viewValue: 'OrderReference', default: false },
   { view: 'Lcp/Gcp', viewValue: 'LcpGcp', default: false },
   { view: 'Date Range', viewValue: 'DateRange', default: false },
 ];
