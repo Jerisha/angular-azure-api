@@ -44,7 +44,7 @@ margin:2px;
 
 .info-button-position {
   position: absolute;
-   z-index: 10;
+   /* z-index: 10; */
    display: flex;
    width: 100%;
    justify-content: end;
