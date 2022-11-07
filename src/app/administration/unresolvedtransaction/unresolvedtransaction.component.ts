@@ -369,7 +369,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
           //  console.log(control?.value,"True");
           // if (control?.value) {
           attributes.push({ Name: operator, Value: [expvals[0][1]] });
-          console.log(expvals[0][1], "operatorVal");
+          // console.log(expvals[0][1], "operatorVal");
           // }
           // else {
           //   attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -390,7 +390,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
 
       }
     }
-    console.log('attri', attributes);
+    // console.log('attri', attributes);
 
     return attributes;
 
@@ -506,7 +506,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
   }
 
   selChangeSingle(matSelect: MatSelect) {
-    console.log(matSelect.value);
+    // console.log(matSelect.value);
     this.selected = matSelect.value;
   }
 

@@ -229,7 +229,7 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
     }
   
     newTab(tab: any) {
-      console.log('event log');
+      // console.log('event log');
       this.addNewTab.emit({ tab });
     }
     initializeTableAttributes() {

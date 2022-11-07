@@ -122,7 +122,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.formsGroup = this.fb.group({});
     this.initForm();
     this.backstate=false;
-    console.log('constructor values', this.AuditPopulatevalue);
+    // console.log('constructor values', this.AuditPopulatevalue);
     if (this.AuditPopulatevalue != []){ 
      if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
      {
@@ -205,8 +205,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
   }
   FillPaffAddress(Addressval: any[]): string {
-    console.log('address values from main page',Addressval);
-    console.log('customer name ',this.transactionItem.customerAddress.customerName);
+    // console.log('address values from main page',Addressval);
+    // console.log('customer name ',this.transactionItem.customerAddress.customerName);
    this.transactionItem.customerAddress = { customerName: this.transactionItem.customerAddress.customerName, address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
     return "";
   }
@@ -227,7 +227,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     debugger
     if (value != "")
     {
-     console.log('vlaue changed');
+     // console.log('vlaue changed');
     }
     else{
       this.SourceFranchisearr={Source:[],Franchise:[]};
@@ -239,7 +239,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     debugger
     if (value != "")
     {
-     console.log('vlaue changed');
+     // console.log('vlaue changed');
     }
     else{
       if(this.model.CupId === "13 - Cable & Wireless UK")
@@ -313,15 +313,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
       .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
       //this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
-      console.log('source array',this.SourceFranchisearr);
-      console.log('franchise array',this.franchiseValues);
+      // console.log('source array',this.SourceFranchisearr);
+      // console.log('franchise array',this.franchiseValues);
     let modelfranchise = frnachaise.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
       .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-      console.log('default franchise',modelfranchise);
+      // console.log('default franchise',modelfranchise);
     this.model.franchise = modelfranchise[0];
     this.defaultfranchise=modelfranchise[0];
     this.SourceFranchisearr={Franchise:this.franchiseValues};
-   // console.log('default franchise',this.model.franchise);
+   // // console.log('default franchise',this.model.franchise);
     this.enableSource = true;
     this.enableFrancise = true;
     if(this.model.franchise!='')
@@ -363,7 +363,7 @@ onFranchiseChange(event: any)
     this.model.franchise="";
     let user: User = this.authService.currentUserValue;
     let test =  user?.sources;
-    console.log('get values from auth',test);
+    // console.log('get values from auth',test);
     if(event.option.value === "13 - Cable & Wireless UK")
     {
       let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
@@ -372,7 +372,7 @@ onFranchiseChange(event: any)
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       //DefaultSource:
-      console.log('values from source', Source);
+      // console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         this.defaultsource= '';
@@ -416,28 +416,28 @@ onFranchiseChange(event: any)
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       //DefaultSource:
-      console.log('values from source', Source);
+      // console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-        //console.log('default source values',modelsource);
+        //// console.log('default source values',modelsource);
       this.model.source = modelsource[0];
       this.defaultsource=modelsource[0];
      // this.transactionItem.source = modelsource[0];
-     // console.log('defalut source', this.model.source);
+     // // console.log('defalut source', this.model.source);
       let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
         return obj.Cupid === event.option.value;
       });
       this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
-        console.log('source array',this.SourceFranchisearr);
-        console.log('franchise array',this.franchiseValues);
+        // console.log('source array',this.SourceFranchisearr);
+        // console.log('franchise array',this.franchiseValues);
       let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-        console.log('default franchise',modelfranchise);
+        // console.log('default franchise',modelfranchise);
       this.model.franchise = modelfranchise[0];
       this.defaultfranchise=modelfranchise[0];
-     // console.log('default franchise',this.model.franchise);
+     // // console.log('default franchise',this.model.franchise);
       this.enableSource = true;
       this.enableFrancise = true;
       if(this.model.franchise!='')
@@ -499,7 +499,7 @@ this.alertService.clear();
       let prefix: string[] = ['01', '02', '03', '08'];
       if (selection && (prefix.indexOf(selection.substring(0, 2)) === -1) && selection.length >= 2) {
         //this.searchTelState =true;
-        //console.log('if block called');
+        //// console.log('if block called');
         this.addCliState = true;
         this.btncolor = "secondary";
         this.addbtncolor = "secondary";
@@ -507,7 +507,7 @@ this.alertService.clear();
       else {
         const ctrl = this.thisForm.get('EndTelephoneNumber') as FormControl;
         if (this.model.telno.length == 11 || this.model.telno.length == 10 && ctrl.status == 'VALID') {
-          //  console.log('elese block called');
+          //  // console.log('elese block called');
           this.isExportImportSelected = true;
           //this.searchTelState =false;
           this.addCliState = false;
@@ -559,9 +559,9 @@ this.alertService.clear();
     this.transactionItem.customerAddress = this.matchedAuditAddress;
   }
   viewAddressCheck(event: any) {
-    //console.log('Address called');
+    //// console.log('Address called');
     this.AddressCheckSelected.emit(["true", this.transactionItem.customerAddress.address1, this.transactionItem.customerAddress.address2, this.transactionItem.customerAddress.address3, this.transactionItem.customerAddress.address4, this.transactionItem.customerAddress.postcode]) // need to check
-  console.log(["true", this.transactionItem.customerAddress.address1, this.transactionItem.customerAddress.address2, this.transactionItem.customerAddress.address3, this.transactionItem.customerAddress.address4, this.transactionItem.customerAddress.postcode]);
+  // console.log(["true", this.transactionItem.customerAddress.address1, this.transactionItem.customerAddress.address2, this.transactionItem.customerAddress.address3, this.transactionItem.customerAddress.address4, this.transactionItem.customerAddress.postcode]);
     event.preventDefault();
   }
   sysEditText(val: string) {
@@ -571,9 +571,9 @@ this.alertService.clear();
     this.spinner.show();
     if (this.AuditPopulatevalue.length==0)
     {
-      console.log('save transaction');
+      // console.log('save transaction');
     let request2 = Utils.preparePyCreate('Transactions', 'Transactions', 'CreateParameters', this.prepareQueryParamsforCreate(val));
-    console.log('create request', JSON.stringify(request2));
+    // console.log('create request', JSON.stringify(request2));
     this.service.create(request2).subscribe((x: { StatusMessage: string; }) => {
       if (x.StatusMessage === 'Success') {
         this.spinner.hide();
@@ -589,7 +589,7 @@ this.alertService.clear();
   }
   else{
     let request2 = Utils.preparePyCreate('Transactions', this.RerportIdentifier, 'CreateParameters', this.prepareQueryParamsforCreateCorrection(val));
-    console.log('create request for correction', JSON.stringify(request2));
+    // console.log('create request for correction', JSON.stringify(request2));
     this.service.create(request2).subscribe((x: { StatusMessage: string; }) => {
       if (x.StatusMessage === 'Success') {
         this.spinner.hide();
@@ -617,7 +617,7 @@ this.alertService.clear();
   }
   BindData(res: any, Type: string) {
     debugger
-    //console.log('update bind method called',JSON.stringify(res));
+    //// console.log('update bind method called',JSON.stringify(res));
     if (Type == 'Query') {
       if(Object.keys(res).length) {
         this.AuditStatus=false;
@@ -646,8 +646,8 @@ this.alertService.clear();
           Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
         });
         this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
-        console.log('config details test',this.configDetails);
-        console.log('query result',this.queryResultobj);
+        // console.log('config details test',this.configDetails);
+        // console.log('query result',this.queryResultobj);
         this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
         this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
         this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
@@ -659,7 +659,7 @@ this.alertService.clear();
         }
         let test: any = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-        //console.log('uniquer values',test);
+        //// console.log('uniquer values',test);
         let user: User = this.authService.currentUserValue;
        let authsource =  user?.sources;
         //let authsource = [''];
@@ -672,12 +672,12 @@ this.alertService.clear();
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
           this.Cuparr ={CupID:this.cupidValues};  
         //update manual correction
-         //console.log('cupIDS',Cuparr);
+         //// console.log('cupIDS',Cuparr);
       }
     }
     else {
       if (this.AuditPopulatevalue != []) {
-      //  console.log('calling update api');
+      //  // console.log('calling update api');
         if (Object.keys(res).length) {
             debugger
             this.AuditStatus=false;
@@ -687,7 +687,7 @@ this.alertService.clear();
           let linetype: string = res.data.LineTypes[0].LineType;
           let TypeOfLine: string = res.data.TypeOfLines[0].TypeOfLine;
           let staticvalues:any=res.data.AutoFillData[0];
-          //console.log('static values',staticvalues);
+          //// console.log('static values',staticvalues);
           this.view3Form = this.formBuilder.group({
             TransactionType: new FormControl({ value:'', disabled: false }, [Validators.required]),
             LineType: new FormControl({ value:staticvalues.LineType , disabled: false }, [Validators.required]),
@@ -710,7 +710,7 @@ this.alertService.clear();
           });
           this.model.CupId=staticvalues.CupID;
           this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
-           console.log('config details test',this.queryResultobj);
+           // console.log('config details test',this.queryResultobj);
           this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
           this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
           this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
@@ -720,7 +720,7 @@ this.alertService.clear();
           this.audittelephonenumbers = this.queryResultobj.TelephoneNumbers[0].TelephoneNumber;
           this.AuditStatus=true;
           }
-          //console.log('uniquer values',test);
+          //// console.log('uniquer values',test);
           this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
             this.views.view3 = true;
@@ -728,7 +728,7 @@ this.alertService.clear();
             this.enableFrancise = true;
           //update manual correction
          this.Cuparr ={CupID:this.cupidValues};  
-        //  console.log('after insertion',this.queryResultobj);
+        //  // console.log('after insertion',this.queryResultobj);
           let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
             return obj.Cupid === this.model.CupId;
           });
@@ -736,16 +736,16 @@ this.alertService.clear();
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
           //DefaultSource:  n
           this.model.source = staticvalues.Source;
-         // console.log('defalut source', this.transactionItem.source);
+         // // console.log('defalut source', this.transactionItem.source);
           let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
             return obj.Cupid === this.model.CupId;
           });
-        //  console.log('franchaise values',frnachaise);
+        //  // console.log('franchaise values',frnachaise);
           this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
             this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
           this.model.franchise = staticvalues.Franchise;
-        //  console.log('selected franchise',this.model.franchise);
+        //  // console.log('selected franchise',this.model.franchise);
         }
       }
     }
@@ -771,9 +771,9 @@ this.alertService.clear();
     if (Object.keys(this.AuditPopulatevalue).length === 0) {
       this.spinner.show();
       let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
-      console.log('request for query',JSON.stringify( request2));
+      // console.log('request for query',JSON.stringify( request2));
       this.service.queryDetails(request2).subscribe((res: any) => {
-        // console.log("res message to show: " + JSON.stringify(res));
+        // // console.log("res message to show: " + JSON.stringify(res));
         if (Object.keys(res).length) {
           this.BindData(res, 'Query');
           this.spinner.hide();
@@ -791,9 +791,9 @@ this.alertService.clear();
       this.spinner.show();
     this.RerportIdentifier=  this.AuditPopulatevalue.ReportIdentifier;
      let request = Utils.preparePyUpdate('ManualCorrections', this.RerportIdentifier, this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-       console.log('update request',JSON.stringify( request));
+       // console.log('update request',JSON.stringify( request));
       this.service.updateDetails(request).subscribe((res: any) => {
-        console.log("res message to show: " + JSON.stringify(res));
+        // console.log("res message to show: " + JSON.stringify(res));
         if (Object.keys(res).length) {
           this.BindData(res, 'update');
           this.spinner.hide();
@@ -823,7 +823,7 @@ this.alertService.clear();
     debugger;
     let clipboardData = event.clipboardData;
     let pastedText = clipboardData.getData('text');
-    //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
+    //// console.log("pastedText :"+ pastedText+ isNaN(pastedText));
     return isNaN(pastedText) ? false : true
   }
   prepareUpdateParams() {
@@ -863,7 +863,7 @@ this.alertService.clear();
     else {
       identifiers.push({ Name: "ResolutionRemarks" });
     }
-    console.log('update identifiers',identifiers);
+    // console.log('update identifiers',identifiers);
     return identifiers;
   }
   prepareQueryParams(pageNo: string): any {
@@ -893,7 +893,7 @@ this.alertService.clear();
     let attributes: any = [
       { Name: 'TelephoneNumberRange', Value: [telephonerangevalues] }];
     this.inputtelRange = telephonerangevalues;
-    console.log('query params',attributes);
+    // console.log('query params',attributes);
     return attributes;
   }
   clearalert()
@@ -944,7 +944,7 @@ this.alertService.clear();
       attributes.push({ Name: "AuditStatus" });
     }
     attributes.push({ Name: "BatchID" ,Value:["6"]});
-    console.log(attributes);
+    // console.log(attributes);
     return attributes;
   }
   prepareQueryParamsforCreate(ForceToValidate: string): any {
@@ -965,7 +965,7 @@ this.alertService.clear();
           attributes.push({ Name: field });
       //}
     }
-    console.log(attributes);
+    // console.log(attributes);
     return attributes;
   }
   public checkErrorinFrom = (controlName: string, errorName: string) => {
@@ -1046,7 +1046,7 @@ this.alertService.clear();
     } else {
       this.AuditTrailSelected.emit([this.audittelephonenumbers]);
     }
-    //console.log('audit telephone numbers length', this.audittelephonenumbers);
+    //// console.log('audit telephone numbers length', this.audittelephonenumbers);
   }
   onSouceChange(event: any) {
     this.franchiseValues = [];
@@ -1054,11 +1054,11 @@ this.alertService.clear();
       this.franchiseValues = this.cupIds.filter((obj: { DefaultSource: string; }) => {
         return obj.DefaultSource === event.value;
       });
-      //console.log('before filter franchise', this.franchiseValues);
+      //// console.log('before filter franchise', this.franchiseValues);
       this.franchiseValues = this.franchiseValues.map((item: { Franchise: any; }) => item.Franchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       this.enableFrancise = true;
-      //console.log('after filter franchise', this.franchiseValues);
+      //// console.log('after filter franchise', this.franchiseValues);
     }
   }
   onCupIdChange(event: any) {
@@ -1071,10 +1071,10 @@ this.alertService.clear();
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       //DefaultSource:
-     console.log('values from source', Source);
+     // console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-        //console.log('default source values',modelsource);
+        //// console.log('default source values',modelsource);
       this.model.source = modelsource[0];
       let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
         return obj.Cupid === event.value;
@@ -1084,8 +1084,8 @@ this.alertService.clear();
       let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       this.model.franchise = modelfranchise[0];
-      console.log('franchise array',)
-      console.log('default franchise',this.model.franchise);
+      // console.log('franchise array',)
+      // console.log('default franchise',this.model.franchise);
       this.enableSource = true;
       this.enableFrancise = true;
       if(this.model.franchise!='')

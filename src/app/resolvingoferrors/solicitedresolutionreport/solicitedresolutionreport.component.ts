@@ -378,7 +378,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     }
     }
     }
-    console.log('attri',attributes);
+    // console.log('attri',attributes);
 
     return attributes;
 

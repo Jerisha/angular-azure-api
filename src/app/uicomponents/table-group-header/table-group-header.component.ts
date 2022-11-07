@@ -217,7 +217,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
     }
 
     this.dataSource.filter = JSON.stringify(this.filterValues);
-    console.log("Filter end "+ JSON.stringify(this.filterValues) )
+    // console.log("Filter end "+ JSON.stringify(this.filterValues) )
   }
 
   highlightCell(row: any, disCol: any) {

@@ -234,7 +234,7 @@ export class AddressCheckComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
-    console.log('change detected in data address');
+    // console.log('change detected in data address');
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -245,7 +245,7 @@ export class AddressCheckComponent implements OnInit {
   ReturnAddress()
   {
     this.AddressFill.emit(this.Returnaddress); // need to check
-   console.log('address values return from the paf',this.Returnaddress);
+  //  console.log('address values return from the paf',this.Returnaddress);
     //this.AddressFill.emit(["true","PAF Address1","PAF Address2","PAF Address3","PAF Address4"]); // need to check
 
     //window.alert("Return Address");

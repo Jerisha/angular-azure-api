@@ -80,7 +80,7 @@ export class SelectCheckboxComponent implements OnInit {
   }
 clearvaluesselection()
 {
-  console.log('event called calear');
+  // console.log('event called calear');
   //this.selectedValues = [];
   //this.selectedValues = this.listItems?.filter((e) => e.default == true).map((i) => i.viewValue);
   this.selectedValues = []
@@ -118,7 +118,7 @@ clearvaluesselection()
         }
       });
     }
-    console.log('event changes');
+    // console.log('event changes');
     this.changes.emit(this.selectedValues);
   }
 

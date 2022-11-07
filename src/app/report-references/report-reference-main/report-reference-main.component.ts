@@ -349,7 +349,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
 
     this.dataSource.filter = JSON.stringify(this.filterValues);
-    console.log("Filter end " + JSON.stringify(this.filterValues))
+    // console.log("Filter end " + JSON.stringify(this.filterValues))
   }
   onfilter(filter: any, filterName?: string) {
     this.onFilterPredicate(filterName);
@@ -538,7 +538,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     if (this.currentReportName === 'Franchise') {
 
       this.displayedColumns.splice(1, 0, { cName: "Expand", cDisplayName: "Expand", ctooltip: "" })
-      console.log(this.displayedColumns);
+      // console.log(this.displayedColumns);
     }
     
     if (this.currentReportName === 'CUPIDCrossReference') {
@@ -966,7 +966,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
       elementData.Olo = oloCompanyFranchise[0];
       elementData.Company = oloCompanyFranchise[1];
     }
-    console.log(elementData);
+    // console.log(elementData);
     
     this.alertService.clear();
     this.highlightedRecord = null;
@@ -1220,7 +1220,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
 
               //  this.highlightedRecord.recordIdentifier = this.recordIdentifier;
               //  this.highlightedRecord.recordIdentifierValue = x.params.recordIdentifier;
-              console.log(this.highlightedRecord);
+              // console.log(this.highlightedRecord);
 
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
@@ -1559,7 +1559,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     // console.log(this.filterForm);
     // this.ListNameArray = event;
     // this.onfilter(this.ListNameArray, filterName);
-    console.log(this.currentReportName);
+    // console.log(this.currentReportName);
 
     switch (filterName) {
       case 'ListName': this.filteritem.ListName = event;
@@ -1581,7 +1581,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
       case 'UnSolicitedFlag': this.filteritem.UnSolicitedFlag = event;
         break;
     }
-    console.log(JSON.stringify(this.filteritem));
+    // console.log(JSON.stringify(this.filteritem));
 
     this.onfilter(JSON.stringify(this.filteritem), this.currentReportName);
   }

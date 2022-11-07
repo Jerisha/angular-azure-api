@@ -26,7 +26,7 @@ export class TelephoneNoComponent  {
         //this.inflight.push(element.replace('P', ''))
         this.inflight.push(element);
       });
-      console.log('copied array',this.inflight);
+      // console.log('copied array',this.inflight);
       //this.TelephoneNo_clicked();
     }
   }
