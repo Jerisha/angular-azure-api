@@ -578,7 +578,7 @@ this.alertService.clear();
       if (x.StatusMessage === 'Success') {
         this.spinner.hide();
         //success message and same data reload
-        this.alertService.success(+ `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) saved successful!!", { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success(+ `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) saved successfully", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
         this.clirangecountOnsave='';
         this.clirangecount='';
@@ -594,7 +594,7 @@ this.alertService.clear();
       if (x.StatusMessage === 'Success') {
         this.spinner.hide();
         //success message and same data reload
-        this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success("Save successfully", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
         if( this.AuditPopulatevalue != [])
         {
