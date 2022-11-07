@@ -370,13 +370,26 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   selectAllRows() {
-    this.dataSource.data.forEach(row => this.selection.select(row));
-    this.rowChanges.emit(this.dataSource.data);
+    if (this.selection.isEmpty()) {
+      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.rowChanges.emit(this.dataSource.data);
+    }
+    else {
+      let data = this.dataSource.data.filter(x => !this.selection.selected.includes(x));
+      if (data.length > 0) {
+        data.forEach(row => this.selection.select(row));
+        this.rowChanges.emit(data);
+      }
+    }
   }
 
   deSelectAllRows() {
-    this.selection.clear();
-    this.rowChanges.emit(this.dataSource.data);
+    if (!this.selection.isEmpty()) {
+      let data = this.dataSource.data.filter(x => this.selection.selected.includes(x));
+      this.selection.clear();
+      this.rowChanges.emit(data);
+    }
+    
   }
 
   applyFilter() {
