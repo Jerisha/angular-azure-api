@@ -586,7 +586,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     //     {
     //   this.isSaveDisable = false;
     // } 
-    if ((this.Resolution != "" && this.Remarks != "")
+    if (((this.Resolution != "" && this.Resolution != undefined) && this.Remarks != "")
       && (this.selectedGridRows.length > 0)
     ) {
       this.isSaveDisable = false;
