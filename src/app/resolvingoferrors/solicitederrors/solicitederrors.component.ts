@@ -575,23 +575,28 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === ""
-      && this.f.ErrorType.value === ""
-      && this.f.Reference.value === ""
-      && this.f.OrderReference.value === ""
-      && (this.Resolution!="" && this.Remarks!=""))
-       && (this.selectedGridRows.length > 0) ) 
-        {
+    // if (((this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
+    //   this.f.ResolutionType.value === ""
+    //   && this.f.ErrorType.value === ""
+    //   && this.f.Reference.value === ""
+    //   && this.f.OrderReference.value === ""
+    //   && (this.Resolution!="" && this.Remarks!="") 
+    //   ))
+    //    || (this.selectedGridRows.length > 0) ) 
+    //     {
+    //   this.isSaveDisable = false;
+    // } 
+    if ((this.Resolution != "" && this.Remarks != "")
+      && (this.selectedGridRows.length > 0)
+    ) {
       this.isSaveDisable = false;
-    } 
-    else if(this.f.StartTelephoneNumber?.value?.length >= 10 &&
-      this.f.EndTelephoneNumber?.value?.length >= 10 &&  (this.Resolution!="" && this.Remarks!="")){
-        this.isSaveDisable = false;
-      } 
+    }
+    else if (this.f.StartTelephoneNumber?.value?.length >= 10 &&
+      this.f.EndTelephoneNumber?.value?.length >= 10 && (this.Resolution != "" && this.Remarks != "")) {
+      this.isSaveDisable = false;
+    }
     else
       this.isSaveDisable = true;
-    //console.log('isSaveDisable',this.isSaveDisable)
   }
 
   removeTab(index: number) {

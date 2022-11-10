@@ -543,17 +543,20 @@ resetExp:boolean = false;
     { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
     { header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, isImage: false },
     { header: 'Locality', headerValue: 'Locality', showDefault: true, isImage: false },
-    { header: 'PostCode', headerValue: 'PostCode', showDefault: true, isImage: false },
-    
-    { header: 'Customer Title', headerValue: 'CustomerTitle', showDefault: true, isImage: false },
-    { header: 'Customer Forename', headerValue: 'CustomerForename', showDefault: true, isImage: false },
+    { header: 'PostCode', headerValue: 'PostCode', showDefault: true, isImage: false },   
+    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false }, 
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
-    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
-    { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
+    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },   
+    { header: 'Customer Title', headerValue: 'CustomerTitle', showDefault: true, isImage: false },
+    { header: 'Customer Forename', headerValue: 'CustomerForename', showDefault: true, isImage: false },
+    
+    
+    { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
+    
+   
     { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
     { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
     { header: 'Address Line 1', headerValue: 'AddressLine1', showDefault: true, isImage: false },
