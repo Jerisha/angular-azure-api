@@ -19,13 +19,21 @@ export class TelephoneNoComponent  {
     if(changes.telNoArray.currentValue != changes.telNoArray.previousValue)
     {
       debugger;
-      this.telNos=this.telNoArray;
+      
       // this.selectedTelNo = this.telNos[0].slice(0, -1);
       this.telNoArray.forEach((element: any) => {
         if(element.includes('P'))
         //this.inflight.push(element.replace('P', ''))
         this.inflight.push(element);
       });
+     
+      this.inflight=this.inflight.map(string => string.slice(0, -1));
+      this.telNoArray = this.telNoArray.map(string => string.slice(0, -1));
+      
+      console.log('telephone number after removed',this.telNoArray)
+      this.telNos=this.telNoArray;
+
+
       // console.log('copied array',this.inflight);
       //this.TelephoneNo_clicked();
     }
@@ -41,7 +49,8 @@ export class TelephoneNoComponent  {
   TelephoneNo_clicked()
   {
     debugger
-    this.selectedTelNo=this.selectedTelNo.slice(0, -1);
+    console.log('click event is firing',this.selectedTelNo);
+   // this.selectedTelNo=this.selectedTelNo.slice(0, -1);
     this.TelephoneNoSelected.emit(this.selectedTelNo);
   }
 

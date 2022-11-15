@@ -124,7 +124,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.backstate=false;
     // console.log('constructor values', this.AuditPopulatevalue);
     if (this.AuditPopulatevalue != []){ 
-     if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
+    if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
      {
       this.model.telno = this.AuditPopulatevalue.StartphoneNumber;
       this.model.rangeEnd = this.AuditPopulatevalue.EndPhoneNumber;
@@ -259,6 +259,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       debugger
       const ctrl = this.thisForm.get(ctrlName) as FormControl;
       if (value != null && value != undefined) {
+        value =value.replace(/^\s+|\s+$/g,"")
         //ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
         if (value.length == 11 || value.length == 10) {
           if (ctrlName == 'EndTelephoneNumber' && this.model.telno.length == 0) {
@@ -488,6 +489,7 @@ onFranchiseChange(event: any)
 this.alertService.clear();
     if (control == "StartTelephoneNumber") {
       this.model.telno.trim();
+      this.model.telno=this.model.telno.replace(/^\s+|\s+$/g,"")
       if (this.model.telno.length == 10 || this.model.telno.length == 9) {
         if (this.model.telno.substring(0, 1) != 0) {
           this.model.telno = '0' + this.model.telno;
@@ -517,6 +519,8 @@ this.alertService.clear();
       }
     }
     else {
+      this.model.rangeEnd.trim();
+      this.model.rangeEnd=this.model.rangeEnd.replace(/^\s+|\s+$/g,"");
       if (this.model.rangeEnd.length == 10 || this.model.rangeEnd.length == 9) {
         if (this.model.rangeEnd.substring(0, 1) != 0) {
           this.model.rangeEnd = '0' + this.model.rangeEnd;
@@ -819,10 +823,15 @@ this.alertService.clear();
       this.addbtncolor = "secondary";
     }
   }
-  onPaste(event: any): boolean {
+  onPaste(event: any,control:any): boolean {
     debugger;
     let clipboardData = event.clipboardData;
     let pastedText = clipboardData.getData('text');
+
+    let trimmedText = pastedText.replace(/\s/g, "");;
+    this.thisForm.get(control)?.setValue(trimmedText);
+    console.log('trimmmed text',this.thisForm.get(control)?.get);
+    //pastedText=pastedText.replace(/^\s+|\s+$/g,"")
     //// console.log("pastedText :"+ pastedText+ isNaN(pastedText));
     return isNaN(pastedText) ? false : true
   }
@@ -1012,6 +1021,10 @@ this.alertService.clear();
     }
     return true;
   }
+  resetpage()
+  {
+    window.location.reload();
+  }
   /* field Validation End */
   resetTel(sf: any) {
     this.backstate=false;
@@ -1033,11 +1046,13 @@ this.alertService.clear();
     this.enableSource=false;
     this.ResetTabs.emit(["true"]);
     this.CliRangeSet = [];
+    this.audittelephonenumbers=[];
   }
   resetTel1(sf: any) {
     this.view1Toggle = "display: none;visibility:hidden;";
     this.view2Toggle = "display: block;visibility:visible;";
     this.view3Toggle = "display: block;visibility:visible;";
+
   }
   AuditTrail() {
     this.clearalert();
@@ -1144,6 +1159,8 @@ this.alertService.clear();
   addRangeTel() {
     debugger
     this.alertService.clear();
+    this.model.telno=this.model.telno.replace(/^\s+|\s+$/g,"");
+    this.model.rangeEnd=this.model.rangeEnd.replace(/^\s+|\s+$/g,"");
     if(!isNaN(Number(this.model.telno.toString())))
     {
     if (this.model.telno != "" || this.model.rangeEnd != "") {
@@ -1195,7 +1212,8 @@ this.alertService.clear();
       }
     }
     else {
-      alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
+      console.log('Empty cli added');
+     // alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
     }
   }
   else{
@@ -1212,7 +1230,7 @@ this.alertService.clear();
       }
       else if(!this.searchTelState)
       {
-        this.SearchTel();
+       // this.SearchTel();
       }
      //alert('Entered Click Event!');
    }

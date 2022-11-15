@@ -37,7 +37,7 @@
             </button>
           </div>
             <div class="audit-trail-view">
-            <app-telephone-audit-trail  [telNo]="telNo" (AddressCheckSelected)="AuditTrailAddress($event)" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+            <app-telephone-audit-trail *ngIf="show"  [telNo]="telNo" (AddressCheckSelected)="AuditTrailAddress($event)" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
            
           </div>
         </ng-container>

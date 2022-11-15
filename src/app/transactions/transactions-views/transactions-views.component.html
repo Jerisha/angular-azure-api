@@ -8,7 +8,7 @@
                       <mat-form-field  [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
                         <mat-label>Start Tel No.</mat-label>
                         <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
-                        <input  formControlName="StartTelephoneNumber" class="leftAligned" (focus)='ClearBanner()' (paste)="onPaste($event)" (keypress)="numberOnly($event)" matInput maxlength="11"
+                        <input  formControlName="StartTelephoneNumber" class="leftAligned" (focus)='ClearBanner()' (paste)="onPaste($event,'StartTelephoneNumber')" (keypress)="numberOnly($event)" matInput maxlength="11"
                           placeholder="Start Tel No." (ngModelChange)="onChange($event,'StartTelephoneNumber')" [(ngModel)]="model.telno" #starttelno telNoPrefixValidator (change)="onChangeEvent($event,'StartTelephoneNumber')">
                         <!-- <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint> -->
                         <mat-error>
@@ -21,7 +21,7 @@
             
                       <mat-form-field  [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
                         <mat-label>End Tel No.</mat-label>
-                        <input formControlName="EndTelephoneNumber" class="leftAligned" (focus)='ClearBanner()' (paste)="onPaste($event)" matInput #endtelno maxlength="11" placeholder="End Tel No."
+                        <input formControlName="EndTelephoneNumber" class="leftAligned" (focus)='ClearBanner()' (paste)="onPaste($event,'EndTelephoneNumber')" matInput #endtelno maxlength="11" placeholder="End Tel No."
                           (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')" compareStartNo [startNo]="f.StartTelephoneNumber" [(ngModel)]="model.rangeEnd"  telNoPrefixValidator (change)="onChangeEvent($event,'EndTelephoneNumber')">
                         <!-- <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint> -->
                         <mat-error>
@@ -121,7 +121,7 @@
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">history</i>Audit Trail 
                       </button></span>
                       <span>
-                      <button type="cancel" mat-raised-button   [ngClass]="defaultbtn" style="margin-left: 10px; padding-left: 20px;padding-right: 20px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;"   (click)="resetTel(this)">
+                      <button type="cancel" mat-raised-button   [ngClass]="defaultbtn" style="margin-left: 10px; padding-left: 20px;padding-right: 20px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;"   (click)="resetpage()">
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">refresh</i>Reset
                       </button>  
                     </span>
