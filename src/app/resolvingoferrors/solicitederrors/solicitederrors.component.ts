@@ -135,7 +135,7 @@ const Items: Select[] = [
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
   { view: '999 Ref', viewValue: 'Reference', default: true },
-  { view: 'Order Reference', viewValue: 'OrderReference', default: false },
+  { view: 'Order Ref', viewValue: 'OrderReference', default: false },
   { view: 'Lcp/Gcp', viewValue: 'LcpGcp', default: false },
   { view: 'Date Range', viewValue: 'DateRange', default: false },
 ];
@@ -575,23 +575,28 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === ""
-      && this.f.ErrorType.value === ""
-      && this.f.Reference.value === ""
-      && this.f.OrderReference.value === ""
-      && (this.Resolution!="" && this.Remarks!=""))
-       && (this.selectedGridRows.length > 0) ) 
-        {
+    // if (((this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
+    //   this.f.ResolutionType.value === ""
+    //   && this.f.ErrorType.value === ""
+    //   && this.f.Reference.value === ""
+    //   && this.f.OrderReference.value === ""
+    //   && (this.Resolution!="" && this.Remarks!="") 
+    //   ))
+    //    || (this.selectedGridRows.length > 0) ) 
+    //     {
+    //   this.isSaveDisable = false;
+    // } 
+    if (((this.Resolution != "" && this.Resolution != undefined) && this.Remarks != "")
+      && (this.selectedGridRows.length > 0)
+    ) {
       this.isSaveDisable = false;
-    } 
-    else if(this.f.StartTelephoneNumber?.value?.length >= 10 &&
-      this.f.EndTelephoneNumber?.value?.length >= 10 &&  (this.Resolution!="" && this.Remarks!="")){
-        this.isSaveDisable = false;
-      } 
+    }
+    else if (this.f.StartTelephoneNumber?.value?.length >= 10 &&
+      this.f.EndTelephoneNumber?.value?.length >= 10 && (this.Resolution != "" && this.Remarks != "")) {
+      this.isSaveDisable = false;
+    }
     else
       this.isSaveDisable = true;
-    //console.log('isSaveDisable',this.isSaveDisable)
   }
 
   removeTab(index: number) {

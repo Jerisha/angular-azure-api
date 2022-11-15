@@ -274,7 +274,7 @@
                       <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
                         <mat-select #resolution="ngModel" name="resolution" required [(ngModel)]="Resolution">
-                          <mat-option>-- Select --</mat-option>
+                          <!-- <mat-option>-- Select --</mat-option> -->
                           <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
                             {{val}}
                           </mat-option>
