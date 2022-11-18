@@ -331,7 +331,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       selectCheckbox: true,
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1,toolTipText: 'Telephone Details' }],
       removeNoDataColumns: true,
-      isCustomFooter:true
+      isCustomFooter:true,
+     // disablePaginator:true
     }
     this.myTableChild = {
       data: this.queryResult$,
@@ -339,7 +340,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       filter: true,     
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 ,toolTipText: 'Telephone Details'}],
       selectCheckbox:true,
-      isCustomFooter:true
+      isCustomFooter:true,
+    //  disablePaginator:true
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -453,6 +455,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   }
   rowDetect(item: any) {
     //debugger;
+    console.log('checkbox selection from main component',item);
     if (item.length == 0) {
       this.selectListItems = [];
     } else {
@@ -467,6 +470,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
           }
         }
       });
+
+      console.log('select list item from component',this.selectListItems);
     }
   }
   OnOperatorClicked(val: [string, string]) {

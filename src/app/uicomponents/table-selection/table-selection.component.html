@@ -213,7 +213,7 @@
       </span>
     </div>
 
-    <div class="tblpagination" style="float: right;
+    <div class="tblpagination" *ngIf="reportIdentifier!='TransactionCommand'"    style="float: right;
         display: -webkit-box; align-items: center;" >
       <mat-paginator  #paginator style="height: 5px; font-weight: bolder;" [pageSizeOptions]="[50,100,250,500]"
         [length]="totalRows"   [pageIndex]="currentPage" [pageSize]="pageSize" [hidePageSize]="disablePageSize"
