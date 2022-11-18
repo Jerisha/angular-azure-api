@@ -21,6 +21,8 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfile } from 'src/app/_auth/user-profile';
+import { TransactionDataService } from 'src/app/transactions/services/transaction-data.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const ELEMENT_DATA = [
   {
@@ -68,10 +70,12 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
     private dialog: MatDialog,
     private http: HttpWrapperService,
     private service: ReportService,
+    private trsnactionservice:TransactionDataService,
     private cdr: ChangeDetectorRef,
     private telnoPipe: TelNoPipe,
     private auth: AuthenticationService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService
 
     ) {
       super(auth, actRoute);
@@ -83,7 +87,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
   selectListItems: string[] = [];
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
-  
+  auditTelNo?: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
@@ -91,16 +95,21 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   selectedTab!: number;
+  repIdentifier = "Transactions";
+  audittrailNos:any[]=[];
   public tabs:Tab[] = [
   ];
+  auditview:boolean;
   // currentPage: string = '1';
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
 
   columns: ColumnDetails[] =[
+    { header: 'Audit', headerValue: 'Links', showDefault: true, isImage: true },
     { header: 'Start Tel No', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
     { header: 'End Tel No', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
+    
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Live', headerValue: 'LiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
     { header: 'Inactive', headerValue: 'InactiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
@@ -112,11 +121,12 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
   ];
   //data1:TelephoneRangeReport[] = ELEMENT_DATA;
   queryResult$!: Observable<any>;
+  auditquestResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   queryResult1$: Observable<TelephoneRangeReport[]> = of(ELEMENT_DATA);
 
-  spinner:boolean=false;
+  //spinner:boolean=false;
   options = {
     autoClose: true,
     keepAfterRouteChange: false
@@ -125,6 +135,8 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
   
   ngOnInit(): void {
     this.createForm();
+    
+ // this.BindAudit('');
 
   }
   splitData(data: string | undefined): string[] {
@@ -231,6 +243,8 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
         selectCheckbox: true,
         excelQuery : this.prepareQueryParams(this.currentPage.toString()),
         removeNoDataColumns: true,
+        imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
+
         // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
         // { headerValue: 'View', icon: 'description', route: '' }]
       }
@@ -255,6 +269,22 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
     //  this.spinner= false;
     // },3000);
   }
+  prepareQueryParamsAudit(row:any)
+  {
+
+    let attributes: any = [
+ { Name: 'TelephoneNumberRange', Value: [row.StartTelephoneNumber+'|'+row.EndTelephoneNumber] }];
+ // { Name: 'TelephoneNumberRange', Value: ["02071610692|02071610696"] }];
+     
+    console.log('attributes',attributes);
+   return attributes;
+    }
+ 
+BindAudit(row:any)
+{
+  
+console.log('final result',this.auditquestResult$);
+}
 
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
@@ -286,42 +316,102 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
-  newTab(tab: any) {
-    switch (tab.tabType) {
-      case 1: {
-        //tab.row contains row data- fetch data from api and bind to respetive component
-        if (!this.tabs.find(x => x.tabType == 1)) {
-          this.tabs.push({
-            tabType: 1,
-            name: 'Audit Trail Report (1977722725)'
-          });
-          // this.selectedTab = 1;
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
-        } else {
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
-        }
-        break;
-      }
-      case 2: {
-        if (!this.tabs.find(x => x.tabType == 2)) {
-          this.tabs.push({
-            tabType: 2,
-            name: 'Transaction Details'
-          })
-          // this.selectedTab = 2;
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-        } else {
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-        }
-        break;
-      }
-      default: {
-        //statements; 
-        break;
-      }
-    }
+  OnTelephoneNoSelected(inittelno:any[])
+  {
+    debugger
+    //this.show=true;
+    //this.auditCopyshow=true;
+    this.auditview=true;
+     console.log('event three called',inittelno);
+    //this.auditTeleNoselected=inittelno;
+    this.auditTelNo=inittelno;
+    //this.auditCopyshow=true;
+    let updtab = this.tabs.find(x => x.tabType == 1);
+    if (updtab) updtab.name = 'Audit Trail Report(' + this.auditTelNo + ')'
   }
+  newTab(tab: any) {
+    if (this.tabs === []) return;
+    this.auditTelNo=[];
+//this.BindAudit(tab.row);
+this.audittrailNos=[];
+ // console.log('row details',row);
+ this.spinner.show();
+  let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParamsAudit(tab.row));
+  console.log('request generated from audit',request2);
+  this.trsnactionservice.queryDetails(request2).subscribe((res: any) => {
+   // console.log('result from audit',res);
+    if (Object.keys(res).length) {
+    console.log('telephone numbers range report',res.data.TelephoneNumbers[0])
+     if(res.data.TelephoneNumbers[0])
+     {
+      console.log('inside');
+      switch (tab.tabType) {
+        case 1:
+           if (!this.tabs?.find(x => x.tabType == 1)) {
+            this.tabs.push({
+              tabType: 1,
+              name: 'Audit Trail Report'
+            });
+            this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+          } else {
+            this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+            let updtab = this.tabs.find(x => x.tabType == 1);
+           if (updtab) updtab.name = 'Audit Trail Report'
+          }
+         // this.auditTelNo = tab.row.TelephoneNumber;
+          break;
+      }
+      if (res.data.TelephoneNumbers[0].TelephoneNumber instanceof Array) {
+        this.audittrailNos=res.data.TelephoneNumbers[0].TelephoneNumber;
+      } else {
+        this.audittrailNos=[res.data.TelephoneNumbers[0].TelephoneNumber];
+      }
+    
+     this.spinner.hide();
+     }
+     else{
+      this.spinner.hide();
+      this.alertService.error("No Data found on given input!", { autoClose: true, keepAfterRouteChange: false });
+     }
+    }
+});
+this.auditview=false;
+  }
+  // newTab(tab: any) {
+  //   switch (tab.tabType) {
+  //     case 1: {
+  //       //tab.row contains row data- fetch data from api and bind to respetive component
+  //       if (!this.tabs.find(x => x.tabType == 1)) {
+  //         this.tabs.push({
+  //           tabType: 1,
+  //           name: 'Audit Trail Report (1977722725)'
+  //         });
+  //         // this.selectedTab = 1;
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+  //       } else {
+  //       this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+  //       }
+  //       break;
+  //     }
+  //     case 2: {
+  //       if (!this.tabs.find(x => x.tabType == 2)) {
+  //         this.tabs.push({
+  //           tabType: 2,
+  //           name: 'Transaction Details'
+  //         })
+  //         // this.selectedTab = 2;
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+  //       } else {
+  //       this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+  //       }
+  //       break;
+  //     }
+  //     default: {
+  //       //statements; 
+  //       break;
+  //     }
+  //   }
+  // }
 
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {

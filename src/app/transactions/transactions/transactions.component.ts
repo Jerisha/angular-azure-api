@@ -77,7 +77,6 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
     this.audittrailNos=initAuditTrail;
     if(initAuditTrail.length>0)
     {
-
       this.auditTrailSuccess=true;
      // this.auditTeleNoselected=initAuditTrail[0];
      // this.telNo=initAuditTrail[0];

@@ -33,7 +33,10 @@
       <mat-slide-toggle style="margin-top:7px" *ngIf="tableitem?.isSticky" (change)="changeView()"  [(ngModel)]="isCheckedtoggle" class="toggleclass">
         {{isCheckedtoggle?'Freeze Columns':'UnFreeze  Columns'}} </mat-slide-toggle>
     
-      
+        <button *ngIf="tableitem?.isCreateRecord" type="button" mat-raised-button color="primary"
+        [disabled]="selection.selected.length > 0 ? false : true"  (click)="CreateTransaction()">
+        <mat-icon>file_copy</mat-icon> Create Record
+      </button>
     <ng-container *ngIf="showFavCols">
       <span style="padding: 5px 10px;">
          Preferred

@@ -660,19 +660,18 @@ th.mat-column-NotAvailable {
 .mat-header-cell.mat-column-AddressIdSource {
   white-space: normal !important;
 }
-
 .mat-header-cell.mat-column-TypeOfLine {
   min-width: 44px;
 }
-
 .mat-header-cell.mat-column-Difference {
   min-width: 40px;
 }
-
 .mat-header-cell.mat-column-AddressIdSource {
   min-width: 60px;
 }
-
+.mat-header-cell.mat-column-LineType {
+  max-width: 31px;
+}
 .mat-cell.mat-column-Remarks {
 
   text-align: center;
@@ -680,7 +679,6 @@ th.mat-column-NotAvailable {
   width: 40em;
     /* word-wrap: normal; */
   }
-
   /* .mat-column-LatestUserComments:hover {
 
     background-color: rgb(196, 23, 138);

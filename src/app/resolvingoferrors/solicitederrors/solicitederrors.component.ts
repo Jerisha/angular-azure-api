@@ -431,6 +431,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }],
      // isSticky:true  
+     isCreateRecord:true
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {

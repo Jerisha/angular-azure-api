@@ -1,4 +1,7 @@
-<button mat-button [matMenuTriggerFor]="menu" class="vf-panel-title-btn">Select Telephone No</button>
+ <button mat-button [matMenuTriggerFor]="menu"  class="vf-panel-title-btn">Select Telephone No</button> 
+<!-- <button mat-button [matMenuTriggerFor]="menuGroup" class="vf-panel-title-btn">Select Telephone No</button> -->
+
+
 <mat-menu #menu="matMenu">  
   <mat-radio-group  [ngModelOptions]="{standalone: true}"   (change)="TelephoneNo_clicked()" [(ngModel)]="selectedTelNo" aria-label="Select an option">
     <mat-radio-button  *ngFor="let telNo of telNos; let telNoIndex = index"  [value]="telNo" >
@@ -10,3 +13,20 @@
 <ng-container *ngIf="selectedTelNo">
 <span style="margin-top: 0.6rem;margin-right:0.5rem;float:right;">Selected Telephone:<strong>{{selectedTelNo}}</strong></span>
 </ng-container>
+
+
+<!-- <mat-menu #menuGroup="matMenu" [hasBackdrop]="false">  
+   <div (keydown)="$event.stopPropagation()"  *ngFor="let tel of radioGroup; let indexshow = index">
+    <span (click)="showContent($event, indexshow);">[01179048256-01179048299]  </span>
+    <br>
+    <div *ngIf="selectedIndex == indexshow">
+   <mat-radio-group  style="margin-top:10px;margin-left:10px;margin-right:10px" [ngModelOptions]="{standalone: true}"   (change)="TelephoneNo_clicked()" [(ngModel)]="selectedTelNo" aria-label="Select an option">
+    <mat-radio-button  *ngFor="let telNo of telNos; let telNoIndex = index"  [value]="telNo" >
+     
+      <span  [ngStyle]="{'color':inflight.indexOf(telNo) > -1? 'Green' : '' }"> {{telNo}}</span>
+    </mat-radio-button>
+  </mat-radio-group>
+    </div>
+  </div>
+ 
+</mat-menu> -->

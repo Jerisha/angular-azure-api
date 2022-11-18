@@ -573,7 +573,8 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
       excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }],
+      isCreateRecord:true
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({

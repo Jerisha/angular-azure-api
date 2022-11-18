@@ -124,7 +124,18 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.backstate=false;
     // console.log('constructor values', this.AuditPopulatevalue);
     if (this.AuditPopulatevalue != []){ 
-    if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
+      if(this.AuditPopulatevalue.Telephonedetails)
+      {
+        for (let i = 0; i < this.AuditPopulatevalue.Telephonedetails.length; i++) {
+          this.CliRangeSetMain.unshift([this.AuditPopulatevalue.Telephonedetails[i], this.AuditPopulatevalue.Telephonedetails[i], 1,false]);
+        }
+        this.searchTelState = false;
+        this.btncolor = "vf-primary-btn";
+       console.log('cli range',this.CliRangeSetMain);
+       this.clirangecount=this.AuditPopulatevalue.Telephonedetails.length;
+       this.AuditPopulatevalue = [];
+      }
+     else if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
      {
       this.model.telno = this.AuditPopulatevalue.StartphoneNumber;
       this.model.rangeEnd = this.AuditPopulatevalue.EndPhoneNumber;
@@ -828,9 +839,9 @@ this.alertService.clear();
     let clipboardData = event.clipboardData;
     let pastedText = clipboardData.getData('text');
 
-    let trimmedText = pastedText.replace(/\s/g, "");;
-    this.thisForm.get(control)?.setValue(trimmedText);
-    console.log('trimmmed text',this.thisForm.get(control)?.get);
+    // let trimmedText = pastedText.replace(/\s/g, "");;
+    // this.thisForm.get(control)?.setValue(trimmedText);
+   // console.log('trimmmed text',this.thisForm.get(control)?.get);
     //pastedText=pastedText.replace(/^\s+|\s+$/g,"")
     //// console.log("pastedText :"+ pastedText+ isNaN(pastedText));
     return isNaN(pastedText) ? false : true
