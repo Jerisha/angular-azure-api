@@ -181,7 +181,7 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
           // this.dataSource.sort = this.sort;
           this.spinner.hide();
           debugger
-          this.disablePageSize = this.totalRows > 50 ? false : true;
+          this.disablePageSize = this.totalRows > 50 ? true : true;
           this.showTotalRow =this.totalRows? true : false;
           this.showCustomFooter =this.totalRows? true : false;
           this.isDataloaded = true;
