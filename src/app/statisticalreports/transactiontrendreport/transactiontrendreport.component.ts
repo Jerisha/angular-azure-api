@@ -265,8 +265,17 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     this.year = yeararray.filter(function(elem, index, self) {
       return index === self.indexOf(elem);
   })
+  const max = this.year.reduce((prev, current) => (prev > current) ? prev : current);
+  console.log('big item',max);
   this.year?.forEach((element: any) => {
+  if(element===max)
+  {
+    this.filteryearhitems.push({ view: element, viewValue: element, default: true })
+  }
+  else{
     this.filteryearhitems.push({ view: element, viewValue: element, default: false })
+  }
+   
   });
   this.months?.forEach((element: any) => {
     this.filtermonthitems.push({ view: element, viewValue: element, default: false })

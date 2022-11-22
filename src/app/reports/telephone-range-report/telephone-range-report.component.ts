@@ -112,7 +112,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
     
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Live', headerValue: 'LiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
-    { header: 'Inactive', headerValue: 'InactiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Audit', headerValue: 'InactiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
     { header: 'N/A', headerValue: 'NotAvailable', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },

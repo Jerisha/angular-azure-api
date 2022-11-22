@@ -533,7 +533,16 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       }
     }   
   }
-
+checkauditbutton(row: any, cell: any)
+{
+  if(this.reportIdentifier==='TelephoneRangeReports'&&row.NotAvailable!=undefined)
+  {
+  return false;
+  }
+  else{
+   return true;
+  }
+}
   setImageCellAttributes(row: any, cell: any) {
     let flag = true;
     let loopFlag = true;

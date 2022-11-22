@@ -106,7 +106,7 @@
           <td mat-cell [ngClass]="{'nowrap-cell':!disCol.imgDesc}" class="nowrap-cell" *matCellDef="let row ">
             <ng-container *ngFor="let img of imgList; let imgIndex = index;">
               <mat-icon matTooltip="{{img.toolTipText}}" class="table-icon" (click)="addTabs($event,img.tabIndex,row)"
-                *ngIf="img.headerValue === disCol.headerValue  && setImageCellAttributes(row,disCol.headerValue)">
+                *ngIf="img.headerValue === disCol.headerValue  && setImageCellAttributes(row,disCol.headerValue)&&checkauditbutton(row,disCol.headerValue)">
                 {{img.icon}}</mat-icon>
             </ng-container>
             <ng-container *ngIf="disCol.imgDesc">

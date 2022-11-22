@@ -126,8 +126,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     if (this.AuditPopulatevalue != []){ 
       if(this.AuditPopulatevalue.Telephonedetails)
       {
+        let endTelehone:any='';
         for (let i = 0; i < this.AuditPopulatevalue.Telephonedetails.length; i++) {
-          this.CliRangeSetMain.unshift([this.AuditPopulatevalue.Telephonedetails[i], this.AuditPopulatevalue.Telephonedetails[i], 1,false]);
+          this.CliRangeSetMain.unshift([this.AuditPopulatevalue.Telephonedetails[i],endTelehone, 1,false]);
         }
         this.searchTelState = false;
         this.btncolor = "vf-primary-btn";
