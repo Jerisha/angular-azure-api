@@ -56,7 +56,9 @@
         </ng-template>
 
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" class="table-view" style="height: calc(100% - 30px);">
+          <!-- sprint4 task -->
+          <!-- <div *ngSwitchCase="0" class="table-view" style="height: calc(100% - 30px);"> -->
+            <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
             <ng-container *ngIf="!SepAuditActId">
               <button style="float:right;" type="submit" mat-raised-button color="primary"
                 (click)="separateAuditTrail()">
