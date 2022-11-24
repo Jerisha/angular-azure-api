@@ -645,6 +645,10 @@ th.mat-column-NotAvailable {
 
 }
 
+.mat-cell.mat-column-StatusDescription {
+  white-space: normal !important;
+}
+
 .mat-header-cell.mat-column-FirstDate,
 .mat-header-cell.mat-column-LastDate,
 .mat-header-cell.mat-column-TransactionCommand,
