@@ -16,6 +16,7 @@ export interface TableItem {
     excelQuery?:any;
     isFavcols?:boolean;
     isSticky?:boolean;
+    isCreateRecord?:boolean
 }
 export interface ViewColumn {
     headerValue: string;

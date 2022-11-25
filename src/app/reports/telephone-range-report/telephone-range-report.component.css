@@ -28,3 +28,7 @@
 /* .table-view::ng-deep.mat-sort-header-container{
   justify-content: center !important;
 } */
+.audit-trail-view::ng-deep .audit-trail-container.audit-trail-container-1 {
+  height: calc(100vh - 23vh);
+  overflow: auto;
+}

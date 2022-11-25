@@ -170,7 +170,10 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
   datevalue?: string;
-  staticmontharray?:string;
+  staticmontharray?:string[]=[];
+  staticmonarray?:string[]=[];
+  staticyeararray?:string[]=[];
+  disabled:boolean;
   @ViewChild(MatTabGroup) tabGroup !: MatTabGroup;
   columns: ColumnDetails[] =
     [
@@ -236,6 +239,10 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   filterItems: Select[] = [];
+  months: string[]=[];
+  year:string[]=[];
+  filtermonthitems:Select[] = [];
+  filteryearhitems:Select[] = [];
   resetExp: boolean = false;
   ngOnInit(): void {
     this.createForm();
@@ -245,6 +252,37 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     this.service.configDetails(request).subscribe((res: any) => {
       // console.log("config details: " + JSON.stringify(res))
       this.configDetails = res.data;
+    let montharray:string[]=[];
+    let yeararray:string[]=[];
+      res.data.StatisticMonth?.forEach((element: any) => {
+       // console.log(element.split('-')[0]);
+         montharray.push(element.split('-')[0]);
+         yeararray.push(element.split('-')[1]);
+      });
+      this.months = montharray.filter(function(elem, index, self) {
+        return index === self.indexOf(elem);
+    })
+    this.year = yeararray.filter(function(elem, index, self) {
+      return index === self.indexOf(elem);
+  })
+  const max = this.year.reduce((prev, current) => (prev > current) ? prev : current);
+  console.log('big item',max);
+  this.year?.forEach((element: any) => {
+  if(element===max)
+  {
+    this.filteryearhitems.push({ view: element, viewValue: element, default: true })
+  }
+  else{
+    this.filteryearhitems.push({ view: element, viewValue: element, default: false })
+  }
+   
+  });
+  this.months?.forEach((element: any) => {
+    this.filtermonthitems.push({ view: element, viewValue: element, default: false })
+  });
+
+      console.log('year array',this.year);
+      console.log('month',this.months);
       res.data.StatisticMonth?.forEach((element: any) => {
         this.filterItems.push({ view: element, viewValue: element, default: false })
       });
@@ -262,6 +300,36 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     if (event) {
       // console.log(event);
     this.staticmontharray = event;
+    }
+  }
+  multipleYear(event: any) {
+    // console.log(event)
+    if (event) {
+    this.staticyeararray = event;
+  console.log('brfore if',this.staticyeararray);
+    if(((typeof this.staticyeararray != "undefined" && this.staticyeararray.length ==0)&&(typeof this.staticmonarray != "undefined" &&this.staticmonarray.length == 0))||
+    ((typeof this.staticyeararray != "undefined" &&  this.staticyeararray.length>0)&&(typeof this.staticmonarray != "undefined" && this.staticmonarray.length > 0)))
+    {
+      this.disabled=false;
+    }
+    else{
+      this.disabled=true;
+    }
+    }
+  }
+  multipleMonth(event: any) {
+    // console.log(event)
+    if (event) {
+    this.staticmonarray = event;
+    if(((typeof this.staticyeararray != "undefined" && this.staticyeararray.length ==0)&&(typeof this.staticmonarray != "undefined" &&this.staticmonarray.length == 0))||
+    ((typeof this.staticyeararray != "undefined" &&  this.staticyeararray.length>0)&&(typeof this.staticmonarray != "undefined" && this.staticmonarray.length > 0)))
+    {
+      this.disabled=false;
+     console.log('false condition');
+    }
+    else{
+      this.disabled=true;
+    }
     }
   }
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
@@ -331,7 +399,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       selectCheckbox: true,
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1,toolTipText: 'Telephone Details' }],
       removeNoDataColumns: true,
-      isCustomFooter:true
+      isCustomFooter:true,
+     // disablePaginator:true
     }
     this.myTableChild = {
       data: this.queryResult$,
@@ -339,7 +408,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       filter: true,     
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 ,toolTipText: 'Telephone Details'}],
       selectCheckbox:true,
-      isCustomFooter:true
+      isCustomFooter:true,
+    //  disablePaginator:true
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -372,14 +442,20 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       if (field == 'StatisticMonth') {
         if (this.staticmontharray)
         {
-        debugger
-      //   attributes.push({ Name: 'StatisticMonth', Value: [`${result}`] });
-        // let content:string=attributes[1].Value;
-        // let contenttwo=content.replace(/'/g, '"');
-      // attributes[1].Value=contenttwo;
-      if(this.staticmontharray?.length > 0)
+        //  let arraymonth[]=this.staticmontharray;
+        let newarray:string[]=[];
+          this.staticmonarray?.forEach((elementone: String) => {
+           
+           this.staticyeararray?.forEach((element: String) => {
+           newarray.push(elementone + '-' + element);
+          });
+          });
+      console.log('new array from new dropdown',newarray);
+          
+      if(typeof this.staticyeararray != "undefined" && this.staticyeararray.length>0)
       {
-      attributes.push({ Name: 'StatisticMonth', Value: this.staticmontharray?.length > 0 ? this.staticmontharray : [null]});
+        console.log('old static array',this.staticmontharray);
+      attributes.push({ Name: 'StatisticMonth', Value: typeof this.staticyeararray != "undefined" && this.staticyeararray.length>0 ?newarray : [null]});
       }
       else{
         attributes.push({ Name: 'StatisticMonth' });
@@ -394,7 +470,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         if (expvals.length != 0) {
           if (field == 'StatisticMonth') {
             if (this.staticmontharray) {
-              attributes.push({ Name: operator, Value: [expvals[0][1]] });
+             // attributes.push({ Name: operator, Value: [expvals[0][1]] });
+             attributes.push({ Name: operator, Value: ['Equal To'] });
             }
             else {
               attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -422,7 +499,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         attributes.push({ Name: operator, Value: ['Equal To'] });
       }
     }
-    // console.log('attributes', attributes);
+   console.log('attributes', attributes);
     return attributes;
   }
   getTupleValue(element: [string, string], keyvalue: string) {
@@ -436,6 +513,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   createForm() {
     this.thisForm = this.formBuilder.group({
       StatisticMonth: new FormControl({ value: '' }),
+      Month:new FormControl({ value: '' }),
+      Year:new FormControl({ value: '' }),
       Source: new FormControl({ value: '', disabled: false }, []),
     })
     this.expOperatorsKeyPair.push(["StatisticMonthOperator", "Equal To"]);
@@ -453,6 +532,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   }
   rowDetect(item: any) {
     //debugger;
+    console.log('checkbox selection from main component',item);
     if (item.length == 0) {
       this.selectListItems = [];
     } else {
@@ -467,6 +547,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
           }
         }
       });
+
+      console.log('select list item from component',this.selectListItems);
     }
   }
   OnOperatorClicked(val: [string, string]) {

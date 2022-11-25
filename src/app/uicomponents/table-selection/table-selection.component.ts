@@ -20,8 +20,9 @@ import { ProfileCreationDialogComponent } from '../../_shared/profile-creation-d
 import { AlertService } from 'src/app/_shared/alert';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+
 
 
 @Component({
@@ -113,6 +114,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     private alertService: AlertService,
     private dialog: MatDialog,
     private auth: AuthenticationService,
+    private router: Router,
     private actRoute: ActivatedRoute) {
     super(auth, actRoute)
     this.intializeUser();
@@ -531,7 +533,16 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       }
     }   
   }
-
+checkauditbutton(row: any, cell: any)
+{
+  if(this.reportIdentifier==='TelephoneRangeReports'&&row.NotAvailable!=undefined)
+  {
+  return false;
+  }
+  else{
+   return true;
+  }
+}
   setImageCellAttributes(row: any, cell: any) {
     let flag = true;
     let loopFlag = true;
@@ -863,5 +874,34 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.isChecked=false;
       this.stickycolumnEnable=true;
     }
+  }
+  CreateTransaction()
+  {
+    let data = "";
+
+    let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
+    let tabValue: string[] = []
+    let selectedCol = this.tableitem?.filter ?
+    this.select?.value?.filter((z: string) => colsExcludeImage?.includes(z)) : colsExcludeImage
+    this.selection.selected.forEach((row: any, index) => {
+      if (index === 0) {
+        let tablehead = this.gridFilter.filter(x => !x.isImage && selectedCol?.includes(x.headerValue)).map(e => e.header);
+        data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
+      }
+      
+      selectedCol?.forEach((x: string) => {
+        console.log('table header',x);
+        if (x==='TelephoneNumber') {
+          tabValue.push(row[x])
+        }
+      })
+     
+      //data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
+    });
+    console.log('telephone array',tabValue);
+    let PhoneNumbers = {
+      Telephonedetails:tabValue
+    };
+    this.router.navigateByUrl('/transactions/transactions', { state: PhoneNumbers });
   }
 }

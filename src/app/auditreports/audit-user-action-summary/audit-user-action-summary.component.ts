@@ -281,12 +281,15 @@ export class AuditUserActionSummaryComponent extends UserProfile {
     for (const field in this.f) {
       // debugger
       const control = this.thisForm.get(field);
-      if (field == "CreatedDate" && control?.value)
-        attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-      else
+      // As created Date filter is removed so commented below if condition
+      // if (field == "CreatedDate" && control?.value)
+      //   attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+      // else
+      //   attributes.push({ Name: field, Value: [control?.value] });
+
+      if(control?.value && control?.value != "") {
         attributes.push({ Name: field, Value: [control?.value] });
-
-
+        
       //operator value
       let genOpt = field + 'Operator'
       //let expvals = this.expOperatorsKeyPair?.filter((i) => this.getTupleValue(i, genOpt));
@@ -295,6 +298,7 @@ export class AuditUserActionSummaryComponent extends UserProfile {
         attributes.push({ Name: genOpt, Value: [found?.Value] });
       else
         attributes.push({ Name: genOpt, Value: ['Equal To'] });
+      } 
     }
     // console.log('attri', attributes);
 

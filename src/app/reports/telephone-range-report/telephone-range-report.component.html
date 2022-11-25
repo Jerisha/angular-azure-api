@@ -99,9 +99,19 @@
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
             <div class="table-view">
             <app-table-selection [sidePan]="pagesidenav" [tableitem] = "myTable" (pageIndex)="getNextSetRecords($event)"
-            (rowChanges)="rowDetect($event)" ></app-table-selection>
+            (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)"></app-table-selection>
             </div>
           </div>
+          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+            <div>
+              <app-telephone-no [telNoArray]="audittrailNos" (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
+            </div>
+              <div *ngIf="auditview" class="audit-trail-view">
+                <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
+                </app-telephone-audit-trail>  
+            </div>
+           
+        </div>
         </span>
       </mat-tab>
     </mat-tab-group>

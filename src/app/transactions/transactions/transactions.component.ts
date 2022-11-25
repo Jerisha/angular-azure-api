@@ -26,6 +26,7 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
   selectedTab!: number;
   repIdentifier:string="Transactions";
   telNo?: any;
+  show?:boolean;
    tabs :Tab[]=[] ;
    addressvalues:any[]=[];
    audittrailNos:any[]=[];
@@ -69,12 +70,13 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
   OnAuditTrailSelected(initAuditTrail:any[])
   {
     debugger
-  
-    // console.log('second event')
+   console.log('second event');
+   console.log('telephone number',this.telNo);
+   this.show=false;
+   this.auditCopyshow=false;
     this.audittrailNos=initAuditTrail;
     if(initAuditTrail.length>0)
     {
-
       this.auditTrailSuccess=true;
      // this.auditTeleNoselected=initAuditTrail[0];
      // this.telNo=initAuditTrail[0];
@@ -115,11 +117,12 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   OnTelephoneNoSelected(inittelno:any[])
   {
     debugger
+    this.show=true;
     this.auditCopyshow=true;
-    // console.log('event three called',inittelno);
+     console.log('event three called',inittelno);
     this.auditTeleNoselected=inittelno;
     this.telNo=inittelno;
-    this.auditCopyshow=true;
+    //this.auditCopyshow=true;
     let updtab = this.tabs.find(x => x.tabType == 2);
     if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
   }

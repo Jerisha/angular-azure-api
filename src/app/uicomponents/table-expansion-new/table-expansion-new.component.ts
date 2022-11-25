@@ -181,7 +181,7 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
           // this.dataSource.sort = this.sort;
           this.spinner.hide();
           debugger
-          this.disablePageSize = this.totalRows > 50 ? false : true;
+          this.disablePageSize = this.totalRows > 50 ? true : true;
           this.showTotalRow =this.totalRows? true : false;
           this.showCustomFooter =this.totalRows? true : false;
           this.isDataloaded = true;
@@ -364,14 +364,10 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
       return 1;
     }
   
-    selectRow(event: any, row: any) {
-      // this.dataSource.data = this.dataSource.data.filter(r => r !== row);
-      // if (event.checked) {
-      //   this.dataSource.data = [row].concat(this.dataSource.data);
-      // }
-      // else {
-      //   this.dataSource.data = this.dataSource.data.concat(row);
-      // }
+    selectRow(event: any, row: any,childtable:any) {
+      console.log('child table',childtable);
+     // row.Month=childtable;
+     row[1]=childtable;
       this.rowChanges.emit([row]);
     }
     /** Whether the number of selected elements matches the total number of rows. */
@@ -607,11 +603,10 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
     }
   
     copyToClipboard() {
-    
       let data = "";
-  
+  debugger
       this.selection.selected.forEach((row: any, index) => {
-        //console.log('row data',row);
+        console.log('row data',row[1][0]);
         delete row.Link
         if (index === 0) {
           let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' &&  x.headerValue != 'Inventory' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
@@ -620,9 +615,14 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
         }
         let tabValue: string[] = []
         this.select?.value?.forEach((x: string) => {
-          if(x != 'View'&&x != 'Inventory' &&this.checkNumberColumn(x))
+          console.log('column headers',x);
+          if(x != 'View'&&x != 'Inventory'&&x != 'Month' &&this.checkNumberColumn(x))
           {
             tabValue.push(row[x].replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ' ')
+          }
+          else if(x == 'Month')
+          {
+            tabValue.push('  ');
           }
           else
           {
@@ -630,7 +630,26 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
           }
         })
         data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
-      });
+        tabValue= [];
+        for (var i = 0; i <row[1].length; i++) {
+            if(i==0)
+            {
+              tabValue.push('\t'+row[1][i].Date);
+            }
+            else{
+              tabValue.push(row[1][i].Date);
+            }          
+             tabValue.push(row[1][i].SourceSystem);
+             tabValue.push(row[1][i].Activate);
+              tabValue.push(row[1][i].Cease	);
+              tabValue.push(row[1][i].Modify);
+              tabValue.push(row[1][i].Export);
+              tabValue.push(row[1][i].Import);
+              tabValue.push(row[1][i].TotalCmds +"\n");
+          }
+          //console.log('new table row each',tabValue); 
+          data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
+        });
       return data;
     }
   
