@@ -535,6 +535,7 @@ resetExp:boolean = false;
   maxDate = new Date();
   postCodeDefaultItem:string ='Starts With'
 
+ 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
     { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
@@ -547,16 +548,13 @@ resetExp:boolean = false;
     { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false }, 
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
-    { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
-    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },   
+    { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false,showTooltip:true },
+    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },  
+    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },    
     { header: 'Customer Title', headerValue: 'CustomerTitle', showDefault: true, isImage: false },
-    { header: 'Customer Forename', headerValue: 'CustomerForename', showDefault: true, isImage: false },
-    
-    
+    { header: 'Customer Forename', headerValue: 'CustomerForename', showDefault: true, isImage: false },  
     { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
-    
-   
+    { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false }, 
     { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
     { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
     { header: 'Address Line 1', headerValue: 'AddressLine1', showDefault: true, isImage: false },
