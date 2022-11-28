@@ -1,7 +1,7 @@
 <div class="table-selection-container" [ngClass]="reportName === 'livereport'  ? 'table-fit-content' : {} ">
   <div class="table-selection-top">
     <mat-form-field appearance="standard" *ngIf="columnHeaderFilter" class="colfilter" style="margin-left: 8px;">
-      <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
+      <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel" (openedChange)="selectPanelToggle($event,select)">
         <mat-select-trigger>
           <span style="display: flex;">
             <mat-icon matPrefix>filter_list</mat-icon>
@@ -12,9 +12,9 @@
         </mat-select-trigger>
         <mat-optgroup class="freezeselectall" style="min-width:220px">
           <mat-checkbox style="color: #3f51b5;" color="primary" [(ngModel)]="allSelected" #selectAll
-            [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
+            [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection(); select.close();">
             {{ selectAll.checked ? 'Deselect All' : 'Select All' }}</mat-checkbox>
-          <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns(select)"
+          <button class="select-submit" mat-basic-button color="primary" (click)="select.close();"
             >
             Submit
           </button>
@@ -101,7 +101,11 @@
 
         <!-- Image Columns -->
         <div *ngIf="disCol.isImage">
-          <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th>
+          <!-- <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th> -->
+          <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>
+            <span *ngIf="disCol.header==='Audit'"></span>
+            <span *ngIf="disCol.header!='Audit'"> {{disCol.header}}</span>
+           </th>
           <!-- <td mat-cell class="nowrap-cell" *matCellDef="let row "> -->
           <td mat-cell [ngClass]="{'nowrap-cell':!disCol.imgDesc}" class="nowrap-cell" *matCellDef="let row ">
             <ng-container *ngFor="let img of imgList; let imgIndex = index;">
