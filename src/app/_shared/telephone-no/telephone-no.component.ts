@@ -28,7 +28,7 @@ export class TelephoneNoComponent  {
   ngOnChanges(changes: SimpleChanges)
   {
     console.log('telephone numbers in component',+changes.telNoArray);
-    //this.selectedTelNo=false;
+    this.selectedTelNo=false;
     if(changes.telNoArray.currentValue != changes.telNoArray.previousValue)
     {
       this.telNoArray.forEach((element: any) => {
