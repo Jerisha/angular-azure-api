@@ -197,7 +197,7 @@
     </table>
   </div>
 
-  <div class="table-selection-bottom flex-container-paginator">
+  <div class="table-selection-bottom flex-container-paginator" *ngIf="reportIdentifier!='CeaseTransaction'">
     <!-- <div class="test-wrapper"> -->
     <div>
       <button *ngIf="tableitem?.selectCheckbox" type="button" mat-raised-button color="primary"

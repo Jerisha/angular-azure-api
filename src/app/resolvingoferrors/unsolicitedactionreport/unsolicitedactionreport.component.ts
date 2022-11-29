@@ -8,7 +8,6 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { map, startWith } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/index';
-
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { unsolicitedactionreport } from '../models/unsolicitedactionreport';
@@ -16,71 +15,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import { expNumeric, expString, expDate,expDropdown,select } from 'src/app/_helper';
+import { expNumeric, expString, expDate, expDropdown, select } from 'src/app/_helper';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { AlertService } from 'src/app/_shared/alert';
-
-
-
-// const ELEMENT_DATA: unsolicitedactionreport[] = [
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-//   {
-//     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
-//     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
-//   },
-// ];
 
 const FilterListItems: Select[] = [
   { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
@@ -91,7 +28,7 @@ const FilterListItems: Select[] = [
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Trans Command', viewValue: 'TransactionCommand', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
- 
+
 ];
 
 @Component({
@@ -100,7 +37,6 @@ const FilterListItems: Select[] = [
   styleUrls: ['./unsolicitedactionreport.component.css']
 })
 export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  
   myTable!: TableItem;
   queryResult$: any;
   thisForm: any;
@@ -115,7 +51,6 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
-
   selectedGridRows: any[] = [];
   selectedRowsCount: number = 0;
   selectedTab!: number;
@@ -129,33 +64,28 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   telNo?: any;
   tranId?: any;
   repIdentifier = "UnsolicitedActionReport";
-  // queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
   updateDetails!: any;
   queryResultInfo$!: Observable<any>;
-
   selected: string = '';
-  // currentPage: string = '1';
-  //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
-   // make ExampleHeaderComponent type available in our template:
-   readonly CustomHeaderComponent = CustomHeaderComponent;
+  readonly CustomHeaderComponent = CustomHeaderComponent;
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    ) { }
+  ) { }
 
 
   listItems!: Select[];
   resetExp: boolean = false;
-  expressions: any = [expNumeric, expString, expDate,expDropdown];
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   errorCodesOptions!: Observable<any[]>;
@@ -166,20 +96,18 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     { view: '303', viewValue: '303', default: true },
   ];
   errorCode = new FormControl();
+  localityremoveExp:any=['<>'];
+  localityExp:any;
   expOperators: string[] = [
 
-    "TelephoneNumberOperator",
     "TransactionReferenceOperator",
     "SourceOperator",
     "ResolveTypeOperator",
-    "StatusrOperator",
+    "StatusOperator",
     "TranCommandOperator",
 
-  ]; 
+  ];
   expOperatorsKeyPair: [string, string][] = [];
-
-
-
 
   ngOnInit(): void {
 
@@ -187,13 +115,12 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Source', 'AllResolutionType', 'TransactionCommand', 'ErrorStatus']);
     this.service.configDetails(request).subscribe((res: any) => {
-      // console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
 
-
+    this.localityExp = this.expressions[1].default.filter((x:any)=> !this.localityremoveExp.includes(x.viewValue))
   }
-   
+
 
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
@@ -202,15 +129,11 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     this.cdr.detectChanges();
   }
 
-  
+
   ngOnDestroy() {
     this.destroy$.next(true);
-    //debugger;
-    //console.log('destroying')
-    // Unsubscribe from the subject
     this.destroy$.unsubscribe();
   }
-
 
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
@@ -227,13 +150,11 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     return true;
   }
 
-
   ngAfterViewChecked() {
 
     this.cdr.detectChanges();
 
   }
-
 
   get f() {
     return this.myForm.controls;
@@ -241,8 +162,6 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
 
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
-    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-    // return filteredList;
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
@@ -250,7 +169,6 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.myForm.get(ctrlName) as FormControl;
     if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     } else {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
@@ -282,29 +200,18 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     const month = today.getMonth();
     const year = today.getFullYear();
     const date = today.getDate();
-    //ToDate: new FormControl(new Date(year, month, date))
-    
-   this.myForm = new FormGroup({
-      // TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
+
+    this.myForm = new FormGroup({
       TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
       TransactionReference: new FormControl({ value: '', disabled: false }, []),
       ResolveType: new FormControl({ value: '', disabled: false }, []),
       Source: new FormControl({ value: '', disabled: false }, []),
       Status: new FormControl({ value: '', disabled: false }, []),
       TransactionCommand: new FormControl({ value: '', disabled: false }, []),
-      // TransCommand: new FormControl({ value: '', disabled: false }, []),
       Reference: new FormControl({ value: '', disabled: false }, []),
-      DateRange: this.formBuilder.group({StartDate: new FormControl(), EndDate: new FormControl(), disabled: false })
+      DateRange: this.formBuilder.group({ StartDate: new FormControl(), EndDate: new FormControl(), disabled: false })
     })
   }
-
-  
-  // onSaveSubmit() {
-    
-
-  // }
-  // InternalErrorInformation: any;
-  
 
   setControlAttribute(MatSelect: MatSelect) {
     MatSelect.options.forEach((item) => {
@@ -317,14 +224,13 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     });
   }
 
-  
+
   columns: ColumnDetails[] = [
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false, isSticky: true },
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true, isSticky: true },
     { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
-    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
-    
     { header: 'Transaction Ref', headerValue: 'TransactionReference', showDefault: true, isImage: false },
-    { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
+    { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false, showTooltip: true  },
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
@@ -338,29 +244,18 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     if (!this.myForm.valid) return;
     this.alertService.clear();
     this.tabs.splice(0);
-    // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
-
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('Summary', 'UnsolicitedActionReport', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
-          // datasource: ELEMENT_DATA,
-          // totalrecordcount: 1,
-          // totalpages: 1,
-          // pagenumber: 1
         }
         return result;
       } else return {
@@ -373,11 +268,12 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      isFavcols:true,
+      isFavcols: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
-      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
+      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }],
+      isSticky: true,
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -386,9 +282,8 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
         name: 'Summary'
       });
     }
-    // this.isEnable();
   }
-  
+
 
   isEnable() {
 
@@ -400,7 +295,6 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     }
     else
       this.isSaveDisable = true;
-    //console.log('isSaveDisable',this.isSaveDisable)
   }
 
   prepareQueryParams(pageNo: string): any {
@@ -414,7 +308,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     else
       attributes.push({ Name: '999Reference' });
     for (const field in this.f) {
-      if (field != 'Reference' ) {
+      if (field != 'Reference') {
         const control = this.myForm.get(field);
         if (field == 'DateRange') {
           const startDate = this.myForm.get('DateRange.StartDate');
@@ -426,101 +320,57 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
           if (endDate?.value)
             attributes.push({ Name: 'EndDate', Value: [formatDate(endDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
-            attributes.push({ Name: 'EndDate' });           
+            attributes.push({ Name: 'EndDate' });
           continue;
         }
-        // if (field == 'ResolveType')
-        // {
-        // attributes.push({ Name: 'ResolveType', Value: [control?.value]});
-        // console.log('ResolveType',attributes)
-        // let operator: string = 'ResolveType' + "Operator";
-        // if (this.expOperatorsKeyPair.length != 0) {
-        //   let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-        //   // console.log(expvals,"operatorVal1")
-        //   if (expvals.length != 0) {
-        //   //  console.log(control?.value,"True");
-        //       // if (control?.value) {
-        //         attributes.push({ Name: operator, Value: [expvals[0][1]] });
-        //         // console.log(expvals[0][1],"operatorVal");
-        //       // }
-        //       // else {
-        //       //   attributes.push({ Name: operator, Value: ['Equal To'] });
-        //       // }
-        //   }
-         
-        // }
-        // else {
-  
-        //   attributes.push({ Name: operator, Value: ['Equal To'] });
-        //   console.log('ResolveType1',attributes)
-        // }
-     
        
-        // } 
-        if (field == 'TransactionCommand')
-        {
-        attributes.push({ Name: 'TransactionCommand', Value: [control?.value]});
-        let operator: string = 'TranCommand' + "Operator";
+        if (field == 'TransactionCommand') {
+          attributes.push({ Name: 'TransactionCommand', Value: [control?.value] });
+          let operator: string = 'TranCommand' + "Operator";
+          if (this.expOperatorsKeyPair.length != 0) {
+            let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+            // console.log(expvals,"operatorVal1")
+            if (expvals.length != 0) {
+              attributes.push({ Name: operator, Value: [expvals[0][1]] });
+            
+            }
+
+          }
+          else {
+
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+
+          }
+        }
+        else {
+          if (control?.value)
+            attributes.push({ Name: field, Value: [control?.value] });
+          else
+            attributes.push({ Name: field });
+
+        }
+        let operator: string = field + "Operator";
         if (this.expOperatorsKeyPair.length != 0) {
           let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
           // console.log(expvals,"operatorVal1")
           if (expvals.length != 0) {
-          //  console.log(control?.value,"True");
-              // if (control?.value) {
-                attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                // console.log(expvals[0][1],"operatorVal");
-              // }
-              // else {
-              //   attributes.push({ Name: operator, Value: ['Equal To'] });
-              // }
-          }
-         
-        }
-        else {
-  
-          attributes.push({ Name: operator, Value: ['Equal To'] });
-  
-        }  
-        } 
-         else{
-        if (control?.value )
-          attributes.push({ Name: field, Value: [control?.value] });
-        else
-          attributes.push({ Name: field });
-
-      }
-      let operator: string = field + "Operator";
-
-      // console.log("op vals",this.expOperatorsKeyPair);
-
-      //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
-      //  console.log("op ",operatorVal);
-      if (this.expOperatorsKeyPair.length != 0) {
-        let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-        // console.log(expvals,"operatorVal1")
-        if (expvals.length != 0) {
-        //  console.log(control?.value,"True");
-            // if (control?.value) {
-              attributes.push({ Name: operator, Value: [expvals[0][1]] });
-              // console.log(expvals[0][1],"operatorVal");
-            // }
-            // else {
-            //   attributes.push({ Name: operator, Value: ['Equal To'] });
-            // }
-        }
-        else {
-          if (field == 'TelephoneNumber' || field == 'DateRange') {
-            attributes.push({ Name: operator, Value: ['Equal To'] });
+          
+            attributes.push({ Name: operator, Value: [expvals[0][1]] });
+       
           }
           else {
-            attributes.push({ Name: operator, Value: ['Equal To'] });
+            if (field == 'TelephoneNumber' || field == 'DateRange') {
+              attributes.push({ Name: operator, Value: ['Equal To'] });
+            }
+            else {
+              attributes.push({ Name: operator, Value: ['Equal To'] });
+            }
           }
         }
-      }
-      else  {
+        else {
 
-        attributes.push({ Name: operator, Value: ['Equal To'] });
-      }
+          attributes.push({ Name: operator, Value: ['Equal To'] });
+        }
       }
     }
     // console.log('attri',attributes);
@@ -528,9 +378,6 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     return attributes;
 
   }
-
-  
-
 
 
   resetForm(): void {
@@ -542,7 +389,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   rowDetect(selectedRows: any) {
     debugger;
     selectedRows.forEach((item: any) => {
-      //this.selectedRowsCount = item.length;
+
       if (item && item.length == 0) return
 
       if (!this.selectedGridRows.includes(item))
@@ -553,7 +400,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
       }
     })
 
-    // console.log("selectedGridRows" + this.selectedGridRows)
+   
   }
 
   getNextSetRecords(pageEvent: any) {
@@ -567,49 +414,6 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
-  // newTab(tab: any) {
-  //   if (this.tabs === []) return;
-
-  //   switch (tab.tabType) {
-  //     case 1: {
-  //       //tab.row contains row data- fetch data from api and bind to respetive component
-  //       if (!this.tabs.find(x => x.tabType == 1)) {
-  //         this.tabs.push({
-  //           tabType: 1,
-  //           name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
-  //         });
-
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
-  //       } else {
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
-  //         let updtab = this.tabs.find(x => x.tabType == 1);
-  //         if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
-  //       }
-  //       this.auditTelNo = tab.row.TelephoneNumber;
-  //       break;
-  //     }
-  //     case 2: {
-  //       if (!this.tabs.find(x => x.tabType == 2)) {
-  //         this.tabs.push({
-  //           tabType: 2,
-  //           name: 'Transaction Errors'
-  //         })
-
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-  //       } else {
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-  //       }
-  //       this.telNo = tab.row.TelephoneNumber;
-  //       this.tranId = tab.row.TransactionReference;
-  //       break;
-  //     }
-  //     default: {
-  //       //statements; 
-  //       break;
-  //     }
-  //   }
-  // }
 
   newTab(tab: any) {
     if (this.tabs === []) return;
@@ -628,7 +432,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
         this.auditTelNo = tab.row.TelephoneNumber;
-        // this.auditTelNo = '02075957399';
+        
         break;
 
     }

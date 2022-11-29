@@ -105,6 +105,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   selectedTab!: number;
   selectListItems: string[] = [];
   listItems!: Select[];
+  
   //unSelectListItems: string[] = [];
   tabs: Tab[] = [];
   audittrailNos: any[] = [];
@@ -138,28 +139,19 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     ]
   };
 
-  // colHeader: ColumnDetails[] = [
-  //   { headerValue: 'StartTel', header: 'Start Tel', showDefault: true, isImage: false }, 
-  //   { headerValue: 'EndTel', header: 'End Tel', showDefault: true, isImage: false },
-  //   { headerValue: 'Live', header: 'Live', showDefault: true, isImage: false },
-  //   { headerValue: 'Trans', header: 'Trans', showDefault: true, isImage: false },
-  //   { headerValue: 'Null', header: 'Null', showDefault: true, isImage: false ,isTotal:false },
-  //   { headerValue: 'Line', header: 'Line', showDefault: true, isImage: false ,isTotal:false},
-  //   { headerValue: 'Name', header: 'Name', showDefault: true, isImage: false },
-  //   { headerValue: 'Address', header: 'Address', showDefault: true, isImage: false }
-  // ];
+ 
 
   colHeader: ColumnDetails[] = [
-    { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
-    { header: 'End Telephone No.', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Start Tel No', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'End Tel No', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Live', headerValue: 'LiveRecords', showDefault: true, isImage: false,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Audit', headerValue: 'InactiveRecords', showDefault: true, isImage: false,isTotal:true,isFooter:true,isNumber:true },
+    { header: 'N/A', headerValue: 'NotAvailable', showDefault: true, isImage: false,isTotal:true,isFooter:true,isNumber:true},
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
-    { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false,isTotal:true,isFooter:true,isNumber:true},
-    { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false,isTotal:true,isFooter:true,isNumber:true },
-    { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false,isTotal:true,isFooter:true,isNumber:true},
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
-    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
+    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },
   ];
 
   constructor(private service: TransactionDataService,
@@ -547,7 +539,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
         if (x.StatusMessage === 'Ceased Successfully') {
 
           //success message and same data reload
-          this.alertService.success("Transaction Ceased successful!!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` +  "record(s) removed from Live Record !", { autoClose: true, keepAfterRouteChange: false });
           this.onFormSubmit(true);
           this.isEnable();
         }
