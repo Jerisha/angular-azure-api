@@ -604,25 +604,60 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
   
     copyToClipboard() {
       let data = "";
+      if(this.selection.selected.length===0)
+      {
+      this.dataSource.data.forEach((row: any, index) => {
+        //  console.log('row data',row[1][0]);
+          delete row.Link
+          if (index === 0) {
+            let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' &&  x.headerValue != 'Inventory' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+            let  datahead   = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
+            data =datahead.toString().replace('Inventory', '');
+          }
+          let tabValue: string[] = []
+          this.select?.value?.forEach((x: string) => {
+            if(x != 'View'&&x != 'Inventory'&&x != 'Month' &&this.checkNumberColumn(x))
+            {
+              tabValue.push(row[x].replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ' ')
+            }
+            else if(x == 'Month')
+            {
+              tabValue.push('  ');
+            }
+            else
+            {
+            if (x != 'View'&&x != 'Inventory') tabValue.push(row[x] || ' ')
+            }
+          })
+
+          data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
+
+          });
+          let tabValue: any[] = [];
+          let cumilative:any[]=[];
+          tabValue.push('\t','Total');
+          cumilative.push('\t','Cumulative');
+          this.select?.value?.forEach((x: string) => { 
+            tabValue.push(this.getTotal(x));
+            cumilative.push(this.getTotal(x))
+          });
+            data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
+            data += cumilative.join('$$').replace(/[$$]+/g, '\t') + "\n";
+        }
   debugger
       this.selection.selected.forEach((row: any, index) => {
-        console.log('row data',row[1][0]);
+      //  console.log('row data',row[1][0]);
         delete row.Link
         if (index === 0) {
-          let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' &&  x.headerValue != 'Inventory' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+          let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' &&  x.headerValue != 'Inventory'&& this.select?.value?.includes(x.headerValue)).map(e => e.header);
           let  datahead   = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
           data =datahead.toString().replace('Inventory', '');
         }
         let tabValue: string[] = []
         this.select?.value?.forEach((x: string) => {
-          console.log('column headers',x);
-          if(x != 'View'&&x != 'Inventory'&&x != 'Month' &&this.checkNumberColumn(x))
+          if(x != 'View'&&x != 'Inventory' &&this.checkNumberColumn(x))
           {
             tabValue.push(row[x].replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ' ')
-          }
-          else if(x == 'Month')
-          {
-            tabValue.push('  ');
           }
           else
           {
@@ -631,27 +666,33 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
         })
         data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
         tabValue= [];
-        for (var i = 0; i <row[1].length; i++) {
-            if(i==0)
-            {
-              tabValue.push('\t'+row[1][i].Date);
-            }
-            else{
-              tabValue.push(row[1][i].Date);
-            }          
-             tabValue.push(row[1][i].SourceSystem);
-             tabValue.push(row[1][i].Activate);
-              tabValue.push(row[1][i].Cease	);
-              tabValue.push(row[1][i].Modify);
-              tabValue.push(row[1][i].Export);
-              tabValue.push(row[1][i].Import);
-              tabValue.push(row[1][i].TotalCmds +"\n");
-          }
-          //console.log('new table row each',tabValue); 
-          data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
+        // if(row[1])
+        // {
+        // for (var i = 0; i <row[1].length; i++) {
+        //     if(i==0)
+        //     {
+        //       tabValue.push('\t'+row[1][i].Date);
+        //     }
+        //     else{
+        //       tabValue.push(row[1][i].Date);
+        //     }          
+        //      tabValue.push(row[1][i].SourceSystem);
+        //      tabValue.push(row[1][i].Activate);
+        //       tabValue.push(row[1][i].Cease	);
+        //       tabValue.push(row[1][i].Modify);
+        //       tabValue.push(row[1][i].Export);
+        //       tabValue.push(row[1][i].Import);
+        //       tabValue.push(row[1][i].TotalCmds +"\n");
+        //   }
+         
+        //   data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
+        // }
         });
+        console.log('data after copy',data);
       return data;
     }
+
+
   
     RequestExport2Excel() {
       debugger;
