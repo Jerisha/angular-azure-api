@@ -875,6 +875,12 @@ checkauditbutton(row: any, cell: any)
       this.stickycolumnEnable=true;
     }
   }
+  
+  selectPanelToggle(event: any, select: any) {
+    // console.log(event);
+    if(!event) this.filterGridColumns(select);
+  }
+
   CreateTransaction()
   {
     let data = "";

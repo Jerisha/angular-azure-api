@@ -128,6 +128,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   destroy$: Subject<boolean> = new Subject<boolean>();
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  localityremoveExp:any=['<>'];
+  localityExp:any;
   // make ExampleHeaderComponent type available in our template:
   readonly CustomHeaderComponent = CustomHeaderComponent;
   errorCodeData: Select[] = [
@@ -154,11 +156,11 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   columns: ColumnDetails[] = [
     // { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
 
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false , isSticky:true},
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true, isSticky:true },
     { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
-    { header: 'Latest User Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
+    { header: 'Latest User Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false, showTooltip: true  },
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
@@ -191,7 +193,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       this.configDetails = res.data;
     });
 
-
+    this.localityExp = this.expressions[1].default.filter((x:any)=> !this.localityremoveExp.includes(x.viewValue))
   }
 
 
@@ -262,7 +264,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
       excelQuery: this.prepareQueryParams(this.currentPage.toString()),
-      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
+      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }],
+      isSticky:true,
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {

@@ -630,7 +630,8 @@ th.mat-column-NotAvailable {
   height: inherit;
 }
 
-.mat-cell.mat-column-LatestUserComments {
+.mat-cell.mat-column-LatestUserComments,
+.mat-cell.mat-column-ResolveRemarks {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 21.42857em;
@@ -644,6 +645,10 @@ th.mat-column-NotAvailable {
   max-width: 200px;
 
 }
+/* sprint4 task */
+/* .mat-cell.mat-column-StatusDescription {
+  white-space: normal !important;
+} */
 
 .mat-header-cell.mat-column-FirstDate,
 .mat-header-cell.mat-column-LastDate,
@@ -657,7 +662,10 @@ th.mat-column-NotAvailable {
 .mat-header-cell.mat-column-SourceType,
 .mat-header-cell.mat-column-TypeOfLine,
 .mat-header-cell.mat-column-Difference,
-.mat-header-cell.mat-column-AddressIdSource {
+.mat-header-cell.mat-column-AddressIdSource,
+.mat-header-cell.mat-column-InternalCupid,
+.mat-header-cell.mat-column-LastTransaction,
+.mat-header-cell.mat-column-TransactionDate{
   white-space: normal !important;
 }
 .mat-header-cell.mat-column-TypeOfLine {
@@ -690,7 +698,8 @@ th.mat-column-NotAvailable {
     }
   .mat-cell.mat-column-LatestUserComments:hover,
   .mat-cell.mat-column-ErrorList.tooltiphilight:hover,
-  .mat-cell.mat-column-TypeOfLine:hover {
+  .mat-cell.mat-column-TypeOfLine:hover,
+  .mat-cell.mat-column-ResolveRemarks:hover {
 
     background-color:blue;
     color:white;

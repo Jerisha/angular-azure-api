@@ -9,8 +9,8 @@
             <div class="matsidenav-filter">
                 <ng-container *ngIf="configDetails  as config">
                     <div [ngStyle]="{'display':myForm.controls.StartTelephoneNumber.disabled ? 'none' : 'block'}">
-                    <app-select-exp [listItems]="expressions[0].default"  #StartTelephoneNumberOperator [resetvalue]="resetExp"
-                    (click) ="OnOperatorClicked(['StartTelephoneNumberOperator',StartTelephoneNumberOperator.selectedViewValue])"></app-select-exp>         
+                    <!-- <app-select-exp [listItems]="expressions[0].default"  #StartTelephoneNumberOperator [resetvalue]="resetExp"
+                    (click) ="OnOperatorClicked(['StartTelephoneNumberOperator',StartTelephoneNumberOperator.selectedViewValue])"></app-select-exp>          -->
                     <mat-form-field hintLabel="Max 11 characters"
                         [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
                         <mat-label>Telephone No</mat-label>
@@ -124,9 +124,9 @@
                     </div> -->
 
                     <div [ngStyle]="{'display':myForm.controls.Source.disabled ? 'none' : 'block'}">
-
+<!-- 
                         <app-select-exp [listItems]="expressions[3].default" #SourceOperator [resetvalue]="resetExp"
-                        (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp> 
+                        (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>  -->
                         <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
                             <mat-label>Source System</mat-label>
                             <mat-select formControlName="Source">  
@@ -193,8 +193,8 @@
                     
                     <div [ngStyle]="{'display':myForm.controls.LineType.disabled ? 'none' : 'block'}">
 
-                        <app-select-exp [listItems]="expressions[3].default" #LineTypeOperator [resetvalue]="resetExp"
-                        (click) ="OnOperatorClicked(['LineTypeOperator',LineTypeOperator.selectedViewValue])"></app-select-exp> 
+                        <!-- <app-select-exp [listItems]="expressions[3].default" #LineTypeOperator [resetvalue]="resetExp"
+                        (click) ="OnOperatorClicked(['LineTypeOperator',LineTypeOperator.selectedViewValue])"></app-select-exp>  -->
                         <mat-form-field [ngClass]="{'hidden':f.LineType.disabled}">
                             <mat-label>Line Type</mat-label>
                             <mat-select formControlName="LineType">  

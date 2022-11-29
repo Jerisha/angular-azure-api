@@ -135,6 +135,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
   telNo?: any;
   tranId?: any;
   repIdentifier = "SolicitedResolutionReport";
+  localityremoveExp:any=['<>'];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -160,6 +161,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
   updateDetails!: any;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  localityExp:any;
   // make ExampleHeaderComponent type available in our template:
   readonly CustomHeaderComponent = CustomHeaderComponent;
   errorCodeData: Select[] = [
@@ -202,6 +204,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
     //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
+
+    this.localityExp = this.expressions[1].default.filter((x:any)=> !this.localityremoveExp.includes(x.viewValue));
   }
 
   splitData(data: string | undefined): string[] {
@@ -431,8 +435,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
   }
 
   columns: ColumnDetails[] = [
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false, isSticky: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true, isSticky: true },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
     { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
@@ -449,7 +453,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
     { header: 'Unresolved', headerValue: 'Unresolved', showDefault: true, isImage: false },
     { header: 'Superseded', headerValue: 'Superseded', showDefault: true, isImage: false },
     { header: 'SpecialCease', headerValue: 'SpecialCease', showDefault: true, isImage: false },
-    { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
+    // { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
+    { header: 'Latest User Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false, showTooltip: true },
     { header: 'Total', headerValue: 'Total', showDefault: true, isImage: false },
     { header: 'Errors', headerValue: 'Errors', showDefault: true, isImage: false },
     { header: 'AddressLine 1', headerValue: 'AddressLine1', showDefault: true, isImage: false },
@@ -459,7 +464,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
     { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
     { header: 'Last Transaction', headerValue: 'LastTransaction', showDefault: true, isImage: false },
     { header: 'Change Cupid', headerValue: 'ChangeCupid', showDefault: true, isImage: false },
-    { header: 'Internal Cupid', headerValue: 'InternalCupid', showDefault: true, isImage: false },
+    // { header: 'Internal Cupid', headerValue: 'InternalCupid', showDefault: true, isImage: false },
+    { header: 'Int. Cupid', headerValue: 'InternalCupid', showDefault: true, isImage: false },
   ];
 
 
@@ -506,7 +512,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
       removeNoDataColumns: true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }],
+      isSticky:true
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
