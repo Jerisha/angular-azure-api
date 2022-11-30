@@ -539,7 +539,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
         if (x.StatusMessage === 'Ceased Successfully') {
 
           //success message and same data reload
-          this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` +  "record(s) removed from Live Record !", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` +  "Transaction Ceased Successful!", { autoClose: true, keepAfterRouteChange: false });
           this.onFormSubmit(true);
           this.isEnable();
         }

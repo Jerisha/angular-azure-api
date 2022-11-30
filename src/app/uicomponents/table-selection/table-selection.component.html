@@ -1,5 +1,6 @@
 <div class="table-selection-container" [ngClass]="reportName === 'livereport'  ? 'table-fit-content' : {} ">
   <div class="table-selection-top">
+    <div *ngIf="reportIdentifier!='CeaseTransaction'">
     <mat-form-field appearance="standard" *ngIf="columnHeaderFilter" class="colfilter" style="margin-left: 8px;">
       <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel" (openedChange)="selectPanelToggle($event,select)">
         <mat-select-trigger>
@@ -28,6 +29,7 @@
         </ng-container>
       </mat-select>
     </mat-form-field>
+    </div>
     <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox">No of selected rows :
       <b> {{selection.selected.length}}</b></span> &nbsp;
       <mat-slide-toggle style="margin-top:7px" *ngIf="tableitem?.isSticky" (change)="changeView()"  [(ngModel)]="isCheckedtoggle" class="toggleclass">
