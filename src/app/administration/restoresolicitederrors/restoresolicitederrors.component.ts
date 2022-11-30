@@ -138,10 +138,10 @@ const FilterListItems: Select[] = [
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: false },
+  { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'Error Code', viewValue: 'ErrorCode', default: true },
-  { view: '999 Reference', viewValue: 'Reference', default: true },
-  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
+  { view: '999 Reference', viewValue: 'Reference', default: false },
+  // { view: 'Order Reference', viewValue: 'OrderReference', default: false }
 ];
 
 @Component({
@@ -199,6 +199,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     updateDetails!: any;
     minDate = new Date(2000, 0, 1);
     maxDate = new Date();
+    errorCodes: string[];
      // make ExampleHeaderComponent type available in our template:
     readonly CustomHeaderComponent = CustomHeaderComponent;
     model: any = { ErrorCode: "" };
@@ -211,6 +212,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     this.service.configDetails(request).subscribe((res: any) => {
       // console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
+      this.errorCodes = res.data?.ErrorCode
     });
 
     let updateRequest = Utils.preparePyConfig(['Update'], ['RestoreSolResolutionType']);
@@ -284,6 +286,15 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     })
 
   }
+  errorTypeChanges(event: any) {
+    // debugger;
+     let errType = event.value;
+     let code = errType === 'Internal Errors' ? '2' : '1';
+     this.errorCodes = this.configDetails?.ErrorCode.filter((x: string) => x.startsWith(code))
+     console.log('error code cofig details',this.configDetails?.ErrorCode);
+     console.log('error codes values',this.errorCodes);
+ 
+   }
   createForm() {
 
     const today = new Date();
@@ -302,15 +313,15 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
       ResolutionType: new FormControl({ value: '', disabled: false }, []),
       ErrorCode: new FormControl({ value: '', disabled: false }, []),
       ErrorType: new FormControl({ value: '', disabled: false }, []),
-      Reference: new FormControl({ value: '', disabled: false }, []),
-      OrderReference: new FormControl({ value: '', disabled: false }, []),
+      Reference: new FormControl({ value: '', disabled: true }, []),
+      //OrderReference: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl(),
         ToDate: new FormControl(),
-        disabled: true
+        disabled: false
       })
     })
-this.f['DateRange'].disable();
+this.f['DateRange'].enable();
 
   }
 
@@ -333,6 +344,7 @@ this.f['DateRange'].disable();
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error Codes', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: 'Trans Id', headerValue: 'TransactionId', showDefault: true, isImage: false },
     { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
