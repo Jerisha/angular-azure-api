@@ -407,7 +407,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
         this.select.options.forEach((item: MatOption) => item.select());
       } else {
         this.select.options.forEach((item: MatOption, index) => {
-          if (item.value === 'TelephoneNumber' || item.value === 'View' || item.value === 'Link' || item.value === 'Links' || item.value === 'StartTelephoneNumber') {
+          if (item.value === 'TelephoneNumber' || item.value === 'View' || item.value === 'Link' || item.value === 'Links' || item.value === 'StartTelephoneNumber' || (this.reportIdentifier === 'AuditStatusTracker' && item.value ==='ActId') || (this.reportIdentifier === 'AuditUserActionSummary' && item.value ==='AuditACTID' )) {
             //  item.deselect();
             ;
           } else {
