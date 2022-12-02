@@ -16,21 +16,21 @@
           </div>
 
           <div style="margin-bottom:10px" [ngClass]="{'hidden': showAuditType}">
-            <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
-              (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])"></app-select-exp>
+            <!-- <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])"></app-select-exp> -->
 
 
-            <app-select-checkbox style="margin-left:0px" [label]="'Audit Type'" #selMultiple
+            <app-select-checkbox style="margin-left:35px" [label]="'Audit Type'" #selMultiple
               [listItems]="AuditTypeFilter" (changes)="multipleSelect($event, 'AuditType')" [icon]="'filter_alt'">
             </app-select-checkbox>
           </div>
 
           <div style="margin-bottom:10px" [ngClass]="{'hidden': showResolvedBy}">
-            <app-select-exp [listItems]="expressions[3].default" #ResolvedByOperator [resetvalue]="resetExp"
-              (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])"></app-select-exp>
+            <!-- <app-select-exp [listItems]="expressions[3].default" #ResolvedByOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])"></app-select-exp> -->
 
 
-            <app-select-checkbox style="margin-left:0px" [label]="'Resolved By'" #selMultiple
+            <app-select-checkbox style="margin-left:35px" [label]="'Resolved By'" #selMultiple
               [listItems]="ResolvedByFilter" (changes)="multipleSelect($event, 'ResolvedBy')" [icon]="'filter_alt'">
             </app-select-checkbox>
           </div>

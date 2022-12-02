@@ -174,42 +174,42 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "AttributeDifferenceMatchedActiveMismatchedPostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "AttributeDifferenceMatchedActiveMismatchedCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "AttributeDifferenceMatchedActiveMismatchedFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedPostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
@@ -714,21 +714,21 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "OutstandingMonthsDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "OutstandingMonthsDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "OutstandingMonthsDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
@@ -742,21 +742,21 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYPostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
@@ -859,21 +859,21 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "AttributeDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "AttributeDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "AttributeDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
@@ -1195,21 +1195,21 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "OutstandingMonthsDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "OutstandingMonthsDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "OutstandingMonthsDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
@@ -1223,21 +1223,21 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYPostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
@@ -1312,21 +1312,21 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "AttributeDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "AttributeDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "AttributeDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
@@ -1786,21 +1786,21 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "OutstandingMonthsDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "OutstandingMonthsDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "OutstandingMonthsDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
@@ -1814,21 +1814,21 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Postcode Difference",
+                    Headers: "Postcode Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYPostCodeDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Customer Difference",
+                    Headers: "Cust. Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYCustomerDifference",
                     rowspan: "1",
                     colspan: "1",
                     isNumber: true
                 },
                 {
-                    Headers: "Full Address Difference",
+                    Headers: "Address Diff.",
                     DataHeaders: "SelectedMonthDifferenceENDStatusYFullAddressDifference",
                     rowspan: "1",
                     colspan: "1",
