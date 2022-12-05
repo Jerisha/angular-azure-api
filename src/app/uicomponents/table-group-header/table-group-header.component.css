@@ -142,3 +142,6 @@ th.mat-header-cell, .headerLvl2 th, .headerLvl3 th{
   font-weight: 600 !important;
 }
 
+.mat-header-cell.mat-column-SelectedMonthCLICountsENDStatusY  {
+  max-width: 120px;
+}

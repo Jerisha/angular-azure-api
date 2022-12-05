@@ -84,12 +84,12 @@ export class AuditdiscrepancyreportComponent extends UserProfile implements OnIn
 
 
     this.groupHeaders = [
-      { Headers: 'Internal CLI Status', DataHeaders: 'InternalCLIStatus', rowspan: "1", colspan: "9" },
+      { Headers: 'Internal CLI Status', DataHeaders: 'InternalCLIStatusCode', rowspan: "1", colspan: "9" },
       { Headers: 'Attribute Difference', DataHeaders: 'AttributeDifference', rowspan: "1", colspan: "3" },
       { Headers: 'Resolution Type', DataHeaders: 'ResolutionType', rowspan: "1", colspan: "2" }
     ];
 
-    this.headerswithDetails = ['ACTID', 'SourceSystem', 'InternalCLIStatus', 'AttributeDifference', 'ResolutionType'];
+    this.headerswithDetails = ['ACTID', 'SourceSystem', 'InternalCLIStatusCode', 'AttributeDifference', 'ResolutionType'];
     this.displayedColumns = this.ColumnDetails.map(x => x.DataHeaders);
     this.detailedColumnsArray = this.displayedColumns.filter(x => !this.headerswithDetails.includes(x));
     this.grpHdrColumnsArray = [this.headerswithDetails];

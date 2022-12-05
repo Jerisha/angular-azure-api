@@ -41,6 +41,91 @@ export class FullAuditTypeComponent implements OnInit {
     { cells: ['OutstandingCLICount', 'SelectedMonthCLICountsENDStatusY'], isBackgroundHighlighted: true }
   ];
 
+  copyColumnsHeaders = [{
+    Headers: "ACT ID",
+    DataHeaders: "ActId"
+},
+{
+    Headers: "Source System",
+    DataHeaders: "SourceSystem"
+},
+{
+    Headers: "BA",
+    DataHeaders: "BABTOnlySourceActive"
+},
+{
+    Headers: "BN",
+    DataHeaders: "BNBTOnlySourceNotFound"
+},
+{
+    Headers: "BC",
+    DataHeaders: "BCBTOnlySourceCease"
+},
+{
+    Headers: "BT Only Total",
+    DataHeaders: "BTOnlyTotal"
+},
+{
+    Headers: "DN",
+    DataHeaders: "DNMisMatchedSourceNotFound"
+},
+{
+    Headers: "DC",
+    DataHeaders: "DCMisMatchedSourceCease"
+},
+{
+    Headers: "DAS",
+    DataHeaders: "DASMisMatchedSourceActiveMatched"
+},
+{
+    Headers: "DAD",
+    DataHeaders: "DADMisMatchedSourceActiveMisMatched"
+},
+{
+    Headers: "Mismatched Total",
+    DataHeaders: "MismatchedTotal"
+},
+{
+    Headers: "SC",
+    DataHeaders: "SCMatchedSourceCease"
+},
+{
+    Headers: "SAD",
+    DataHeaders: "SADMatchedSourceActiveMisMatched"
+},
+{
+    Headers: "SAS",
+    DataHeaders: "SASMatchedSourceActiveMatched"
+},
+{
+    Headers: "Matched Total",
+    DataHeaders: "MatchedTotal"
+},
+{
+    Headers: "VN",
+    DataHeaders: "VNOSN2OnlySourceNotFound"
+},
+{
+    Headers: "VA",
+    DataHeaders: "VAOSN2OnlySourceActive"
+},
+{
+    Headers: "VC",
+    DataHeaders: "VCOSN2OnlySourceCease"
+},
+{
+    Headers: "OSN2 Only Total",
+    DataHeaders: "OSN2OnlyTotal"
+},
+{
+    Headers: "LS",
+    DataHeaders: "LSLiveInSource"
+},
+{
+    Headers: "Total",
+    DataHeaders: "Total"
+}];
+
   constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef,
     private service: AuditReportsService, private spinner: NgxSpinnerService) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
@@ -102,7 +187,7 @@ export class FullAuditTypeComponent implements OnInit {
     var labelName = 'AuditSummary';
     var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
 
-    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'AttributeDifferenceMatchedActiveMismatched', 'AttributeDifferenceMisMatchedActiveMismatched', 'ResolutionType'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatusCode', 'AttributeDifferenceMatchedActiveMismatched', 'AttributeDifferenceMisMatchedActiveMismatched', 'ResolutionType'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     grpHdrColumnsArray = [headerswithDetails];
@@ -114,6 +199,8 @@ export class FullAuditTypeComponent implements OnInit {
       GroupHeaderColumnsArray: grpHdrColumnsArray,
       isRowLvlTotal: true,
       setCellAttributes: this.cellAttrInfoSummary,
+      isCopyToClipboard: true,
+      copyHeaderDetails: this.copyColumnsHeaders
     }
   }
 
@@ -124,10 +211,10 @@ export class FullAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'ProgressReport';
     var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
-    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'New', 'AutoFailed'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatusCode', 'New', 'AutoFailed'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
-    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
+    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'FullAuditCLIStatusCode', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
     this.progressReportTable = {
       ColumnDetails: gridDesignDetails[0].ColumnDetails,
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
@@ -167,7 +254,7 @@ export class FullAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'AddressReport';
     var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
-    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
+    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatusCode', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     grpHdrColumnsArray = [headerswithDetails];

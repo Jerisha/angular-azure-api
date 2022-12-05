@@ -5,3 +5,11 @@
   .table-fixed-view{
     min-width: 1170px;
   }
+
+  .table-fixed-view-separateInternal {
+    min-width: 786px;
+  }
+
+  .table-fixed-view-addressReport {
+    min-width: 1111px;
+  }

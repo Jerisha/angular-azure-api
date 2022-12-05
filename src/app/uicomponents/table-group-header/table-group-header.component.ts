@@ -51,9 +51,9 @@ export class TableGroupHeaderComponent implements OnDestroy {
     SourceSystem: [],
     CLIStatus: [],
     ResolveMonth: [''],
-    FullAuditCLIStatus: [],
-    ExternalAuditCLIStatus: [],
-    InternalAuditCLIStatus: [],
+    FullAuditCLIStatusCode: [],
+    ExternalAuditCLIStatusCode: [],
+    InternalAuditCLIStatusCode: [],
   }
 
   // @ViewChild(MatPaginator)  paginator!: MatPaginator;
@@ -66,7 +66,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
   auditType: String | undefined;
  
   backgroundHighlightedCells: CellHighlight[] = [];
-
+  isCopyToClipboard: boolean | undefined;
+  copyHeaderDetails: any;
 
   constructor(private ngZone: NgZone, private spinner: NgxSpinnerService) {
   }
@@ -89,17 +90,19 @@ export class TableGroupHeaderComponent implements OnDestroy {
     this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
     this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
       this.auditType = this.GrpTableitem?.FilterValues;
+      this.isCopyToClipboard = this.GrpTableitem?.isCopyToClipboard;
+      this.copyHeaderDetails = this.GrpTableitem?.copyHeaderDetails;
 
       this.backgroundHighlightedCells = this.GrpTableitem?.setCellAttributes ? this.GrpTableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
 
-    var nonTotRowCols = ['SourceSystem', 'ExternalAuditCLIStatus', 'FullAuditCLIStatus', 'InternalAuditCLIStatus'];
+    var nonTotRowCols = ['SourceSystem', 'ExternalAuditCLIStatusCode', 'FullAuditCLIStatusCode', 'InternalAuditCLIStatusCode'];
     this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
     this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
 
     if (this.filterColumn) {
-      this.filterSelectedItems = this.GrpTableitem?.FilterValues === 'Full Audit' ? [this.obsData.map((x: any) => x.FullAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)] :
-                                  this.GrpTableitem?.FilterValues === 'External Audit' ? [this.obsData.map((x: any) => x.ExternalAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)] :
-                                  this.GrpTableitem?.FilterValues === 'Separate Internal Audit' ? [this.obsData.map((x: any) => x.InternalAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)]: [] ;
+      this.filterSelectedItems = this.GrpTableitem?.FilterValues === 'Full Audit' ? [this.obsData.map((x: any) => x.FullAuditCLIStatusCode), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)] :
+                                  this.GrpTableitem?.FilterValues === 'External Audit' ? [this.obsData.map((x: any) => x.ExternalAuditCLIStatusCode), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)] :
+                                  this.GrpTableitem?.FilterValues === 'Separate Internal Audit' ? [this.obsData.map((x: any) => x.InternalAuditCLIStatusCode), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)]: [] ;
 
       this.cliStatusList = [...new Set(this.filterSelectedItems[0])];
       this.sourceSystemList = [...new Set(this.filterSelectedItems[1])];
@@ -182,7 +185,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
     {
     case 'Full Audit': if (searchString.CLIStatus.length) {
       for (const d of searchString.CLIStatus) {
-        if (data.FullAuditCLIStatus.trim() === d) {
+        if (data.FullAuditCLIStatusCode.trim() === d) {
           isCLIStatusAvailbale = true;
         }
       }
@@ -192,7 +195,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
     break;
     case 'External Audit': if (searchString.CLIStatus.length) {
       for (const d of searchString.CLIStatus) {
-        if (data.ExternalAuditCLIStatus.trim() === d) {
+        if (data.ExternalAuditCLIStatusCode.trim() === d) {
           isCLIStatusAvailbale = true;
         }
       }
@@ -202,7 +205,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
     break;
     case 'Separate Internal Audit': if (searchString.CLIStatus.length) {
       for (const d of searchString.CLIStatus) {
-        if (data.InternalAuditCLIStatus.trim() === d) {
+        if (data.InternalAuditCLIStatusCode.trim() === d) {
           isCLIStatusAvailbale = true;
         }
       }
@@ -235,5 +238,27 @@ export class TableGroupHeaderComponent implements OnDestroy {
     }
     return applyStyles;
   }
+  copyToClipboard() {
+    let data = "";
+    if(this.isCopyToClipboard) {
+    let tableHeaders = this.copyHeaderDetails.map((e:any) => e.Headers);
+    let tableDataHeaders = this.copyHeaderDetails.map((e:any) => e.DataHeaders);
+    data = tableHeaders.toString().replace(/[,]+/g, '\t') + "\n";
 
+    this.dataSource.data.forEach((row: any, index) => {
+      let tableValue: string[] = [];
+      tableDataHeaders.forEach((x: string) => {
+          tableValue.push(row[x]);
+        });
+        data += tableValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
+    });
+    let rowTotal: any[] = [];
+    rowTotal.push(' ');
+    tableDataHeaders.forEach((x: string) => {
+      rowTotal.push(this.getTotal(x));
+    });
+      data += rowTotal.join('$$').replace(/[$$]+/g, '\t') + "\n";
+  }
+            return data;
+  }
 }

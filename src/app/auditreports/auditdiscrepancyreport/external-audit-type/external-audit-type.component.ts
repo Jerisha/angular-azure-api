@@ -35,6 +35,35 @@ export class ExternalAuditTypeComponent implements OnInit {
     { cells: ['InProgressTotal', 'EndStatusYTotal'], isBackgroundHighlighted: true }
   ];
 
+  copyColumnsHeaders = [{
+    Headers: "ACT ID",
+    DataHeaders: "ActId"
+},
+{
+    Headers: "Source System",
+    DataHeaders: "SourceSystem"
+},
+{
+    Headers: "B-BT Only",
+    DataHeaders: "BTOnly"
+},
+{
+    Headers: "V-OSN2 Only",
+    DataHeaders: "OSN2Only"
+},
+{
+    Headers: "S-Matched",
+    DataHeaders: "Matched"
+},
+{
+    Headers: "D-Mismatched",
+    DataHeaders: "Mismatched"
+},
+{
+    Headers: "Total",
+    DataHeaders: "Total"
+}];
+
   constructor(private cdref: ChangeDetectorRef, private spinner: NgxSpinnerService, private service: AuditReportsService) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
   }
@@ -93,7 +122,7 @@ export class ExternalAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'AuditSummary';
     var gridDesignDetails = this.ExternalAuditTableDetails.filter(x => x.TableName == labelName);
-    headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatus', 'AttributeDifference', 'ResolutionType'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatusCode', 'AttributeDifference', 'ResolutionType'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     grpHdrColumnsArray = [headerswithDetails];
@@ -105,6 +134,8 @@ export class ExternalAuditTypeComponent implements OnInit {
       GroupHeaderColumnsArray: grpHdrColumnsArray,
       isRowLvlTotal: true,
       setCellAttributes: this.cellAttrInfoSummary,
+      isCopyToClipboard: true,
+      copyHeaderDetails: this.copyColumnsHeaders
     }
   }
 
@@ -115,10 +146,10 @@ export class ExternalAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'ProgressReport';
     var gridDesignDetails = this.ExternalAuditTableDetails.filter(x => x.TableName == labelName);
-    headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatus', 'New', 'AutoFailed'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatusCode', 'New', 'AutoFailed'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
-    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'ExternalAuditCLIStatus', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
+    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'ExternalAuditCLIStatusCode', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
     this.progressReportTable = {
       ColumnDetails: gridDesignDetails[0].ColumnDetails,
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
@@ -159,7 +190,7 @@ export class ExternalAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'AddressReport';
     var gridDesignDetails = this.ExternalAuditTableDetails.filter(x => x.TableName == labelName);
-    var headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
+    var headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatusCode', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
     var displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     var detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     var grpHdrColumnsArray = [headerswithDetails];

@@ -542,7 +542,8 @@ box-sizing: border-box;
   height: inherit;
 }
 
-.table-selection-bottom {
+.table-selection-bottom,
+.table-group-header-bottom {
   /* height: 35px; */
   display: flow-root;
   /* height: 3em; */

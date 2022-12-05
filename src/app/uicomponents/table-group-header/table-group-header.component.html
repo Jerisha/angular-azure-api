@@ -30,13 +30,39 @@
   <table #mytable mat-table [dataSource]="dataSource" class="mat-elevation-z8">
    <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">     
       <ng-container matColumnDef="{{disCol.DataHeaders}}">
-        <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" matTooltip="{{disCol.isToolTip}}">
-          {{disCol.Headers}}</th>
-        <!-- <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)"> -->
-            <td mat-cell class="truncate-cell" *matCellDef="let element">
-          <span [ngStyle]="highlightCell(element,disCol)">{{disCol.isNumber?(element[disCol.DataHeaders] | number) : element[disCol.DataHeaders]}}</span>
-        </td>
-        <ng-container *ngIf="isRowTotal">
+        <div *ngIf="disCol.DataHeaders != 'FullAuditCLIStatusCode' && disCol.DataHeaders != 'InternalAuditCLIStatusCode' && disCol.DataHeaders != 'ExternalAuditCLIStatusCode'">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" matTooltip="{{disCol.isToolTip}}" matTooltipClass="custom-tooltip">
+            {{disCol.Headers}}</th>
+          <!-- <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)"> -->
+              <td mat-cell class="truncate-cell" *matCellDef="let element">
+            <span [ngStyle]="highlightCell(element,disCol)">{{disCol.isNumber?(element[disCol.DataHeaders] | number) : element[disCol.DataHeaders]}}</span>
+          </td>
+          </div>
+          <!-- Tooltip for FullAuditCLIStatus -->
+          <div *ngIf="disCol.DataHeaders == 'FullAuditCLIStatusCode'">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" matTooltip="{{disCol.isToolTip}}">
+              {{disCol.Headers}}</th>
+          <td mat-cell class="truncate-cell" *matCellDef="let element" matTooltip="{{element.FullAuditCLIStatusDescription}}" matTooltipClass="custom-tooltip">
+            <span [ngStyle]="highlightCell(element,disCol)">{{ element[disCol.DataHeaders] }}</span>
+          </td>
+          </div>
+          <!-- Tooltip for InternalAuditCLIStatus -->
+          <div *ngIf="disCol.DataHeaders == 'InternalAuditCLIStatusCode'">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" matTooltip="{{disCol.isToolTip}}">
+              {{disCol.Headers}}</th>
+          <td mat-cell class="truncate-cell" *matCellDef="let element" matTooltip="{{element.InternalAuditCLIStatusDescription}}" matTooltipClass="custom-tooltip">
+            <span [ngStyle]="highlightCell(element,disCol)">{{ element[disCol.DataHeaders] }}</span>
+          </td>
+          </div>
+          <!-- Tooltip for ExternalAuditCLIStatus -->
+          <div *ngIf="disCol.DataHeaders == 'ExternalAuditCLIStatusCode'">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" matTooltip="{{disCol.isToolTip}}">
+              {{disCol.Headers}}</th>
+          <td mat-cell class="truncate-cell" *matCellDef="let element" matTooltip="{{element.ExternalAuditCLIStatusDescription}}" matTooltipClass="custom-tooltip">
+            <span [ngStyle]="highlightCell(element,disCol)">{{ element[disCol.DataHeaders] }}</span>
+          </td>
+          </div>
+             <ng-container *ngIf="isRowTotal">
           <ng-container *ngIf="disCol.DataHeaders === this.ColumnDetails[0].DataHeaders ">
           <td class="total-row" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell
             *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders)}}
@@ -67,3 +93,10 @@
     </ng-container>
   </table>
 </div>
+</div>
+<div class="table-group-header-bottom flex-container-paginator" *ngIf="isCopyToClipboard">
+    <button type="button" mat-raised-button color="primary"
+      [cdkCopyToClipboard]="copyToClipboard()">
+      <mat-icon>file_copy</mat-icon> Copy To Clipboard
+    </button>
+  </div>

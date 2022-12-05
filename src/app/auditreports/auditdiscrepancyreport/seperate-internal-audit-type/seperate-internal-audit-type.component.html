@@ -30,7 +30,7 @@
                 </div>
 
                 <div *ngSwitchCase="2" class="page-scroll">
-                    <div class="page-container table-fixed-view">
+                    <div class="page-container table-fixed-view-separateInternal">
                         <app-table-group-header [GrpTableitem]="monthReportTable"
                             [obsData]="result.InternalAuditMonthReport ? result.InternalAuditMonthReport : []">
                         </app-table-group-header>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div *ngSwitchCase="3" class="page-scroll">
-                    <div class="page-container table-fixed-view">
+                    <div class="page-container table-fixed-view-addressReport">
                         <app-table-group-header [GrpTableitem]="addressReportTable"
                             [obsData]="result.InternalAuditAddressPostCode ? result.InternalAuditAddressPostCode : []">
                         </app-table-group-header>

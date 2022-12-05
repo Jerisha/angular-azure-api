@@ -38,6 +38,51 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
     this.tabsName = ['InternalSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
   }
 
+  copyColumnsHeaders = [{
+    Headers: "ACT ID",
+    DataHeaders: "ActId"
+},
+{
+    Headers: "Source System",
+    DataHeaders: "SourceSystem"
+},
+{
+    Headers: "C-SAS/COMS Only",
+    DataHeaders: "SASCOMSOnly"
+},
+{
+    Headers: "R-Clarify Only",
+    DataHeaders: "ClarifyOnly"
+},
+{
+    Headers: "E-VA/WAD Only",
+    DataHeaders: "VAWADOnly"
+},
+{
+    Headers: "DO-DVA Siebel Only",
+    DataHeaders: "DVASiebelOnly"
+},
+{
+    Headers: "SO-Amdocs SOM Only",
+    DataHeaders: "AmdocsSOMOnly"
+},
+{
+    Headers: "V-OSN2 Only",
+    DataHeaders: "OSN2Only"
+},
+{
+    Headers: "S-Matched",
+    DataHeaders: "Matched"
+},
+{
+    Headers: "D-Mismatched",
+    DataHeaders: "Mismatched"
+},
+{
+    Headers: "Total",
+    DataHeaders: "Total"
+}];
+
   ngOnInit(): void {
     this.tabs = [
       {
@@ -90,7 +135,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'InternalSummary';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
-    headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'AttributeDifference', 'ResolutionType'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatusCode', 'AttributeDifference', 'ResolutionType'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     grpHdrColumnsArray = [headerswithDetails];
@@ -102,6 +147,8 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       GroupHeaderColumnsArray: grpHdrColumnsArray,
       isRowLvlTotal: true,
       setCellAttributes: this.cellAttrInfoSummary,
+      isCopyToClipboard: true,
+      copyHeaderDetails: this.copyColumnsHeaders
     }
   }
 
@@ -112,10 +159,10 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'ProgressReport';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
-    headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'New'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatusCode', 'New'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
-    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'ResolutionType'], ['New', 'InProgress', 'EndStatusY']];
+    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'InternalAuditCLIStatusCode', 'ResolutionType'], ['New', 'InProgress', 'EndStatusY']];
     this.progressReportTable = {
       ColumnDetails: gridDesignDetails[0].ColumnDetails,
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
@@ -155,7 +202,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'AddressReport';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
-    var headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
+    var headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatusCode', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
     var displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     var detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     var grpHdrColumnsArray = [headerswithDetails];

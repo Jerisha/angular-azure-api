@@ -19,7 +19,9 @@ export interface MergeTableItem {
     isRowLvlTotal?:boolean;
     isMonthFilter?:boolean;
     CurrentMonth?: string;
-    setCellAttributes?:CellHighlight[];    
+    setCellAttributes?:CellHighlight[];
+    isCopyToClipboard?:boolean;  
+    copyHeaderDetails?: any;
   }
 
   export interface GroupHeaderTableDetails{

@@ -11,3 +11,6 @@
     top: 44px !important;
   }
 
+  .table-fixed-view-addressReport {
+    min-width: 1111px;
+  }
