@@ -5,17 +5,26 @@
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
 
-          <!-- added as a part of multi-select dropdown changes -->
-          <div style="margin-bottom:10px" [ngClass]="{'hidden': showAuditMonth}">
-            <app-select-exp [listItems]="expressions[3].default" #AuditMonthOperator [resetvalue]="resetExp"
-              (click)="OnOperatorClicked(['AuditMonthOperator',AuditMonthOperator.selectedViewValue])"></app-select-exp>
+          <div style="margin-bottom:18px">
+            <!-- <app-select-exp [listItems]="expressions[3].default" #AuditMonthOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['AuditYearOperator',AuditYearOperator.selectedViewValue])"></app-select-exp> -->
 
-            <app-select-checkbox style="margin-left:0px" [label]="'Audit Month'" #selMultiple
-              [listItems]="AuditMonthFilter" (changes)="multipleSelect($event, 'AuditMonth')" [icon]="'filter_alt'">
+            <app-select-checkbox style="margin-left:35px" [label]="'Audit Year'" #selMultiple
+              [listItems]="filteryearitems" (changes)="multipleSelect($event, 'AuditYear')" [icon]="'filter_alt'">
             </app-select-checkbox>
           </div>
 
-          <div style="margin-bottom:10px" [ngClass]="{'hidden': showAuditType}">
+          <!-- added as a part of multi-select dropdown changes -->
+          <div style="margin-bottom:18px" [ngClass]="{'hidden': showAuditMonth}">
+            <!-- <app-select-exp [listItems]="expressions[3].default" #AuditMonthOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['AuditMonthOperator',AuditMonthOperator.selectedViewValue])"></app-select-exp> -->
+
+            <app-select-checkbox style="margin-left:35px" [label]="'Audit Month'" #selMultiple
+              [listItems]="filtermonthitems" (changes)="multipleSelect($event, 'AuditMonth')" [icon]="'filter_alt'">
+            </app-select-checkbox>
+          </div>
+
+          <div style="margin-bottom:18px" [ngClass]="{'hidden': showAuditType}">
             <!-- <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])"></app-select-exp> -->
 
@@ -25,7 +34,7 @@
             </app-select-checkbox>
           </div>
 
-          <div style="margin-bottom:10px" [ngClass]="{'hidden': showResolvedBy}">
+          <div style="margin-bottom:18px" [ngClass]="{'hidden': showResolvedBy}">
             <!-- <app-select-exp [listItems]="expressions[3].default" #ResolvedByOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])"></app-select-exp> -->
 
@@ -35,7 +44,7 @@
             </app-select-checkbox>
           </div>
 
-          <div style="margin-bottom:10px" [ngClass]="{'hidden': showResolutionType}">
+          <div style="margin-bottom:18px" [ngClass]="{'hidden': showResolutionType}">
             <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])">
             </app-select-exp>
@@ -47,13 +56,13 @@
             </app-select-checkbox>
           </div>
 
-          <div style="margin-bottom:10px" [ngClass]="{'hidden': showAuditActId}">
-            <app-select-exp [listItems]="expressions[3].default" #AuditActIdOperator [resetvalue]="resetExp"
-              (click)="OnOperatorClicked(['AuditActIdOperator',AuditActIdOperator.selectedViewValue])"></app-select-exp>
+          <div style="margin-bottom:18px" [ngClass]="{'hidden': showAuditActId}">
+            <app-select-exp [listItems]="expressions[3].default" #AuditActIDOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])"></app-select-exp>
 
 
             <app-select-checkbox style="margin-left:0px" [label]="'Audit Act Id'" #selMultiple
-              [listItems]="AuditActIdFilter" (changes)="multipleSelect($event, 'AuditActId')" [icon]="'filter_alt'">
+              [listItems]="AuditActIdFilter" (changes)="multipleSelect($event, 'AuditActID')" [icon]="'filter_alt'">
             </app-select-checkbox>
           </div>
 
@@ -61,7 +70,7 @@
       </div>
 
       <div class="matsidenav-footer">
-        <button type="submit" mat-raised-button color="primary">
+        <button type="submit" [disabled]="disabled" mat-raised-button color="primary">
           <mat-icon>search</mat-icon>Search
         </button>
         <button type="button" mat-raised-button color="primary" (click)="resetForm()">

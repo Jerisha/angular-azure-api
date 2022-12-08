@@ -20,6 +20,8 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { IAuditActId } from '../models/audit-discrepancy-report/IAttributes';
+
 const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
@@ -100,6 +102,11 @@ export class AuditUserActionSummaryComponent extends UserProfile {
   showResolutionType: boolean = false;
   showAuditActId: boolean = false;
 
+  months: string[]=[];
+  year:string[]=[];
+  filtermonthitems:Select[] = [];
+  filteryearitems:Select[] = [];
+
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
   opsCollection: { Key: string, Value: string }[] = [];
@@ -111,8 +118,11 @@ export class AuditUserActionSummaryComponent extends UserProfile {
     { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false, isFooter: false },
     { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true, isFooter: true, isNumber: true },
   ]
-
-
+  disabled: boolean;
+  FullAuditActIDfilter: any = [];
+  SepInternalAuditActIDfilter: any = [];
+  ExternalAuditActIDfilter: any= [];
+  AllAuditActIdfilter!: any[];
 
   constructor(private formBuilder: FormBuilder,
     private service: AuditReportsService,
@@ -126,7 +136,7 @@ export class AuditUserActionSummaryComponent extends UserProfile {
   ngOnInit(): void {
     this.listItems = Itemstwo;
     this.createForm();
-    let request = Utils.preparePyConfig(['Search'], ['UASResolvedMonth', 'AuditType', 'UASResolvedBy', 'UASResolutionType', 'AuditActID']);
+    let request = Utils.preparePyConfig(['Search'], ['UASResolvedMonth', 'AuditType', 'UASResolvedBy', 'UASResolutionType', 'AuditActID', 'FullAuditActID', 'SepInternalAuditActID', 'ExternalAuditActID']);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
       this.configDetails.UASResolvedMonth?.forEach((element: any) => {
@@ -144,6 +154,57 @@ export class AuditUserActionSummaryComponent extends UserProfile {
       this.configDetails.AuditActID?.forEach((element: any) => {
         this.AuditActIdFilter.push({ view: element, viewValue: element, default: false })
       });
+      this.configDetails.FullAuditActID?.forEach((element: any) => {
+        let sVal = element.slice(0,2);       
+        this.FullAuditActIDfilter.push({ view: sVal, viewValue: sVal, default: false })
+      });
+      this.configDetails.SepInternalAuditActID?.forEach((element: any) => {
+        let sVal = element.slice(0,2); 
+        this.SepInternalAuditActIDfilter.push({ view: sVal, viewValue: sVal, default: false })
+      });
+      this.configDetails.ExternalAuditActID?.forEach((element: any) => {
+        let sVal = element.slice(0,2); 
+        this.ExternalAuditActIDfilter.push({ view: sVal, viewValue: sVal, default: false })
+      });
+      this.AllAuditActIdfilter = [
+        { auditType: 'Full Audit', auditActId: this.FullAuditActIDfilter },
+      { auditType: 'Separate Internal Audit', auditActId: this.SepInternalAuditActIDfilter },
+      { auditType: 'External Audit', auditActId: this.ExternalAuditActIDfilter }];
+
+      console.log("All Audit", this.AllAuditActIdfilter);
+      
+    // Audit month year and month separate filter requirement
+    let montharray:string[]=[];
+    let yeararray:string[]=[];
+      res.data.UASResolvedMonth?.forEach((element: any) => {
+       // console.log(element.split('-')[0]);
+         montharray.push(element.split('-')[0]);
+         yeararray.push(element.split('-')[1]);
+      });
+      this.months = montharray.filter(function(elem, index, self) {
+        return index === self.indexOf(elem);
+    });
+    this.year = yeararray.filter(function(elem, index, self) {
+      return index === self.indexOf(elem);
+  });
+  const max = this.year.reduce((prev, current) => (prev > current) ? prev : current);
+  console.log('big item',max);
+  this.year?.forEach((element: any) => {
+  if(element===max)
+  {
+    this.filteryearitems.push({ view: element, viewValue: element, default: true })
+  }
+  else{
+    this.filteryearitems.push({ view: element, viewValue: element, default: false })
+  }
+   
+  });
+  this.months?.forEach((element: any) => {
+    this.filtermonthitems.push({ view: element, viewValue: element, default: false })
+  });
+
+      console.log('year array',this.year);
+      console.log('month',this.months);
     });
 
   }
@@ -166,39 +227,39 @@ export class AuditUserActionSummaryComponent extends UserProfile {
     })
   }
 
-  setControlAttribute(matSelect: MatSelect) {
-    // debugger;
-    matSelect.options.forEach((item) => {
-      if (item.selected) {
-        switch (item.value) {
-          case 'AuditMonth': this.showAuditMonth = false;
-            break;
-          case 'AuditType': this.showAuditType = false;
-            break;
-          case 'ResolvedBy': this.showResolvedBy = false;
-            break;
-          case 'ResolutionType': this.showResolutionType = false;
-            break;
-          case 'AuditActID': this.showAuditActId = false;
-            break;
-        }// switch
-      } else {
-        switch (item.value) {
-          case 'AuditMonth': this.showAuditMonth = true;
-            break;
-          case 'AuditType': this.showAuditType = true;
-            break;
-          case 'ResolvedBy': this.showResolvedBy = true;
-            break;
-          case 'ResolutionType': this.showResolutionType = true;
-            break;
-          case 'AuditActID': this.showAuditActId = true;
-            break;
-        }
-      }
+  // setControlAttribute(matSelect: MatSelect) {
+  //   // debugger;
+  //   matSelect.options.forEach((item) => {
+  //     if (item.selected) {
+  //       switch (item.value) {
+  //         case 'AuditMonth': this.showAuditMonth = false;
+  //           break;
+  //         case 'AuditType': this.showAuditType = false;
+  //           break;
+  //         case 'ResolvedBy': this.showResolvedBy = false;
+  //           break;
+  //         case 'ResolutionType': this.showResolutionType = false;
+  //           break;
+  //         case 'AuditActID': this.showAuditActId = false;
+  //           break;
+  //       }// switch
+  //     } else {
+  //       switch (item.value) {
+  //         case 'AuditMonth': this.showAuditMonth = true;
+  //           break;
+  //         case 'AuditType': this.showAuditType = true;
+  //           break;
+  //         case 'ResolvedBy': this.showResolvedBy = true;
+  //           break;
+  //         case 'ResolutionType': this.showResolutionType = true;
+  //           break;
+  //         case 'AuditActID': this.showAuditActId = true;
+  //           break;
+  //       }
+  //     }
 
-    });
-  }
+  //   });
+  // }
 
   get f() {
     return this.thisForm.controls;
@@ -210,7 +271,7 @@ export class AuditUserActionSummaryComponent extends UserProfile {
       AuditType: new FormControl({ value: '', disabled: true }, []),
       ResolvedBy: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
-      AuditActId: new FormControl({ value: '', disabled: true }, []),
+      AuditActID: new FormControl({ value: '', disabled: true }, []),
     })
 
   }
@@ -287,9 +348,42 @@ export class AuditUserActionSummaryComponent extends UserProfile {
       // else
       //   attributes.push({ Name: field, Value: [control?.value] });
 
-      if(control?.value && control?.value != "") {
-        attributes.push({ Name: field, Value: [control?.value] });
-        
+      switch (field) {
+        case 'AuditMonth': if(this.AuditMonthArray.length > 0)
+        {
+        //  let arraymonth[]=this.staticmontharray;
+        let newarray:string[]=[];
+          this.AuditMonthArray?.forEach((elementone: String) => {
+           
+           this.AuditYearArray?.forEach((element: String) => {
+           newarray.push(elementone + '-' + element);
+          });
+          });
+      console.log('new array from new dropdown',newarray);
+          
+      if(typeof this.AuditYearArray != "undefined" && this.AuditYearArray.length>0)
+      {
+        console.log('old static array',this.AuditMonthArray);
+      attributes.push({ Name: 'AuditMonth', Value: typeof this.AuditYearArray != "undefined" && this.AuditYearArray.length > 0 ? newarray : "" });
+      }
+      else{
+        attributes.push({ Name: 'AuditMonth' });
+      }
+        }
+        else
+          attributes.push({ Name: 'AuditMonth' });
+          break;
+        case 'AuditType': this.AuditTypeArray.length > 0 ? attributes.push({ Name: field, Value: this.AuditTypeArray }) : attributes.push({ Name: field}) ;
+          break;
+        case 'ResolvedBy': this.ResolvedByArray.length > 0 ? attributes.push({ Name: field, Value: this.ResolvedByArray }) : attributes.push({ Name: field}) ;
+          break;
+        case 'ResolutionType': this.ResolutionTypeArray.length > 0 ? attributes.push({ Name: field, Value: this.ResolutionTypeArray }) : attributes.push({ Name: field}) ;
+          break;
+        case 'AuditActID': this.AuditActIdArray.length > 0 ? attributes.push({ Name: field, Value: this.AuditActIdArray }) : attributes.push({ Name: field}) ;
+          break;
+      }
+
+      if((this.ResolutionTypeArray.length > 0 && field === 'ResolutionType') || (this.AuditActIdArray.length > 0 && field === 'AuditActID')) {
       //operator value
       let genOpt = field + 'Operator'
       //let expvals = this.expOperatorsKeyPair?.filter((i) => this.getTupleValue(i, genOpt));
@@ -366,6 +460,7 @@ export class AuditUserActionSummaryComponent extends UserProfile {
     this.cdr.detectChanges();
   }
 
+  AuditYearArray: String[];
   AuditMonthArray: String[];
   AuditTypeArray: String[];
   ResolvedByArray: String[];
@@ -375,16 +470,54 @@ export class AuditUserActionSummaryComponent extends UserProfile {
   multipleSelect(event: any, filterType: string) {
     // console.log(event);
     switch (filterType) {
+      case 'AuditYear': this.AuditYearArray = event;
+        this.isFormValid = this.AuditYearArray?.length > 0 ? true : false;
+        if(((typeof this.AuditYearArray != "undefined" && this.AuditYearArray.length ==0)&&(typeof this.AuditMonthArray != "undefined" &&this.AuditMonthArray.length == 0))||
+        ((typeof this.AuditYearArray != "undefined" &&  this.AuditYearArray.length>0)&&(typeof this.AuditMonthArray != "undefined" && this.AuditMonthArray.length > 0)))
+        {
+          this.disabled=false;
+        }
+        else{
+          this.disabled=true;
+        }
+        break;
       case 'AuditMonth': this.AuditMonthArray = event;
         this.isFormValid = this.AuditMonthArray?.length > 0 ? true : false;
+        if(((typeof this.AuditYearArray != "undefined" && this.AuditYearArray.length ==0)&&(typeof this.AuditMonthArray != "undefined" &&this.AuditMonthArray.length == 0))||
+        ((typeof this.AuditYearArray != "undefined" &&  this.AuditYearArray.length>0)&&(typeof this.AuditMonthArray != "undefined" && this.AuditMonthArray.length > 0)))
+        {
+          this.disabled=false;
+        }
+        else{
+          this.disabled=true;
+        }
         break;
       case 'AuditType': this.AuditTypeArray = event;
+      if(this.AuditTypeArray.length != 0) {
+      let filterAttribute: any[] = [];
+          this.AuditTypeArray.forEach(x => {
+            switch(x) {
+              case 'Full Audit': this.AllAuditActIdfilter[0].auditActId.forEach((val: any) => filterAttribute.push(val));
+               break;
+               case 'Separate Internal Audit': this.AllAuditActIdfilter[1].auditActId.forEach((val: any) => filterAttribute.push(val));
+               break;
+               case 'External Audit': this.AllAuditActIdfilter[2].auditActId.forEach((val: any) => filterAttribute.push(val));
+               break;
+            }
+            }); 
+            console.log("filterval", filterAttribute);
+            filterAttribute[0].default = true;
+            this.AuditActIdFilter = [...new Map(filterAttribute.map(x =>
+              [x['viewValue'], x])).values()];
+          }
         break;
-      case 'ResolvedBy': this.ResolvedByArray = event;
+      case 'ResolvedBy': 
+      this.ResolvedByArray = event;
         break;
       case 'ResolutionType': this.ResolutionTypeArray = event;
+
         break;
-      case 'AuditActId': this.AuditActIdArray = event;
+      case 'AuditActID': this.AuditActIdArray = event;
         break;
     }
   }

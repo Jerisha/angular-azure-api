@@ -646,10 +646,10 @@ th.mat-column-NotAvailable {
   max-width: 200px;
 
 }
-/* sprint4 task */
-/* .mat-cell.mat-column-StatusDescription {
+
+.mat-cell.mat-column-StatusDescription {
   white-space: normal !important;
-} */
+}
 
 .mat-header-cell.mat-column-FirstDate,
 .mat-header-cell.mat-column-LastDate,

@@ -481,7 +481,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoFailedBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -495,7 +495,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "InProgressBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -509,7 +509,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "ResolvedBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -523,7 +523,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "UnResolvedBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -537,7 +537,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AuditTransactionOverrideBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -551,7 +551,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoActiveBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -565,7 +565,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoModifyBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -579,7 +579,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoCeaseBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -593,7 +593,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoSpecialCeaseBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -607,7 +607,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "TotalBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1063,7 +1063,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "InProgressBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1077,7 +1077,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "ResolvedBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1091,7 +1091,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "UnResolvedBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1105,7 +1105,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AuditTransactionOverrideBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1119,7 +1119,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "TotalBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1552,7 +1552,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoFailedBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1566,7 +1566,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "InProgressBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1580,7 +1580,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "ResolvedBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1594,7 +1594,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "UnResolvedBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1608,7 +1608,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AuditTransactionOverrideBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1622,7 +1622,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoActiveBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1636,7 +1636,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoModifyBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1650,7 +1650,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoCeaseBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1664,7 +1664,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "AutoSpecialCeaseBacklog",
                     rowspan: "1",
                     colspan: "1",
@@ -1678,7 +1678,7 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "Backlog",
+                    Headers: "B/Log",
                     DataHeaders: "TotalBacklog",
                     rowspan: "1",
                     colspan: "1",
