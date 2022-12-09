@@ -155,15 +155,15 @@ export class AuditUserActionSummaryComponent extends UserProfile {
         this.AuditActIdFilter.push({ view: element, viewValue: element, default: false })
       });
       this.configDetails.FullAuditActID?.forEach((element: any) => {
-        let sVal = element.slice(0,2);       
+        let sVal = element.split('-')[0];       
         this.FullAuditActIDfilter.push({ view: sVal, viewValue: sVal, default: false })
       });
       this.configDetails.SepInternalAuditActID?.forEach((element: any) => {
-        let sVal = element.slice(0,2); 
+        let sVal = element.split('-')[0]; 
         this.SepInternalAuditActIDfilter.push({ view: sVal, viewValue: sVal, default: false })
       });
       this.configDetails.ExternalAuditActID?.forEach((element: any) => {
-        let sVal = element.slice(0,2); 
+        let sVal = element.split('-')[0]; 
         this.ExternalAuditActIDfilter.push({ view: sVal, viewValue: sVal, default: false })
       });
       this.AllAuditActIdfilter = [
