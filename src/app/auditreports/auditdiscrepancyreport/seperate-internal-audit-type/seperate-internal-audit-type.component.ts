@@ -191,7 +191,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
       DisplayedColumns: displayedColumns,
       DetailedColumns: displayedColumns,
-      GroupHeaderColumnsArray: grpHdrColumnsArray,
+      GroupHeaderColumnsArray: grpHdrColumnsArray
     }
   }
 
@@ -216,6 +216,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       FilterColumn: true,
       isRowLvlTotal: true,
       isMonthFilter: true,
+      tabIdentifier: labelName
     }
   }
 

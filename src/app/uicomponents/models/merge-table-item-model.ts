@@ -22,6 +22,7 @@ export interface MergeTableItem {
     setCellAttributes?:CellHighlight[];
     isCopyToClipboard?:boolean;  
     copyHeaderDetails?: any;
+    tabIdentifier?: string;
   }
 
   export interface GroupHeaderTableDetails{

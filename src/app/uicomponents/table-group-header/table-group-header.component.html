@@ -83,9 +83,11 @@
       </ng-container>
     </ng-container>
     <ng-container *ngFor="let grpHeaders of grpHdrColumnsArray; let hdrIndex = index;">
-      <tr [ngClass]="hdrIndex == 0 ? '' : 'headerLvl2'" mat-header-row *matHeaderRowDef="grpHeaders;sticky: true"> </tr>
+      <tr [ngClass]="hdrIndex == 0 ? '' : (tabIdentifier != '' || tabIdentifier != undefined) ? tabIdentifier === 'MonthReport' ? 'headerLvl2-MonthReport' : tabIdentifier === 'AddressReport' ? 'headerLvl2-AddressReport' : 'headerLvl2' : 'headerLvl2'" mat-header-row *matHeaderRowDef="grpHeaders;sticky: true"> </tr>
     </ng-container>
-    <tr [ngClass]="grpHdrColumnsArray.length == 1 ? 'headerLvl2' : 'headerLvl3'" id="full-audit-header-sticky-lvl2" mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky: true"></tr>
+    <tr [ngClass]="grpHdrColumnsArray.length == 1 ? 
+    (tabIdentifier != '' || tabIdentifier != undefined) ? tabIdentifier === 'MonthReport' ? 'headerLvl2-MonthReport' :  tabIdentifier === 'AddressReport' ? 'headerLvl2-AddressReport' : 'headerLvl2' : 'headerLvl2'
+     : 'headerLvl3'" id="full-audit-header-sticky-lvl2" mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky: true"></tr>
 
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <ng-container *ngIf="isRowTotal">

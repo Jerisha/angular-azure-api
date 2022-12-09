@@ -6,10 +6,11 @@
     min-width: 1170px;
   }
 
-  .table-fixed-view-separateInternal {
+  .table-fixed-view-MonthReport {
     min-width: 786px;
   }
 
   .table-fixed-view-addressReport {
-    min-width: 1111px;
+    /* min-width: 1111px; */
+    max-width: fit-content;
   }

@@ -18,6 +18,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
   @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
 
   hrdIndex: any;
+  tabIdentifier: string;
   
   public dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [];
@@ -80,6 +81,9 @@ export class TableGroupHeaderComponent implements OnDestroy {
     if(this.obsData){
       this.spinner.show();
       // console.log('inside tab',this.obsData)
+      this.tabIdentifier = this.GrpTableitem?.tabIdentifier ? this.GrpTableitem?.tabIdentifier : '';
+      console.log("tab iden", this.tabIdentifier);
+      
     this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
     this.dataSource = new MatTableDataSource<any>(this.obsData);
     this.ColumnDetails = this.GrpTableitem?.ColumnDetails;

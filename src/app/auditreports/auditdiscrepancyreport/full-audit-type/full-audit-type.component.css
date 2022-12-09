@@ -12,5 +12,10 @@
   }
 
   .table-fixed-view-addressReport {
-    min-width: 1111px;
+    /* min-width: 1111px; */
+    max-width: fit-content;
+  }
+
+  .table-fixed-view-MonthReport {
+    max-width: fit-content;
   }

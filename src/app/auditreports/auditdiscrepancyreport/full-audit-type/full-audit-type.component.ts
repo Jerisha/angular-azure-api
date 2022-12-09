@@ -243,7 +243,8 @@ export class FullAuditTypeComponent implements OnInit {
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
       DisplayedColumns: displayedColumns,
       DetailedColumns: displayedColumns,
-      GroupHeaderColumnsArray: grpHdrColumnsArray
+      GroupHeaderColumnsArray: grpHdrColumnsArray,
+      tabIdentifier: labelName
     }
   }
 
@@ -269,6 +270,7 @@ export class FullAuditTypeComponent implements OnInit {
       FilterValues: "Full Audit",
       isMonthFilter: true,
       setCellAttributes: this.cellAttrInfoAddress,
+      tabIdentifier: labelName
     }
   }
 

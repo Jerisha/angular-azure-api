@@ -1,6 +1,7 @@
 table
 {
-    width:100%;
+    /* width:100%; */
+    max-width: fit-content;
 }
 th {
   background-color: #e60000;
@@ -48,6 +49,13 @@ th.mat-sort-header-sorted {
   top: 16px !important;
 }
 
+.headerLvl2-MonthReport th {
+  top: 44px !important;
+}
+
+.headerLvl2-AddressReport th {
+  top: 30px !important;
+}
 .headerLvl3 th {
   /* top: 124px !important; */
   /* top: 44px !important; */
@@ -103,7 +111,7 @@ th.mat-sort-header-sorted {
 th.mat-header-cell,td.mat-cell {
   text-align: center;
   border: 0.5px solid grey;
-  padding: 0 !important;
+  /* padding: 0 !important; */
 
 }
 
@@ -115,7 +123,7 @@ th.mat-header-cell,td.mat-cell {
 }
 
 table td, table th {
-  padding: 2px 10px;
+  padding: 0px 5px;
 }
 
 mat-form-field {
@@ -143,5 +151,9 @@ th.mat-header-cell, .headerLvl2 th, .headerLvl3 th{
 }
 
 .mat-header-cell.mat-column-SelectedMonthCLICountsENDStatusY  {
-  max-width: 120px;
+  min-width: 120px;
+}
+
+.mat-header-cell.mat-column-OutstandingCLICount {
+  min-width: 75px;
 }
