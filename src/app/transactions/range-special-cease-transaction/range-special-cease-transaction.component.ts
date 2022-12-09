@@ -97,9 +97,10 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   // @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  range = 'Resolved by Range Cease';
-  special: string = 'Resolved by Special Cease';
-
+  // range = 'Resolved by Range Cease';
+  // special: string = 'Resolved by Special Cease';
+  range = '';
+  special: string = '';
   selectedCorrectionType: string = '';
   myTable!: TableItem;
   selectedTab!: number;
@@ -114,34 +115,38 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   repIdentifier = "CeaseTransaction";
   audittelephonenumbers: any;
   telNo?: any;
+  viewAduit:boolean
+  isLiveBlock:boolean;
+  showPanel:boolean;
  
   auditTelNo: any;
   //comments: string = 'No Records Found';
   // horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   // verticalPosition: MatSnackBarVerticalPosition = 'top';
-  AuditTrail() {
-    if (this.audittelephonenumbers instanceof Array) {
-      this.AuditTrailSelected.emit(["true", this.audittelephonenumbers]);
-    } else {
-      this.AuditTrailSelected.emit(["true", [this.audittelephonenumbers]]);
-    }
-    // console.log('audit telephone numbers length', this.audittelephonenumbers);
-  }
+  // AuditTrail() {
+  //   if (this.audittelephonenumbers instanceof Array) {
+  //     this.AuditTrailSelected.emit(["true", this.audittelephonenumbers]);
+  //   } else {
+  //     this.AuditTrailSelected.emit(["true", [this.audittelephonenumbers]]);
+  //   }
+  //   // console.log('audit telephone numbers length', this.audittelephonenumbers);
+  // }
   
-  validation_messages = {
-    'TelNo': [
-      { type: 'required', message: 'TelNo is required' },
-      { type: 'minlength', message: 'TelNo should be 10 characters long' }
-    ],
-    'BatchId': [
-      { type: 'required', message: 'BatchId is required' },
-      { type: 'minlength', message: 'BatchId should be 3 characters long' }
-    ]
-  };
+  // validation_messages = {
+  //   'TelNo': [
+  //     { type: 'required', message: 'TelNo is required' },
+  //     { type: 'minlength', message: 'TelNo should be 10 characters long' }
+  //   ],
+  //   'BatchId': [
+  //     { type: 'required', message: 'BatchId is required' },
+  //     { type: 'minlength', message: 'BatchId should be 3 characters long' }
+  //   ]
+  // };
 
  
 
   colHeader: ColumnDetails[] = [
+    { header: 'Audit', headerValue: 'Links', showDefault: true, isImage: true },
     { header: 'Start Tel No', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
     { header: 'End Tel No', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
@@ -213,7 +218,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
   isLiveRecords: boolean = true;
-  isLiveAudit : boolean = true
+  isLiveAudit : boolean = false
   showTelnos: boolean = false;
   selection = new SelectionModel<any>(true, []);
   public dataSource = new MatTableDataSource<any>();
@@ -256,7 +261,9 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     { "IsRemoveCache": this.isRemoveCache }];
     if (this.splCeaseTransForm.controls['StartTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['StartTelephoneNumber'].value != null &&
       (this.splCeaseTransForm.controls['EndTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['EndTelephoneNumber'].value != null)) {
-      this.isAuditTrail = true;
+     this.isLiveBlock=false;
+     this.showCeasePanel=true;
+        this.isAuditTrail = true;
       this.isTelList = true;
       this.startTelNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value ? this.splCeaseTransForm.controls['StartTelephoneNumber'].value : '';
       this.endTelNo = this.splCeaseTransForm.controls['EndTelephoneNumber'].value ? this.splCeaseTransForm.controls['EndTelephoneNumber'].value : '';
@@ -285,7 +292,8 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
         filter: true,
         excelQuery: this.prepareQueryParams(this.currentPage.toString()),
         selectCheckbox: true,
-        removeNoDataColumns: true
+        removeNoDataColumns: true,
+        imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
       }
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
@@ -300,31 +308,44 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
 
     else {
       this.openAuditTrail(true);
+      this.isLiveBlock=true;
     }
     //this.isEnable();
   }
 
+isceaseButtonEnable()
+{
+  if(!this.isLiveRecords)
+  {
+    return false;
+  }
+ else if(!this.isLiveAudit&&this.isLiveBlock)
+  {
+  return false;
+  }
+  return true;
+}
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  prepareTelNoListParams() {
+  prepareTelNoListParams(row:any) {
+    console.log(row,'row')
     let attributes: any = [
-      { Name: 'StartTelephoneNumber', Value: [`${this.startTelNo}`] },
-      { Name: 'EndTelephoneNumber', Value: [`${this.endTelNo}`] },
-
-    ];
-    // console.log("Tel no list params " + JSON.stringify(attributes));
-    return attributes;
-  }
-  fetchTelNoList() {
-    let request = Utils.preparePyQuery('TelephoneNumberList', 'CeaseTransaction', this.prepareTelNoListParams());
+ { Name: 'StartTelephoneNumber', Value: [row.StartTelephoneNumber] },
+ { Name: 'EndTelephoneNumber', Value: [row.EndTelephoneNumber] }]
+    
+   return attributes;
+    }
+   
+  fetchTelNoList(row:any) {
+    let request = Utils.preparePyQuery('TelephoneNumberList', 'CeaseTransaction', this.prepareTelNoListParams(row));
     this.spinner.show();
     this.service.queryDetails(request).subscribe((res: any) => {
       // this.telNoList = [`${res.data ? res.data.TelephoneNumbers : ''}`]
-      this.audittrailNos = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber : ''
+      this.audittrailNos = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber[0] : ''
       this.spinner.hide();
     });
   }
@@ -369,24 +390,19 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     }
 
   }
-  OnTelephoneNoSelected(selectedTelNo: any) {
-    this.telNo = selectedTelNo;
-    let request = Utils.preparePyQuery('TelephoneNumberList', 'CeaseTransaction', this.prepareQueryParams(this.currentPage.toString()));
-    // console.log('request from ts file', JSON.stringify(request));
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-      if (Object.keys(res).length) {
-        // console.log('result from ts file', res);
-        let result = {
-          datasource: res.data.TelephoneNumbers,
-
-        }
-        return result;
-      } else return {
-        datasource: res
-      };
-    }));
+  auditview:boolean;
+  OnTelephoneNoSelected(inittelno:any[])
+  {
+    debugger
+    //this.show=true;
+    //this.auditCopyshow=true;
+    this.auditview=true;
+     console.log('event three called',inittelno);
+    //this.auditTeleNoselected=inittelno;
+    this.auditTelNo=inittelno;
+    //this.auditCopyshow=true;
     let updtab = this.tabs.find(x => x.tabType == 1);
-    if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+    if (updtab) updtab.name = 'Audit Trail Report(' + this.auditTelNo + ')'
   }
 
   removeTab(index: number) {
@@ -416,23 +432,27 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     // console.log(this.isLiveAudit, 'isLiveAudit')
   }
   openAuditTrail(isEmitted?: boolean) {
+    debugger
     this.isAuditTrail = isEmitted ? false : true;
     this.showTelnos = false;
+    this.viewAduit=true;
     //if(this.selectedGridRows.length > 0)
-    {
+    
       let tab = {
         tabType: 1,
-        name: 'Audit Trail Report(' + this.telNo + ')'
+        //name: 'Audit Trail Report(' + this.telNo + ')'
+        name: 'Audit Trail Report'
       }
       this.newTab(tab);
       // this.fetchTelNoList();
       if (!isEmitted) {
-        this.fetchTelNoList();
+       // this.fetchTelNoList();
       } else {
-        this.telNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value
+      //this.telNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value
         // console.log(this.telNo, 'teleno')
       }
-    }
+      this.telNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value
+    this.auditview = true;
     let updtab = this.tabs.find(x => x.tabType == 1);
     if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
     this.auditTelNo = this.telNo;
@@ -457,27 +477,40 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   }
   newTab(tab: any) {
     debugger;
+    console.log('link')
     if (this.tabs === []) return;
     switch (tab.tabType) {
       case 1: {
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + this.telNo + ')'
+            // name: 'Audit Trail Report(' + this.telNo + ')'
+            name: 'Audit Trail Report'
           });
           // this.selectedTab = 1;        
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
           let updtab = this.tabs.find(x => x.tabType == 1);
-          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+          // if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+          if (updtab) updtab.name = 'Audit Trail Report';
         }
         this.showCeasePanel = this.tabs.find(x => x.tabType === 0) ? false : true;
-        this.auditTelNo = this.telNo;
+        // this.auditTelNo = this.telNo;
+        if(tab.row )
+        {
+        this.fetchTelNoList(tab.row);
+        console.log(tab.row,'lk')
+        this.auditview =false;
+      }else
+      {
+        // this.openAuditTrail(true);
+      }
         break;
+
       }
       default: {
-        //statements; 
+      
         break;
       }
     }
@@ -522,12 +555,11 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
 
   onCeaseUpdate() {
        debugger;
-    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value )) &&
-      (this.CeaseRemarks)) {
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value ))) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px', disableClose: true, data: {
-          message: 'Would you like to continue to cease the records?'
+          message: 'Would you like to continue to move from Live Records?'
         }
       });
       rangeConfirm.afterClosed().subscribe(result => {
@@ -539,9 +571,11 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
         if (x.StatusMessage === 'Ceased Successfully') {
 
           //success message and same data reload
-          this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` +  "Transaction Ceased Successful!", { autoClose: true, keepAfterRouteChange: false });
+
+          this.alertService.success("Transaction Ceased Successfully", { autoClose: true, keepAfterRouteChange: false });
           this.onFormSubmit(true);
           this.isEnable();
+          //this.ceaseupdate.reset();
         }
       });
     }
@@ -619,7 +653,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
       EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.pattern("^[0-9]{10,11}$")]),
     })
     this.ceaseupdate = this.formBuilder.group({
-      CeaseRemarks: new FormControl({ value: '' }, [Validators.required]),
+      CeaseRemarks: new FormControl({ value: '' }, []),
     })
   }
 }

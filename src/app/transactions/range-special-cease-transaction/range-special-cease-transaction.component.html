@@ -54,14 +54,11 @@
     </div>
     <div *ngIf="isResult">
         <div class="right-pull">
-            <button [disabled]="!isAuditTrail" (click)="openAuditTrail()" mat-raised-button color="primary">
+            <!-- <button style="z-index:1100" [disabled]="!isAuditTrail" (click)="openAuditTrail()" mat-raised-button color="primary">
                 Audit Trail
-            </button>
-            <button mat-raised-button color="primary" (click)="resetForm();">
-                Reset
-            </button>
+            </button> -->       
         </div>
-        <mat-tab-group (selectedTabChange)="getTab($event)" [(selectedIndex)]="selectedTab">
+        <!-- <mat-tab-group (selectedTabChange)="getTab($event)" [(selectedIndex)]="selectedTab">
             <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
                     <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
@@ -81,7 +78,7 @@
                                 (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
                         </div>
                         <div style="height: calc(100% - 8px);" class="audit-trail-view">
-                            <app-telephone-audit-trail [telNo]="telNo" (isLiveRecord)="isauditenable($event)"
+                            <app-telephone-audit-trail [telNo]="telNo" *ngIf="viewAduit" (isLiveRecord)="isauditenable($event)"
                                 [repIdentifier]="repIdentifier">
                             </app-telephone-audit-trail>
                         </div>
@@ -90,20 +87,58 @@
                     </div>
                 </span>
             </mat-tab>
-        </mat-tab-group>
-        <div *ngIf="showCeasePanel" class="mat-elevation-z8 side-bottom ">
-            <form [formGroup]="ceaseupdate" (ngSubmit)="onCeaseUpdate()" autocomplete="off" *ngIf="updateAccess" >
-                <div class="mat-elevation-z8 side-bottom" >
-                    <div style="display:inline; margin-left: 15px; ">
-                        <mat-form-field class="side-textarea" hintLabel="Max 500 characters" >
-                            <textarea formControlName="CeaseRemarks" name="ceaseremarks" [(ngModel)]="CeaseRemarks" #input
-                                matInput maxlength="500" [(ngModel)]="isAuditTrail ? range : special " cdkTextareaAutosize
-                                #autosize="cdkTextareaAutosize" placeholder=" Add Ceaseremarks" style="height: 52px; min-height:52px;"></textarea>
-                            <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                        </mat-form-field>
-                        <button type="submit" [disabled]="ceaseupdate.invalid || (isLiveRecords && isLiveAudit)" 
-                        mat-raised-button color="primary">Cease</button>
-                    </div>
+        </mat-tab-group> -->
+        <mat-tab-group [(selectedIndex)]="selectedTab">
+            <mat-tab *ngFor="let tab of tabs; let index = index">
+              <ng-template mat-tab-label>
+                <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+                  <mat-icon style="font-size: large;">close</mat-icon>
+                </button>
+              </ng-template>
+      
+              <span [ngSwitch]="tab.tabType">
+                <div *ngIf="(tab.tabType== 0)||isLiveBlock">   
+                <form [formGroup]="ceaseupdate"  (ngSubmit)="onCeaseUpdate()" autocomplete="off" *ngIf="updateAccess">
+                        <div class="side-bottom" >
+                            <div style="display:inline; ">
+                                <mat-form-field *ngIf="!isLiveAudit" class="side-textarea" hintLabel="Max 500 characters" >
+                                    <textarea formControlName="CeaseRemarks" name="ceaseremarks" [(ngModel)]="CeaseRemarks" #input
+                                        matInput maxlength="500" [(ngModel)]="isAuditTrail ? range : special " cdkTextareaAutosize
+                                        #autosize="cdkTextareaAutosize" placeholder=" Add Ceaseremarks" style="height:30px; min-height:30px;"></textarea>
+                                    <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                                </mat-form-field>
+                                <button *ngIf="!isLiveAudit" type="submit" [disabled]="isceaseButtonEnable()" 
+                                mat-raised-button color="primary">Cease</button>
+                                <button style="z-index:1100" mat-raised-button color="primary" (click)="resetForm();">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                   
                 </div>
-            </form>
-        </div>
+                <div *ngIf="showCeasePanel" class="side-bottom ">
+                    
+                </div>
+                <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+                  <div class="table-view">
+                  <app-table-selection  [tableitem] = "myTable" (pageIndex)="getNextSetRecords($event)"
+                  (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)"></app-table-selection>
+                  </div>
+                </div>
+                <div *ngSwitchCase="1" style="height:auto">
+                  <div> 
+                    <app-telephone-no *ngIf="!isLiveBlock" [telNoArray]="audittrailNos" (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
+                  </div>
+                    <div *ngIf="auditview" class="audit-trail-view" style="height: calc(100% - 15px);">
+                      <app-telephone-audit-trail [isLiveBlock]="isLiveBlock" [telNo]="auditTelNo" (isLiveRecord)="isauditenable($event)" [repIdentifier]="repIdentifier">
+                      </app-telephone-audit-trail>  
+                  </div>
+                 
+              </div>
+              </span>
+            </mat-tab>
+            
+          </mat-tab-group>
+       

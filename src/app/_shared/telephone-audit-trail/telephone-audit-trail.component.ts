@@ -38,6 +38,7 @@ export class TelephoneAuditTrailComponent  {
   @Output() isLiveRecord = new EventEmitter<any>();
   deafultload:boolean
   defaultdata: any;
+  @Input() isLiveBlock?:boolean
   IsLiveDataCheck(islive :boolean)
 {
   this.isLiveRecord.emit(islive )
