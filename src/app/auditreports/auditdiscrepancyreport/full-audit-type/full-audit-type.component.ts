@@ -187,7 +187,7 @@ export class FullAuditTypeComponent implements OnInit {
     var labelName = 'AuditSummary';
     var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
 
-    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatusCode', 'AttributeDifferenceMatchedActiveMismatched', 'AttributeDifferenceMisMatchedActiveMismatched', 'ResolutionType'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'AttributeDifferenceMatchedActiveMismatched', 'AttributeDifferenceMisMatchedActiveMismatched', 'ResolutionType'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     grpHdrColumnsArray = [headerswithDetails];
@@ -211,10 +211,10 @@ export class FullAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'ProgressReport';
     var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
-    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatusCode', 'New', 'AutoFailed'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'New', 'AutoFailed'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
-    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'FullAuditCLIStatusCode', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
+    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
     this.progressReportTable = {
       ColumnDetails: gridDesignDetails[0].ColumnDetails,
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
@@ -255,7 +255,7 @@ export class FullAuditTypeComponent implements OnInit {
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'AddressReport';
     var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
-    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatusCode', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
+    headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     grpHdrColumnsArray = [headerswithDetails];

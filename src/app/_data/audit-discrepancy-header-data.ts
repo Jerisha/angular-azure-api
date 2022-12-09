@@ -254,7 +254,7 @@ export class AuditdiscrepancyHeaderData {
             GroupHeaders: [
                 {
                     Headers: "Full Audit CLI Status",
-                    DataHeaders: "FullAuditCLIStatusCode",
+                    DataHeaders: "FullAuditCLIStatus",
                     rowspan: "1",
                     colspan: "20"
                 },
@@ -296,7 +296,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "FullAuditCLIStatusCode",
+                    DataHeaders: "FullAuditCLIStatus",
                     rowspan: "3",
                     colspan: "1"
                 },
@@ -702,7 +702,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "FullAuditCLIStatusCode",
+                    DataHeaders: "FullAuditCLIStatus",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -897,7 +897,7 @@ export class AuditdiscrepancyHeaderData {
             GroupHeaders: [
                 {
                     Headers: "Internal Audit CLI Status",
-                    DataHeaders: "InternalAuditCLIStatusCode",
+                    DataHeaders: "InternalAuditCLIStatus",
                     rowspan: "1",
                     colspan: "9"
                 },
@@ -934,7 +934,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "InternalAuditCLIStatusCode",
+                    DataHeaders: "InternalAuditCLIStatus",
                     rowspan: "3",
                     colspan: "1"
                 },
@@ -1183,7 +1183,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "InternalAuditCLIStatusCode",
+                    DataHeaders: "InternalAuditCLIStatus",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -1350,7 +1350,7 @@ export class AuditdiscrepancyHeaderData {
             GroupHeaders: [
                 {
                     Headers: "External Audit CLI Status",
-                    DataHeaders: "ExternalAuditCLIStatusCode",
+                    DataHeaders: "ExternalAuditCLIStatus",
                     rowspan: "1",
                     colspan: "5"
                 },
@@ -1387,7 +1387,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "ExternalAuditCLIStatusCode",
+                    DataHeaders: "ExternalAuditCLIStatus",
                     rowspan: "3",
                     colspan: "1"
                 },
@@ -1774,7 +1774,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "ExternalAuditCLIStatusCode",
+                    DataHeaders: "ExternalAuditCLIStatus",
                     rowspan: "2",
                     colspan: "1"
                 },
