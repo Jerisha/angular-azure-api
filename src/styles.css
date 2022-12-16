@@ -666,7 +666,30 @@ th.mat-column-NotAvailable {
 .mat-header-cell.mat-column-AddressIdSource,
 .mat-header-cell.mat-column-InternalCupid,
 .mat-header-cell.mat-column-LastTransaction,
-.mat-header-cell.mat-column-TransactionDate{
+.mat-header-cell.mat-column-TransactionDate,
+.mat-header-cell.mat-column-ACTID,
+.mat-header-cell.mat-column-ExternalCLIStatus,
+.mat-header-cell.mat-column-SourceSystemStatus,
+.mat-header-cell.mat-column-MoriCircuitStatus,
+.mat-header-cell.mat-column-SwitchStatus,
+.mat-header-cell.mat-column-SwitchType,
+.mat-header-cell.mat-column-IsVodafoneRangeHolder,
+.mat-header-cell.mat-column-ParentCUPID,
+.mat-header-cell.mat-column-ChildCUPID,
+.mat-header-cell.mat-column-OrderServiceType,
+.mat-header-cell.mat-column-DeadEntry,
+.mat-header-cell.mat-column-CDMS-NMSRType,
+.mat-header-cell.mat-column-CDMS-NMSRAreacall,
+.mat-header-cell.mat-column-OrderArchiveFlag,
+.mat-header-cell.mat-column-TypeOfLineDescription,
+.mat-header-cell.mat-column-FullAuditCLIStatusDescription,
+.mat-header-cell.mat-column-OSN2Locality,
+.mat-header-cell.mat-column-OSN2Postcode,
+.mat-header-cell.mat-column-OSN2Premise,
+.mat-header-cell.mat-column-OSN2Thouroughfare,
+.mat-header-cell.mat-column-SourcePostcode,
+.mat-header-cell.mat-column-SourceThouroughfare,
+.mat-header-cell.mat-column-BTThouroughfare {
   white-space: normal !important;
 }
 .mat-header-cell.mat-column-TypeOfLine {
@@ -680,6 +703,12 @@ th.mat-column-NotAvailable {
 }
 .mat-header-cell.mat-column-LineType {
   max-width: 31px;
+}
+.mat-header-cell.mat-column-IsVodafoneRangeHolder {
+  min-width: 78px;
+}
+.mat-header-cell.mat-column-FullAuditCLIStatusDescription {
+  min-width: 66px;
 }
 .mat-cell.mat-column-Remarks {
 
