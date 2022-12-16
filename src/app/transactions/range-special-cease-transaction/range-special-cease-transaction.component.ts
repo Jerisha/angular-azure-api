@@ -572,8 +572,11 @@ isceaseButtonEnable()
 
           //success message and same data reload
 
-          this.alertService.success("Transaction Ceased Successfully", { autoClose: true, keepAfterRouteChange: false });
-          this.onFormSubmit(true);
+          this.alertService.success(`${x.CeaseCount ? x.CeaseCount : ''}` +  " record(s) removed from Live Records ", { autoClose: true, keepAfterRouteChange: false });
+          setTimeout(() => {
+            this.onFormSubmit(true);
+         }, 2000);
+         
           this.isEnable();
           //this.ceaseupdate.reset();
         }
