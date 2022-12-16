@@ -18,6 +18,7 @@ import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { AlertService } from 'src/app/_shared/alert';
 import { ActivatedRoute } from '@angular/router';
 
 const ELEMENT_DATA: UnresolvedTransaction[] = [
@@ -98,6 +99,7 @@ const FilterListItems: Select[] = [
 export class UnresolvedtransactionComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
 
   constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
+    private alertService: AlertService,
     private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe, private auth: AuthenticationService,
     private actRoute: ActivatedRoute)
      { 
@@ -162,7 +164,8 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
   ];
   expOperatorsKeyPair: [string, string][] = [];
   resetExp: boolean = false;
-
+  localityExp:any;
+  localityremoveExp:any=['<>','!%'];
 
   ngOnInit(): void {
     this.createForm();
@@ -172,6 +175,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
+    this.localityExp = this.expressions[1].default.filter((x:any)=> !this.localityremoveExp.includes(x.viewValue))
   }
   get f() {
     return this.thisForm.controls;
@@ -256,8 +260,8 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
     })
   }
   columns: ColumnDetails[] = [
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false,isSticky:true  },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true,isSticky:true },
     { header: 'Trans ID', headerValue: 'TransactionId', showDefault: true, isImage: false },
    
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
@@ -287,6 +291,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
     debugger;
     if(!this.thisForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
@@ -319,6 +324,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
       isFavcols:true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
+      isSticky:true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
     }

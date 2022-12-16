@@ -7,11 +7,10 @@
       <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
         <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th>
         <td mat-cell class="nowrap-cell" *matCellDef="let element" >
-          {{element[disCol.headerValue]}} 
+          <!-- {{element[disCol.headerValue]}}  -->
+          {{checkNumber(disCol.headerValue)? (element[disCol.headerValue]|number):(element[disCol.headerValue])}}
         </td>
       </ng-container>
-
-  
     <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: dataColumns;"> </tr>
   </table>
