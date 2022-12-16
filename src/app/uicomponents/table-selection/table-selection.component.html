@@ -79,7 +79,7 @@
 
   </div>
 
-  <div class="table-container flex-container">
+  <div class="flex-container" [ngClass]="reportIdentifier === 'FullAuditDetails' ? 'table-container-full-Audit-details' : 'table-container'">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}"  [sticky]="stickycolumnEnable && disCol?.isSticky">
 

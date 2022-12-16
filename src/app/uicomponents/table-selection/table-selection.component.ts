@@ -581,7 +581,8 @@ checkauditbutton(row: any, cell: any)
       this.backgroundHighlightedCells.forEach(x => {
         if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
           applyStyles = {
-            'background-color': '#ff9999'
+            // 'background-color': '#ff9999'
+            'background-color': '#fecb00'
           };
         }
       })
