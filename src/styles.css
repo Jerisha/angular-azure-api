@@ -689,7 +689,11 @@ th.mat-column-NotAvailable {
 .mat-header-cell.mat-column-OSN2Thouroughfare,
 .mat-header-cell.mat-column-SourcePostcode,
 .mat-header-cell.mat-column-SourceThouroughfare,
-.mat-header-cell.mat-column-BTThouroughfare {
+.mat-header-cell.mat-column-BTThouroughfare,
+.mat-header-cell.mat-column-LinkReasonCode,
+.mat-header-cell.mat-column-CDMS-NMSRPI-PO,
+.mat-header-cell.mat-column-CDMS-NMSRPrefix,
+.mat-header-cell.mat-column-CDMS-NMSRType {
   white-space: normal !important;
 }
 .mat-header-cell.mat-column-TypeOfLine {
@@ -717,6 +721,14 @@ th.mat-column-NotAvailable {
   width: 40em;
     /* word-wrap: normal; */
   }
+
+  .mat-cell.mat-column-BTCustomer, 
+  .mat-cell.mat-column-BTPremise,
+  .mat-cell.mat-column-BTLocality {
+    white-space: normal;
+    min-width: 20em;
+    }
+
   /* .mat-column-LatestUserComments:hover {
 
     background-color: rgb(196, 23, 138);
