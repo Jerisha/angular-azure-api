@@ -257,7 +257,7 @@
               <!-- <div style="display:inline; margin-left: 15px;"> -->
               <!-- <form name="form" (ngSubmit)="updateForm.valid && onSaveSubmit(updateForm)" #updateForm="ngForm" autocomplete="off">                                     -->
               <form [formGroup]="updateForm" (ngSubmit)="onSaveSubmit()" autocomplete="off" *ngIf="updateAccess">
-              
+                <div class="flex-container-update-panel">
                 <ng-container *ngIf="updateDetails as con">
                   <mat-form-field>
                     <mat-label>Resolution Type</mat-label>
@@ -289,11 +289,11 @@
                   </mat-error>
                 </mat-form-field>
 
-                <button [disabled]="disableSave" type="submit" mat-raised-button color="primary">
+                <button [disabled]="disableSave" type="submit" mat-raised-button color="primary" class="flex-button-height">
                   <mat-icon>save</mat-icon>Save
                 </button>
 
-                <mat-form-field *ngIf="showDataCorrection">
+                <!-- <mat-form-field *ngIf="showDataCorrection">
                   <mat-label>Data Corrections</mat-label>
                   <mat-select disableOptionCentering panelClass="matselect-centering" name="correctionType"
                     (selectionChange)="getSelectedDataCorrection()" [(value)]="selectedCorrectionType"
@@ -336,7 +336,54 @@
                     color="primary">
                     Process
                   </button>
+                </ng-container> -->
+                
+                <ng-container *ngIf="showDataCorrection">
+                <div *ngFor="let group of correctionTypes" 
+                [ngStyle]="{ display : group.disabled? 'none' : 'block' }">
+                  <div *ngFor="let correction of group.subOption"
+                  [ngStyle]="{ display : correction.disabled? 'none' : 'inline-block' }">
+                  <!-- {{correction.viewValue}} -->
+                  <ng-container *ngIf="correction.viewValue=='Auto Correction Volume'">
+                    <span style="padding-left: 1em"><mat-label>Auto Correction Volume:{{getSelectedDataCorrection(correction.value)}} </mat-label></span>
+                  <mat-form-field style="width: 85px !important;">
+                    <mat-label>Select</mat-label>
+                    <input name="range" required ngDefaultControl [(ngModel)]="rowRange"
+                      [ngModelOptions]="{standalone: true}" type="text" #range="ngModel" matInput
+                      [matAutocomplete]="autoRange" OptionsValidator [options]="configDetails.AutoCorrectionVolume  " />
+                    <span matSuffix mat-icon-button>
+                      <mat-icon>arrow_drop_down</mat-icon>
+                    </span>
+                    <mat-autocomplete autoActiveFirstOption #autoRange="matAutocomplete">
+                      <mat-option *ngFor="let val of configDetails.AutoCorrectionVolume   | ddlFilter: range.value"
+                        [value]="val">
+                        {{val}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error class="alert alert-danger">
+                      <div *ngIf="range.errors?.validOptions">Value need to match available
+                        options</div>
+                      <div *ngIf="range.errors?.required">
+                        Select Auto correction volume
+                      </div>
+                    </mat-error>
+                  </mat-form-field>&nbsp;
+                  <button [disabled]="disableProcess" type="button" (click)="processDataCorrection1(correction.value)" mat-raised-button
+                    color="primary">
+                    Process
+                  </button>
                 </ng-container>
+                <div *ngIf="correction.viewValue !=='Auto Correction Volume'">
+                  {{ correction.disabled ? getSelectedDataCorrection('') : getSelectedDataCorrection(correction.value)}}
+                    <button [disabled]="disableProcess" type="button" (click)="processDataCorrection1(correction.value)" mat-raised-button
+                    color="primary" class="flex-button-height">
+                    {{correction.viewValue}}
+                  </button>
+                </div> 
+                  </div>
+                </div>
+              </ng-container>
+              </div>
               </form>
             </div>
           </div>

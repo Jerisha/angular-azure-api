@@ -309,7 +309,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       });
     }
     else {
-      this.showDataCorrection = true;
+      // this.showDataCorrection = true;
       this.dataCorrectionBtnConfig.forEach((element: ButtonCorretion) => {
         if (this.selectedFullAuditCLIStatus?.value === element.value) {
           this.correctionTypes.forEach(option => {
@@ -339,6 +339,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
           });
         }
       });
+      this.showDataCorrection = true;
     }
   }
 
@@ -760,7 +761,8 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     });
   }
 
-  getSelectedDataCorrection() {
+  getSelectedDataCorrection(selectedCorrectionType?: string) {
+    selectedCorrectionType ? this.selectedCorrectionType = selectedCorrectionType : this.selectedCorrectionType != '' ;
     if (this.selectedCorrectionType != '') {
       if (this.selectedCorrectionType === 'AutoCorrectionVolume') {
         this.disableProcess = false;
@@ -791,92 +793,182 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
 
   }
 
-  processDataCorrection() {
-    if (this.selectedCorrectionType === 'AutoCorrectionVolume') {
-      const dataAutoCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
-        width: '500px', disableClose: true, data: {
-          message: 'Are you sure you want to proceed with the Auto Correction of ' + this.rowRange + '?'
-        }
-      });
+  // processDataCorrection() {
+  //   if (this.selectedCorrectionType === 'AutoCorrectionVolume') {
+  //     const dataAutoCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
+  //       width: '500px', disableClose: true, data: {
+  //         message: 'Are you sure you want to proceed with the Auto Correction of ' + this.rowRange + '?'
+  //       }
+  //     });
 
-      dataAutoCorrectionConfirm.afterClosed().subscribe(result => {
-        if (result) {
-          let request = Utils.preparePyUpdate('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
-          //update
-          // console.log('auto correction', JSON.stringify(request));
+  //     dataAutoCorrectionConfirm.afterClosed().subscribe(result => {
+  //       if (result) {
+  //         let request = Utils.preparePyUpdate('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
+  //         //update
+  //         // console.log('auto correction', JSON.stringify(request));
+  //         this.service.updateDetails(request).subscribe(x => {
+  //           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
+  //             this.alertService.success("Save successful", { autoClose: true, keepAfterRouteChange: false });
+  //             this.onFormSubmit(true);
+  //           }
+  //         });
+  //       }
+  //     })
+  //   }
+  //   else {
+  //     var msg = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.Message);
+  //     var processMessage = 'Do you want to proceed with raising transaction using ' + msg + ' Data?';
+
+  //     if (this.updateFormControls.Remarks.invalid) {
+  //       this.updateFormControls.Remarks.setErrors({ incorrect: true });
+  //       this.icRemarks.nativeElement.focus();
+  //       this.icRemarks.nativeElement.blur();
+  //       return;
+  //     };
+
+  //     const dataCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
+  //       width: '600px', disableClose: true, data: {
+  //         message: processMessage
+  //       }
+  //     });
+
+  //     dataCorrectionConfirm.afterClosed().subscribe(result => {
+  //       var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
+  //       if (result) {
+  //         if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
+  //           let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
+  //           // console.log('manual', JSON.stringify(request));
+  //           this.service.updateDetails(request).subscribe(x => {
+  //             if (x.StatusCode === 'EUI000') {
+  //               this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+  //               this.onFormSubmit(true);
+  //             }
+  //           });
+  //         }
+  //         else {
+  //           debugger;
+  //           var conditionalCorrectionTypes = ['BT', 'OSN'];
+  //           var conditionalCorrections = conditionalCorrectionTypes.filter(x => auditType.includes(x));
+  //           var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
+  //           var startTelno = '';
+  //           var endTelno = '';
+  //           if (selectedCLI != '' && conditionalCorrections.length === 0) {
+  //             let strCmts = selectedCLI.split('-');
+  //             var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
+  //             startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
+  //             endTelno = range[1] ? range[1] : ''
+  //             endTelno = isNumeric(endTelno) ? endTelno.toString() : '';
+  //           }
+  //           else {
+  //             startTelno = this.selectListItems[0].TelephoneNumber;
+  //           }
+  //           let data = {
+  //             StartphoneNumber: startTelno,
+  //             auditType: 'Full Audit',
+  //             AuditStatus: this.selectListItems[0].FullAuditCLIStatus,
+  //             EndPhoneNumber: endTelno,
+  //             ActId: this.form.AuditActID.value,
+  //             ResolutionRemarks: this.remarkstxt,
+  //             ManualAuditType: auditType,
+  //             ReportIdentifier: 'FullAuditDetails'
+  //           }
+  //           this.router.navigateByUrl('/transactions/transactions', { state: data });
+  //         }
+  //       }
+  //     })
+  //   }
+  //   // return identifiers;
+  // }
+
+// processDataCorrection1
+processDataCorrection1(selectedCorrectionType: string) {
+  this.selectedCorrectionType = selectedCorrectionType;
+  if (this.selectedCorrectionType === 'AutoCorrectionVolume') {
+    const dataAutoCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px', disableClose: true, data: {
+        message: 'Are you sure you want to proceed with the Auto Correction of ' + this.rowRange + '?'
+      }
+    });
+
+    dataAutoCorrectionConfirm.afterClosed().subscribe(result => {
+      if (result) {
+        let request = Utils.preparePyUpdate('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
+        //update
+        // console.log('auto correction', JSON.stringify(request));
+        this.service.updateDetails(request).subscribe(x => {
+          if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
+            this.alertService.success("Save successful", { autoClose: true, keepAfterRouteChange: false });
+            this.onFormSubmit(true);
+          }
+        });
+      }
+    })
+  }
+  else {
+    var msg = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.Message);
+    var processMessage = 'Do you want to proceed with raising transaction using ' + msg + ' Data?';
+
+    if (this.updateFormControls.Remarks.invalid) {
+      this.updateFormControls.Remarks.setErrors({ incorrect: true });
+      this.icRemarks.nativeElement.focus();
+      this.icRemarks.nativeElement.blur();
+      return;
+    };
+
+    const dataCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '600px', disableClose: true, data: {
+        message: processMessage
+      }
+    });
+
+    dataCorrectionConfirm.afterClosed().subscribe(result => {
+      var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
+      if (result) {
+        if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
+          let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
+          // console.log('manual', JSON.stringify(request));
           this.service.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-              this.alertService.success("Save successful", { autoClose: true, keepAfterRouteChange: false });
+            if (x.StatusCode === 'EUI000') {
+              this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });
         }
-      })
-    }
-    else {
-      var msg = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.Message);
-      var processMessage = 'Do you want to proceed with raising transaction using ' + msg + ' Data?';
-
-      if (this.updateFormControls.Remarks.invalid) {
-        this.updateFormControls.Remarks.setErrors({ incorrect: true });
-        this.icRemarks.nativeElement.focus();
-        this.icRemarks.nativeElement.blur();
-        return;
-      };
-
-      const dataCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
-        width: '600px', disableClose: true, data: {
-          message: processMessage
-        }
-      });
-
-      dataCorrectionConfirm.afterClosed().subscribe(result => {
-        var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
-        if (result) {
-          if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
-            let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
-            // console.log('manual', JSON.stringify(request));
-            this.service.updateDetails(request).subscribe(x => {
-              if (x.StatusCode === 'EUI000') {
-                this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-                this.onFormSubmit(true);
-              }
-            });
+        else {
+          debugger;
+          var conditionalCorrectionTypes = ['BT', 'OSN'];
+          var conditionalCorrections = conditionalCorrectionTypes.filter(x => auditType.includes(x));
+          var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
+          var startTelno = '';
+          var endTelno = '';
+          if (selectedCLI != '' && conditionalCorrections.length === 0) {
+            let strCmts = selectedCLI.split('-');
+            var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
+            startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
+            endTelno = range[1] ? range[1] : ''
+            endTelno = isNumeric(endTelno) ? endTelno.toString() : '';
           }
           else {
-            debugger;
-            var conditionalCorrectionTypes = ['BT', 'OSN'];
-            var conditionalCorrections = conditionalCorrectionTypes.filter(x => auditType.includes(x));
-            var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
-            var startTelno = '';
-            var endTelno = '';
-            if (selectedCLI != '' && conditionalCorrections.length === 0) {
-              let strCmts = selectedCLI.split('-');
-              var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-              startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
-              endTelno = range[1] ? range[1] : ''
-              endTelno = isNumeric(endTelno) ? endTelno.toString() : '';
-            }
-            else {
-              startTelno = this.selectListItems[0].TelephoneNumber;
-            }
-            let data = {
-              StartphoneNumber: startTelno,
-              auditType: 'Full Audit',
-              AuditStatus: this.selectListItems[0].FullAuditCLIStatus,
-              EndPhoneNumber: endTelno,
-              ActId: this.form.AuditActID.value,
-              ResolutionRemarks: this.remarkstxt,
-              ManualAuditType: auditType,
-              ReportIdentifier: 'FullAuditDetails'
-            }
-            this.router.navigateByUrl('/transactions/transactions', { state: data });
+            startTelno = this.selectListItems[0].TelephoneNumber;
           }
+          let data = {
+            StartphoneNumber: startTelno,
+            auditType: 'Full Audit',
+            AuditStatus: this.selectListItems[0].FullAuditCLIStatus,
+            EndPhoneNumber: endTelno,
+            ActId: this.form.AuditActID.value,
+            ResolutionRemarks: this.remarkstxt,
+            ManualAuditType: auditType,
+            ReportIdentifier: 'FullAuditDetails'
+          }
+          this.router.navigateByUrl('/transactions/transactions', { state: data });
         }
-      })
-    }
-    // return identifiers;
+      }
+    })
   }
+  // return identifiers;
+}
+
 
   prepareUpdateIdentifiers(type: string): any {
     let identifiers: any[] = [];

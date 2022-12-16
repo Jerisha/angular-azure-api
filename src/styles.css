@@ -732,6 +732,13 @@ th.mat-column-NotAvailable {
       
   }
 
+  .table-container-full-Audit-details {
+    overflow: auto;  
+    height: calc(100vh - 56vh);
+    width: 100%;
+    max-width: fit-content;
+  }
+
   .table-group-container{
     max-height: calc(100vh - 30vh);
     /* min-width: 1160px; */
