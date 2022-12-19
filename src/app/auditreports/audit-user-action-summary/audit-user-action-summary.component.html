@@ -24,17 +24,27 @@
             </app-select-checkbox>
           </div>
 
-          <div style="margin-bottom:18px" [ngClass]="{'hidden': showAuditType}">
+          <div style="margin-top:18px" [ngClass]="{'hidden': showAuditType}">
             <!-- <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])"></app-select-exp> -->
 
 
-            <app-select-checkbox style="margin-left:35px" [label]="'Audit Type'" #selMultiple
+            <!-- <app-select-checkbox style="margin-left:35px" [label]="'Audit Type'" #selMultiple
               [listItems]="AuditTypeFilter" (changes)="multipleSelect($event, 'AuditType')" [icon]="'filter_alt'">
-            </app-select-checkbox>
-          </div>
+            </app-select-checkbox> -->
 
-          <div style="margin-bottom:18px" [ngClass]="{'hidden': showResolvedBy}">
+          <mat-form-field style="margin-left: 35px;">
+            <mat-label>Audit Type</mat-label>
+            <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType" (selectionChange)="multipleSelect($event, 'AuditType')">
+              <mat-option *ngFor="let val of AuditTypeFilter;" [value]="val.viewValue">{{val.view}}</mat-option>
+            </mat-select>
+            <mat-error class="error-message" >Please Select Audit Type
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+
+          <div style="margin-bottom:18px; margin-top: -10px" [ngClass]="{'hidden': showResolvedBy}">
             <!-- <app-select-exp [listItems]="expressions[3].default" #ResolvedByOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])"></app-select-exp> -->
 
@@ -61,9 +71,19 @@
               (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])"></app-select-exp>
 
 
-            <app-select-checkbox style="margin-left:0px" [label]="'Audit Act Id'" #selMultiple
+            <!-- <app-select-checkbox style="margin-left:0px" [label]="'Audit Act Id'" #selMultiple
               [listItems]="AuditActIdFilter" (changes)="multipleSelect($event, 'AuditActID')" [icon]="'filter_alt'">
-            </app-select-checkbox>
+            </app-select-checkbox> -->
+
+            <mat-form-field>
+              <mat-label>Audit Act Id</mat-label>
+              <mat-select id="AuditActID" formControlName="AuditActID" [(ngModel)]="selectedAuditActID" (selectionChange)="multipleSelect($event, 'AuditActID')">
+                <mat-option *ngFor="let val of AuditActIDDropdown;" [value]="val.viewValue">{{val.view}}</mat-option>
+              </mat-select>
+              <mat-error class="error-message" >Please Select Audit Act Id
+              </mat-error>
+            </mat-form-field>
+
           </div>
 
         </ng-container>

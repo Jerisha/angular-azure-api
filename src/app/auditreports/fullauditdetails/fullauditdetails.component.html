@@ -345,9 +345,9 @@
                 [ngStyle]="{ display : group.disabled? 'none' : 'block' }">
                   <div *ngFor="let correction of group.subOption"
                   [ngStyle]="{ display : correction.disabled? 'none' : 'inline-block' }">
-                  <!-- {{correction.viewValue}} -->
+                  <!-- {{correction.value}} -->
                   <ng-container *ngIf="correction.viewValue=='Auto Correction Volume'">
-                    <span style="padding-left: 1em"><mat-label>Auto Correction Volume:{{getSelectedDataCorrection(correction.value)}} </mat-label></span>
+                    <span style="padding-left: 1em"><mat-label>Auto Correction Volume:</mat-label></span>
                   <mat-form-field style="width: 85px !important;">
                     <mat-label>Select</mat-label>
                     <input name="range" required ngDefaultControl [(ngModel)]="rowRange"
@@ -370,14 +370,13 @@
                       </div>
                     </mat-error>
                   </mat-form-field>&nbsp;
-                  <button [disabled]="disableProcess" type="button" (click)="processDataCorrection1(correction.value)" mat-raised-button
+                  <button type="button" (click)="processDataCorrection1('AutoCorrectionVolume');" mat-raised-button
                     color="primary">
                     Process
                   </button>
                 </ng-container>
                 <div *ngIf="correction.viewValue !=='Auto Correction Volume'">
-                  {{ correction.disabled ? getSelectedDataCorrection('') : getSelectedDataCorrection(correction.value)}}
-                    <button [disabled]="disableProcess" type="button" (click)="processDataCorrection1(correction.value)" mat-raised-button
+                    <button [disabled]="disableProcess" type="button" (click)="processDataCorrection1(correction.value);" mat-raised-button
                     color="primary" class="flex-button-height">
                     {{correction.viewValue}}
                   </button>

@@ -123,6 +123,9 @@ export class AuditUserActionSummaryComponent extends UserProfile {
   SepInternalAuditActIDfilter: any = [];
   ExternalAuditActIDfilter: any= [];
   AllAuditActIdfilter!: any[];
+  selectedAuditType: string;
+  AuditActIDDropdown: any[]; 
+  selectedAuditActID: string;
 
   constructor(private formBuilder: FormBuilder,
     private service: AuditReportsService,
@@ -171,7 +174,10 @@ export class AuditUserActionSummaryComponent extends UserProfile {
       { auditType: 'Separate Internal Audit', auditActId: this.SepInternalAuditActIDfilter },
       { auditType: 'External Audit', auditActId: this.ExternalAuditActIDfilter }];
 
-      console.log("All Audit", this.AllAuditActIdfilter);
+      // console.log("All Audit", this.AllAuditActIdfilter);
+      this.selectedAuditType = this.AuditTypeFilter[0].view;
+      this.AuditActIDDropdown = this.AllAuditActIdfilter[0].auditActId;
+      this.selectedAuditActID = this.AuditActIDDropdown[0].viewValue;
       
     // Audit month year and month separate filter requirement
     let montharray:string[]=[];
@@ -188,7 +194,7 @@ export class AuditUserActionSummaryComponent extends UserProfile {
       return index === self.indexOf(elem);
   });
   const max = this.year.reduce((prev, current) => (prev > current) ? prev : current);
-  console.log('big item',max);
+  // console.log('big item',max);
   this.year?.forEach((element: any) => {
   if(element===max)
   {
@@ -203,8 +209,8 @@ export class AuditUserActionSummaryComponent extends UserProfile {
     this.filtermonthitems.push({ view: element, viewValue: element, default: false })
   });
 
-      console.log('year array',this.year);
-      console.log('month',this.months);
+      // console.log('year array',this.year);
+      // console.log('month',this.months);
     });
 
   }
@@ -268,10 +274,10 @@ export class AuditUserActionSummaryComponent extends UserProfile {
   createForm() {
     this.thisForm = this.formBuilder.group({
       AuditMonth: new FormControl({ value: '', disabled: true }),
-      AuditType: new FormControl({ value: '', disabled: true }, []),
+      AuditType: new FormControl({ value: '', disabled: false }, []),
       ResolvedBy: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
-      AuditActID: new FormControl({ value: '', disabled: true }, []),
+      AuditActID: new FormControl({ value: '', disabled: false }, []),
     })
 
   }
@@ -359,11 +365,11 @@ export class AuditUserActionSummaryComponent extends UserProfile {
            newarray.push(elementone + '-' + element);
           });
           });
-      console.log('new array from new dropdown',newarray);
+      // console.log('new array from new dropdown',newarray);
           
       if(typeof this.AuditYearArray != "undefined" && this.AuditYearArray.length>0)
       {
-        console.log('old static array',this.AuditMonthArray);
+        // console.log('old static array',this.AuditMonthArray);
       attributes.push({ Name: 'AuditMonth', Value: typeof this.AuditYearArray != "undefined" && this.AuditYearArray.length > 0 ? newarray : "" });
       }
       else{
@@ -373,17 +379,17 @@ export class AuditUserActionSummaryComponent extends UserProfile {
         else
           attributes.push({ Name: 'AuditMonth' });
           break;
-        case 'AuditType': this.AuditTypeArray.length > 0 ? attributes.push({ Name: field, Value: this.AuditTypeArray }) : attributes.push({ Name: field}) ;
+        case 'AuditType': this.selectedAuditType ? attributes.push({ Name: field, Value: [this.selectedAuditType] }) : attributes.push({ Name: field}) ;
           break;
         case 'ResolvedBy': this.ResolvedByArray.length > 0 ? attributes.push({ Name: field, Value: this.ResolvedByArray }) : attributes.push({ Name: field}) ;
           break;
         case 'ResolutionType': this.ResolutionTypeArray.length > 0 ? attributes.push({ Name: field, Value: this.ResolutionTypeArray }) : attributes.push({ Name: field}) ;
           break;
-        case 'AuditActID': this.AuditActIdArray.length > 0 ? attributes.push({ Name: field, Value: this.AuditActIdArray }) : attributes.push({ Name: field}) ;
+        case 'AuditActID': this.selectedAuditActID ? attributes.push({ Name: field, Value: [this.selectedAuditActID] }) : attributes.push({ Name: field}) ;
           break;
       }
 
-      if((this.ResolutionTypeArray.length > 0 && field === 'ResolutionType') || (this.AuditActIdArray.length > 0 && field === 'AuditActID')) {
+      if((this.ResolutionTypeArray.length > 0 && field === 'ResolutionType') || (this.selectedAuditType && field === 'AuditActID')) {
       //operator value
       let genOpt = field + 'Operator'
       //let expvals = this.expOperatorsKeyPair?.filter((i) => this.getTupleValue(i, genOpt));
@@ -495,20 +501,23 @@ export class AuditUserActionSummaryComponent extends UserProfile {
       case 'AuditType': this.AuditTypeArray = event;
       if(this.AuditTypeArray.length != 0) {
       let filterAttribute: any[] = [];
-          this.AuditTypeArray.forEach(x => {
-            switch(x) {
-              case 'Full Audit': this.AllAuditActIdfilter[0].auditActId.forEach((val: any) => filterAttribute.push(val));
+            switch(this.selectedAuditType) {
+              case 'Full Audit': this.AuditActIDDropdown = this.AllAuditActIdfilter[0].auditActId;
+                                  this.selectedAuditActID = this.AuditActIDDropdown[0].view;
                break;
-               case 'Separate Internal Audit': this.AllAuditActIdfilter[1].auditActId.forEach((val: any) => filterAttribute.push(val));
+               case 'Separate Internal Audit': this.AuditActIDDropdown = this.AllAuditActIdfilter[1].auditActId;
+                                                this.selectedAuditActID = this.AuditActIDDropdown[0].view;
                break;
-               case 'External Audit': this.AllAuditActIdfilter[2].auditActId.forEach((val: any) => filterAttribute.push(val));
+               case 'External Audit': this.AuditActIDDropdown = this.AllAuditActIdfilter[2].auditActId;
+                                      this.selectedAuditActID = this.AuditActIDDropdown[0].view;
                break;
             }
-            }); 
-            console.log("filterval", filterAttribute);
-            filterAttribute[0].default = true;
+            // console.log("filterval", filterAttribute);
+            // filterAttribute[0].default = true;
             this.AuditActIdFilter = [...new Map(filterAttribute.map(x =>
               [x['viewValue'], x])).values()];
+          } else {
+            this.AuditActIDDropdown = [{view: '', viewValue: '',}];
           }
         break;
       case 'ResolvedBy': 

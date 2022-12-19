@@ -779,6 +779,16 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     }
   }
 
+  getSelectedDataCorrection1() {
+    if (this.selectListItems.length === 1) {
+      let endStatusFlag = this.endStatus.find(x => x === this.selectListItems[0].ResolutionType) ? true : false;
+      this.disableProcess = endStatusFlag;
+    }
+    else {
+      this.disableProcess = true;
+    }
+  }
+
   getPnlControlAttributes(control?: string) {
     if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
       && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
@@ -908,12 +918,19 @@ processDataCorrection1(selectedCorrectionType: string) {
     var msg = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.Message);
     var processMessage = 'Do you want to proceed with raising transaction using ' + msg + ' Data?';
 
-    if (this.updateFormControls.Remarks.invalid) {
+    // if (this.updateFormControls.Remarks.invalid) {
+    //   this.updateFormControls.Remarks.setErrors({ incorrect: true });
+    //   this.icRemarks.nativeElement.focus();
+    //   this.icRemarks.nativeElement.blur();
+    //   return;
+    // };
+
+    if(this.remarkstxt === '' || this.remarkstxt === undefined ) {
       this.updateFormControls.Remarks.setErrors({ incorrect: true });
       this.icRemarks.nativeElement.focus();
       this.icRemarks.nativeElement.blur();
       return;
-    };
+    }
 
     const dataCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '600px', disableClose: true, data: {
@@ -1075,7 +1092,7 @@ processDataCorrection1(selectedCorrectionType: string) {
         this.selectListItems.splice(index, 1)
       }
     })
-    this.getSelectedDataCorrection();
+    this.getSelectedDataCorrection1();
     this.getPnlControlAttributes();
     // console.log('selcted', this.selectListItems)
   }
