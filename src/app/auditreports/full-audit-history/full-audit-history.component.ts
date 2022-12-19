@@ -88,5 +88,10 @@ export class FullAuditHistoryComponent extends UserProfile implements OnInit {
       this.spinner.hide();
     })
 }
+NumberCols = ['LiveInSource','MismatchedCount','MatchedCount','VodafoneOnlyCount','SupplierOnlyCount','ACTID'];
+checkNumber(val:string)
+{
+return this.NumberCols.includes(val);
+}
 
 }

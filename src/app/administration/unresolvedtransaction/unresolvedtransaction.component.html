@@ -9,9 +9,9 @@
           <div class="matsidenav-filter">
             <ng-container *ngIf="configDetails  as config">
           <div [ngStyle]="{'display':thisForm.controls.TelephoneNumber.disabled ? 'none' : 'block'}">
-            <app-select-exp [listItems]="expressions[0].default" #TelephoneNumberOperator [resetvalue]="resetExp"
+            <!-- <app-select-exp [listItems]="expressions[0].default" #TelephoneNumberOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['TelephoneNumberOperator',TelephoneNumberOperator.selectedViewValue])">
-            </app-select-exp>
+            </app-select-exp> -->
             <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNumber.disabled}">
               <mat-label>Telephone No</mat-label>
               <input formControlName="TelephoneNumber" numbersOnly matInput maxlength="11" placeholder="Telephone No"
@@ -26,7 +26,7 @@
             </mat-form-field>
           </div>
           <div [ngStyle]="{'display':thisForm.controls.CustomerName.disabled ? 'none' : 'block'}">
-            <app-select-exp [listItems]="expressions[1].default" #CustomerNameOperator [resetvalue]="resetExp"
+            <app-select-exp [listItems]="localityExp" #CustomerNameOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['CustomerNameOperator',CustomerNameOperator.selectedViewValue])">
             </app-select-exp>
             <mat-form-field [ngClass]="{'hidden':thisForm.controls.CustomerName.disabled}" appearance="outline">
@@ -101,8 +101,8 @@
           </div> -->
 
           <div [ngStyle]="{'display':thisForm.controls.Status.disabled ? 'none' : 'block'}">
-            <app-select-exp [listItems]="expressions[3].default" #StatusOperator [resetvalue]="resetExp"
-              (click)="OnOperatorClicked(['StatusOperator',StatusOperator.selectedViewValue])"></app-select-exp>
+            <!-- <app-select-exp [listItems]="expressions[3].default" #StatusOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['StatusOperator',StatusOperator.selectedViewValue])"></app-select-exp> -->
               <mat-form-field [ngClass]="{'hidden':f.Status.disabled}">
                 <mat-label>Status</mat-label>
                 <mat-select formControlName="Status">  
