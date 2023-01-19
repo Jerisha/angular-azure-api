@@ -1,0 +1,227 @@
+<!-- <p>process-instance-detail works!</p> -->
+
+<div class="vf-flex-container-dir-col">
+    <div class="vf-flex-container button-right-container">
+        <div class="div-inline-block">
+            <a><button mat-raised-button type="button" color="primary" class="first-btn" (click)="backClicked()">Close</button></a>
+          </div>
+          <div class="div-inline-block">
+            <button mat-raised-button type="button" color="primary" class="first-btn">Refresh</button>
+          </div>
+          <div class="div-inline-block">
+            <button mat-raised-button type="button" color="primary" class="first-btn">Prev</button>
+          </div>
+          <div class="div-inline-block">
+            <button mat-raised-button type="button" color="primary" class="first-btn">Next</button>
+          </div>
+
+    </div>
+
+    <div class="vf-flex-container">
+        <form style="width:100%">
+            <mat-card class="mat-card-lvl2">
+                <mat-card-header class="vf-card-title">
+                    <mat-card-title>Process Instance Information</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <!-- <div class="form-field-div">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Process</mat-label>
+                      <input matInput value="Notif Process" placeholder="Process" [readonly]="true">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-field-div">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Model Version</mat-label>
+                      <input matInput value="1" placeholder="Model Version" [readonly]="true">
+                    </mat-form-field>
+                  </div>
+                    <div class="form-field-div">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Start Date / Time</mat-label>
+                        <input matInput value="01/06/2022 10:56:36.944" placeholder="Start Date / Time" [readonly]="true">
+                      </mat-form-field>
+                    </div>
+                      <div class="form-field-div">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Last Updated</mat-label>
+                        <input matInput value="13/12/2022 08:57:39.000" placeholder="Last Updated" [readonly]="true">
+                      </mat-form-field>
+                      </div>
+                      <div class="form-field-div">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Instance ID</mat-label>
+                          <input matInput value="CHGOWN_W122825_0001009" placeholder="Instance ID" [readonly]="true">
+                        </mat-form-field>
+                        </div>
+                      <div class="form-field-div">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Instance Iteration</mat-label>
+                        <input matInput value="1" placeholder="Instance Iteration" [readonly]="true">
+                      </mat-form-field>
+                      </div>
+                      <div class="form-field-div">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Status</mat-label>
+                          <input matInput value="Resubmitted" placeholder="Status" [readonly]="true">
+                        </mat-form-field>
+                        </div>
+                      <div class="form-field-div">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Duration</mat-label>
+                          <input matInput value="207d 23:33:36.649" placeholder="Duration" [readonly]="true">
+                        </mat-form-field>
+                        </div> -->
+
+                          <div class="container-fluid">
+                            <div>
+                              <div class="details-data">
+                                <span class="label">Process:</span>
+                                <span class="text-display">Notif Process</span>
+                              </div>
+                              <div class="details-data">
+                                <span class="label">Start Date / Time</span>
+                                <span class="text-display">01/06/2022 10:56:36.944</span>
+                              </div>
+                              <div class="details-data">
+                                <span class="label">Instance ID</span>
+                                <span class="text-display">CHGOWN_W122825_0001009</span>
+                              </div>
+                              <div class="details-data">
+                                <span class="label">Status</span>
+                                <span class="text-display">Resubmitted</span>
+                              </div>
+                            </div>
+                            <div>
+                              <div class="details-data">
+                                <span class="label">Model Version</span>
+                                <span class="text-display">1</span>
+                              </div>
+                              <div class="details-data">
+                                <span class="label">Last Updated</span>
+                                <span class="text-display">13/12/2022 08:57:39.000</span>
+                              </div>
+                              <div class="details-data">
+                                <span class="label">Instance Iteration</span>
+                                <span class="text-display">1</span>
+                              </div>
+                              <div class="details-data">
+                                <span class="label">Duration</span>
+                                <span class="text-display">207d 23:33:36.649</span>
+                              </div>
+                            </div>
+                          </div>
+ 
+                        
+                </mat-card-content>
+
+            </mat-card>
+        </form>
+
+    </div>
+
+    <div class="vf-flex-container">
+            <mat-card class="mat-card-lvl1">
+                <mat-card-header class="vf-card-title">
+                    <mat-card-title>Process Stage Timeline</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                   
+                </mat-card-content>
+
+            </mat-card>
+    </div>
+
+    <div class="vf-flex-container">
+        <mat-card class="mat-card-lvl1">
+            <mat-card-header class="vf-card-title">
+                <mat-card-title>Process Diagram</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <!-- <img src="./assets/images/Notif-tool-process-diagram.PNG" fill priority>
+               <p>This page requires the Adove Flash player version 9.0.0 or later. <a href="#">Get Flash</a></p> -->
+               <div
+  style="width: inherit; height: 40em; overflow : hidden;  position: relative "
+  #container
+>
+  <img
+    src="assets/images/Notif-tool-process-diagram.PNG"
+    (click)="onClick($event)"
+    (mousedown)="onMouseDown($event)"
+    (mousemove)="mouseMoveHandler($event)"
+    #img
+    style="cursor : zoom-in; width:100%; transition: all .3s; position: absolute "
+  />
+</div>
+            </mat-card-content>
+
+        </mat-card>
+</div>
+
+<div class="vf-flex-container">
+    <mat-card class="mat-card-lvl1">
+        <mat-card-header class="vf-card-title">
+            <mat-card-title>Step Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column.headerValue">
+
+                    <!-- Others column -->
+                    <div *ngIf="column.headerValue !== 'Icon'  && column.headerValue !== 'Detail'">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{column.header}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{row[column.headerValue]}}
+                  </td>
+                  </div>
+
+                  <!-- Icon column -->
+                  <div *ngIf="column.headerValue === 'Icon'">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <!-- {{column.header}} -->
+                      <mat-icon class="material-icons">category</mat-icon>
+                      <!-- <mat-icon><span class="material-icons-round">category</span></mat-icon> -->
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <!-- {{row[column.headerValue]}} -->
+                      <mat-icon>
+                        <span class="material-icons-round" style="color: #a8b400;">
+                          square
+                        </span>
+                      </mat-icon>
+                    </td>
+                    </div>
+
+                    <!-- Detail column -->
+                    <div *ngIf="column.headerValue === 'Detail'">
+                      <th mat-header-cell *matHeaderCellDef>
+                        {{column.header}}
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        <!-- {{row[column.headerValue]}} -->
+                        <a routerLink="/notiftools/processstepdetail"><mat-icon>search</mat-icon></a>
+                      </td>
+                      </div>
+
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"></tr>
+              </table>
+              <mat-paginator #paginator
+                class="demo-paginator"
+                [length]="length"
+                [pageSize]="pageSize"
+                [disabled]="disabled"
+                [hidePageSize]="hidePageSize"
+                [pageIndex]="pageIndex"
+                aria-label="Select page">
+              </mat-paginator>
+        </mat-card-content>
+
+    </mat-card>
+</div>
+
+</div>

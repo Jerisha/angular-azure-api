@@ -1,0 +1,155 @@
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Submit Request</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-card-header class="vf-card-title">
+        <mat-card-title>Enter Details Of Request</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="vf-flex-container">
+          <div style="display: flex; flex-wrap: wrap;">
+            <div class="div-inline-block">
+              <mat-form-field appearance="outline">
+                <mat-label>*Notif Type</mat-label>
+                <mat-select disableRipple value="1">
+                  <mat-option value="1">New Number Range</mat-option>
+                  <mat-option value="2">Change in Ownership</mat-option>
+                  <mat-option value="3">Cease Number Range</mat-option>
+                  <mat-option value="4">Change Price Point</mat-option>
+                  <mat-option value="5">Change Barring</mat-option>
+                  <mat-option value="6">Change Routing</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="div-inline-block">
+              <mat-form-field class="side-textarea">
+                <mat-label>*Network Notes</mat-label>
+                <textarea matInput maxlength="500"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="div-inline-block" style="margin-top: 5px;">
+              <button mat-raised-button type="button" color="primary">Validate & Submit</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="vf-flex-container">
+            <button mat-raised-button type="button" color="primary" class="first-btn">Add Number Range</button>
+            <button mat-raised-button type="button" color="primary">Remove Number Range</button>
+          </div>
+          <div>
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              <!-- Select Row Column -->
+              <ng-container matColumnDef="selectRow">
+                <th mat-header-cell *matHeaderCellDef><mat-checkbox></mat-checkbox></th>
+                <td mat-cell *matCellDef="let element"><mat-checkbox></mat-checkbox></td>
+              </ng-container>
+
+              <!-- Number Range Column -->
+              <ng-container matColumnDef="numberRange">
+                <th mat-header-cell *matHeaderCellDef> *Number Range </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" style="width: 110px;"><input matInput required></mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- BT Charge Band Column -->
+              <ng-container matColumnDef="btChargeBand">
+                <th mat-header-cell *matHeaderCellDef> *BT Charge Band </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" style="width: 110px;">
+                    <mat-select value="1">
+                      <mat-option value="1">SC001</mat-option>
+                      <mat-option value="2">SC002</mat-option>
+                      <mat-option value="3">SC003</mat-option>
+                      <mat-option value="4">SC004</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- Number Range Owner Column -->
+              <ng-container matColumnDef="numberRangeOwner">
+                <th mat-header-cell *matHeaderCellDef> *Number Range Owner </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" style="width: 110px;"><input matInput required></mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- Implementation Date Column -->
+              <ng-container matColumnDef="implementationDate">
+                <th mat-header-cell *matHeaderCellDef> *Implementation Date </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" style="width: 10em;">
+                    <input matInput [matDatepicker]="picker" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- Number Range Host Column -->
+              <ng-container matColumnDef="numberRangeHost">
+                <th mat-header-cell *matHeaderCellDef> Number Range Host </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" style="width: 110px;"><input matInput></mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- Direct OLO I/C Column -->
+              <ng-container matColumnDef="directOloIc">
+                <th mat-header-cell *matHeaderCellDef> Direct OLO I/C </th>
+                <td mat-cell *matCellDef="let element"><mat-checkbox></mat-checkbox></td>
+              </ng-container>
+
+              <!-- Routing CP Column -->
+              <ng-container matColumnDef="routingCp">
+                <th mat-header-cell *matHeaderCellDef> Routing CP </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" style="width: 110px;"><input matInput></mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- Test Numbers  Column -->
+              <ng-container matColumnDef="testNumbers">
+                <th mat-header-cell *matHeaderCellDef> Test Numbers </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field class="side-textarea" style="width: 110px;">
+                    <textarea matInput maxlength="500"></textarea>
+                  </mat-form-field>
+              </ng-container>
+
+              <!-- VT NGN Column -->
+              <ng-container matColumnDef="vtNgn">
+                <th mat-header-cell *matHeaderCellDef> VT NGN </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" style="width: 110px;">
+                    <mat-select>
+                      <mat-option value="1">HOSTED</mat-option>
+                      <mat-option value="2">NGN</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <!-- International Barring Column -->
+              <ng-container matColumnDef="internationalBarring">
+                <th mat-header-cell *matHeaderCellDef> International Barring </th>
+                <td mat-cell *matCellDef="let element"> <mat-checkbox></mat-checkbox> </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -5,9 +5,9 @@
 <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
     <div class="menu-button-wrapper">
     <button mat-button (click)="getFileDetails('UserAccessDetails',true)">User Access</button>
-    <button mat-button (click)="getFileDetails('UserOfReports',true)">User Of Reports</button>
-    <button mat-button (click)="getFileDetails('StartUpUserMessages',true)">News Update</button>
-    <button mat-button (click)="getFileDetails('UserProfiles',true)">User Profiles</button>
+    <!-- <button mat-button (click)="getFileDetails('UserOfReports',true)">User Of Reports</button> -->
+    <!-- <button mat-button (click)="getFileDetails('StartUpUserMessages',true)">News Update</button> -->
+    <!-- <button mat-button (click)="getFileDetails('UserProfiles',true)">User Profiles</button> -->
    </div>
 </div>
     </div>
@@ -44,10 +44,10 @@
                                           </mat-option>
                                         </mat-select>
                                       </mat-form-field>
-                                           <div  class="col-width-16 pb-0 mat-form-field">
+                                           <!-- <div  class="col-width-16 pb-0 mat-form-field">
              <app-select-checkbox [label]="'Source System'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
               </app-select-checkbox>
-            </div>
+            </div> -->
                                                <mat-form-field class ="col-width-16 pb-0">
                                                 <mat-label >First Name *</mat-label>
                                             <input type="text" matInput   formControlName="firstname"
@@ -67,11 +67,11 @@
                                             </div>
                                         </mat-error>
                                         </mat-form-field>
-                                        <mat-form-field class ="col-width-16 pb-0">
+                                        <!-- <mat-form-field class ="col-width-16 pb-0">
                                             <mat-label >YID</mat-label>
                                         <input type="text" matInput  formControlName="yid"
                                         placeholder="YID">
-                                        </mat-form-field>
+                                        </mat-form-field> -->
                                         <mat-form-field class ="col-width-16 pb-0">
                                             <mat-label >Telephone No</mat-label>
                                         <input type="tel" maxlength="11" matInput (keypress)="keyPress($event)"  formControlName="telephoneno"
@@ -119,8 +119,8 @@
                                 placeholder="Description">
                                 </mat-form-field>
                             </div>
-                            <div class="userprofilerighttable" style="padding: 5spx;/* height: 303px; */overflow: auto;">
-                                <div style="max-height: calc(100vh - 37vh);;overflow:auto">
+                            <div class="userprofilerighttable" style="padding: 5px;/* height: 303px; */overflow: auto;">
+                                <div style="max-height: calc(100vh - 37vh);overflow:auto;">
                                  <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
                                   <mat-tree-node  
                                     *matTreeNodeDef="let node"
@@ -182,8 +182,8 @@
                                         placeholder="Description">
                                         </mat-form-field>
                                     </div>
-                                    <div class="userprofilerighttable" style="padding: 5spx;/* height: 303px; */overflow: auto;">
-                                    <div style="max-height: calc(100vh - 37vh);;overflow:auto">
+                                    <div class="userprofilerighttable" style="padding: 5px;/* height: 303px; */overflow: auto;">
+                                    <div style="max-height: calc(100vh - 37vh);overflow:auto";>
                                            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                                           <mat-tree-node
                                             *matTreeNodeDef="let node"
@@ -447,13 +447,13 @@
                                 placeholder="User Name" formControlName="username">
                                 </mat-form-field>
                             </div>
-                            <div class="rightFilters-items">
+                            <!-- <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Source System</mat-label>
                                 <input type="text" matInput  (keyup)="onSearchFilter('UserOfReports')" 
                                 placeholder="Sources" formControlName="sources">
                                 </mat-form-field>
-                            </div>
+                            </div> -->
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Menu Group</mat-label>

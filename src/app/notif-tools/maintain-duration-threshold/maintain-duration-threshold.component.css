@@ -1,0 +1,68 @@
+mat-card {
+    padding: 25px;
+}
+
+.vf-card-title{
+    box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
+    background-color:#e60000;
+    color:white;
+    height: 25px;
+    padding-top: 5px;
+} 
+
+mat-card-content {
+    border: 1px solid #54575a;
+    padding: 20px 15px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+h2 {
+    margin: 10px 0 0 15px;
+}
+
+.bt-charge-band {
+    margin-top: 20px;
+    width: 20%;
+}
+
+table {
+    width: 50%;
+    margin-bottom: 15px;
+}
+
+th {
+    background-color: #e60000;
+    color:white;
+}
+  
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+.mat-header-cell {
+    color: white;
+    padding: 2px 10px;  
+}
+
+table td, table th {
+    padding: 2px 10px;
+
+}
+
+.mat-header-row{
+    height: 10px;
+}
+
+.mat-cell{
+    font-size:small;  
+}
+
+.mat-row {
+    height: 10px;
+}
+
+.form-field-div {
+    display: inline-block;
+    padding-right: 1em;
+}

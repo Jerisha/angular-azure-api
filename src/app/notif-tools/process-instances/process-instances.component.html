@@ -1,0 +1,492 @@
+<div class="vf-flex-container-dir-col">
+    <div class="vf-flex-container">
+        <mat-card class="mat-card-lvl1">
+            <mat-card-header class="vf-card-title">
+              <mat-card-title>Search</mat-card-title>
+            </mat-card-header>
+            <mat-card-content >
+                <mat-tab-group>
+                    <mat-tab label="Keyword"> 
+                        <form>
+                                    <div class="form-field-div" >
+                                      <mat-form-field appearance="outline">
+                                        <mat-label>Keywords</mat-label>
+                                        <input matInput placeholder="Placeholder">
+                                      </mat-form-field>
+                                    </div>
+                                    <!-- <div class="div-inline-block">
+                                        <button mat-raised-button color="primary">
+                                            <mat-icon>question_mark</mat-icon>
+                                        </button>
+                                      </div> -->
+                                      <div class="div-inline-block">
+                                    <button mat-raised-button color="primary">Search</button>
+                                  </div>
+                                  <div class="div-inline-block">
+                                    <button mat-raised-button color="primary">Save</button>
+                                  </div>
+  
+
+                        </form>
+                    </mat-tab>
+                    <mat-tab label="Advanced"> 
+                        <div class="vf-flex-container-dir-col">
+                        <!-- <div class="vf-flex-container">
+                            <div class="div-inline-block">
+                        <form>
+                            <div class="form-field-div" >
+                              <mat-form-field appearance="outline">
+                                <mat-label>Keywords</mat-label>
+                                <input matInput placeholder="Placeholder">
+                              </mat-form-field>
+                            </div>
+                            <div class="div-inline-block">
+                                <button mat-raised-button color="primary">
+                                    <mat-icon>question_mark</mat-icon>
+                                </button>
+                              </div>
+                              <div class="div-inline-block">
+                            <button mat-raised-button color="primary">Search</button>
+                          </div>
+                          <div class="div-inline-block">
+                            <button mat-raised-button color="primary">Save</button>
+                          </div>
+
+
+                </form>
+            </div>
+            </div> -->
+            <div class="vf-flex-container">
+            <div class="div-inline-block">
+                <form>
+                  <div class="form-field-div" >
+                    <mat-form-field appearance="outline">
+                      <mat-label>Keywords</mat-label>
+                      <input matInput placeholder="Placeholder">
+                    </mat-form-field>
+                  </div>
+                <div class="form-field-div" >
+                    <mat-form-field appearance="outline" class="mat-form-field-width">
+                        <mat-label>Process</mat-label>
+                        <mat-select>
+                            <mat-option value="All">All</mat-option>
+                            <mat-option value="AncillaryCharges - 1 - CwancillaryChargesProcesses">AncillaryCharges - 1 - CwancillaryChargesProcesses</mat-option>
+                            <mat-option value="AncillaryCharges - 2 - CwancillaryChargesProcesses">AncillaryCharges - 2 - CwancillaryChargesProcesses</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
+                  <div class="form-field-div">
+                    <mat-form-field appearance="outline" class="mat-form-field-width">
+                        <mat-label>Status</mat-label>
+                        <mat-select>
+                            <mat-option value="All">All</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
+                  <div class="form-field-div">
+                    <mat-form-field appearance="outline" class="mat-form-field-width">
+                        <mat-label>Step Name</mat-label>
+                        <mat-select>
+                            <mat-option value="All">All</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
+                  <div class="form-field-div">
+                    <mat-form-field appearance="outline" class="mat-form-field-width">
+                        <mat-label>Filter By</mat-label>
+                        <mat-select>
+                            <mat-option value="Date Last Updated">Date Last Updated</mat-option>
+                            <mat-option value="Start Date">Start Date</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
+                  <div class="form-field-div">
+                    <mat-form-field appearance="outline" style="width: 16em;">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                          <input matStartDate placeholder="Start date">
+                          <input matEndDate placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                      </mat-form-field>
+                  </div>
+                  <!-- <div class="button-right-container"> -->
+                    <div class="form-field-div">
+                        <mat-form-field appearance="outline" class="mat-form-field-width">
+                            <mat-label>Search Condition</mat-label>
+                            <mat-select>
+                                <mat-option value="AND">AND</mat-option>
+                                <mat-option value="OR">OR</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      </div>
+                      <div class="div-inline-block">
+                        <button mat-raised-button color="primary">Search</button>
+                      </div>
+                        <div class="div-inline-block">
+                            <button mat-raised-button color="primary">Save</button>
+                          </div>
+                            <div class="div-inline-block">
+                                <button mat-raised-button color="primary">Clear</button>
+                              </div>
+                                <!-- </div> -->
+                </form>                
+            </div>
+                </div> 
+                <div class="vf-flex-container">
+                    <mat-card class="mat-card-lvl2">
+                        <mat-card-header class="vf-card-title">
+                            <mat-card-title>Filter</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+    
+                            <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8 demo-table" >
+                                <ng-container *ngFor="let column of displayedColumns1" [matColumnDef]="column.headerValue">
+                
+                                    <!-- Others column -->
+                                    <div *ngIf="column.headerValue != 'Name' && column.headerValue != 'AddDel'">
+                                  <th mat-header-cell *matHeaderCellDef>
+                                    {{column.header}}
+                                  </th>
+                                  <td mat-cell *matCellDef="let row">
+                                    {{row[column.headerValue]}}
+                                  </td>
+                                  </div>
+                
+                                  <!-- Name column -->
+                                  <div *ngIf="column.headerValue === 'Name'">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                      {{column.header}}
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                      <!-- {{row[column.headerValue]}} -->
+                                      <mat-form-field appearance="outline">
+                                        <mat-select>
+                                            <mat-option value="Charge/Charge">Charge/Charge</mat-option>
+                                            <mat-option value="Process/BusinessRule">Process/BusinessRule</mat-option>
+                                            <mat-option value="Charge/CustomerName">Charge/CustomerName</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                    </td>
+                                    </div>
+
+                                    <div *ngIf="column.headerValue === 'AddDel'">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                          {{column.header}}
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                        <button *ngIf="row[column.headerValue] === '2'" mat-raised-button color="primary">Add Row</button>
+                                         <button mat-raised-button color="primary" >Delete</button>
+                                        </td>
+                                        </div>
+                
+                                  </ng-container>
+                                  <tr mat-header-row *matHeaderRowDef="displayedColumnsValues1"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsValues1;"></tr>
+                            </table>
+    
+                            </mat-card-content>
+                            </mat-card>
+                </div>
+                </div> <!-- Advanced tab vf-flex-container-dir-col-->
+                    </mat-tab>
+                    <mat-tab label="Saved"> 
+                        <div class="vf-flex-container-dir-col">
+                            <div class="vf-flex-container">
+                              <form>
+                                <div class="div-inline-block">
+                                    <div class="form-field-div" >
+                                        <mat-form-field appearance="outline">
+                                          <mat-label>Saved Searched</mat-label>
+                                          <mat-select [(value)]="notifsToday">
+                                            <mat-option value="Notifs Today">Notifs Today</mat-option>
+                                        </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                </div>
+                              </form>
+                              <div class="div-inline-block" style="margin-top: 1em;">
+                                <button mat-raised-button color="primary">Delete</button>
+                              </div>
+                              <div class="div-inline-block" style="margin-top: 1em;">
+                                <button mat-raised-button color="primary" (click)="showDetails = !showDetails">{{showDetails ? 'Close' : 'Details'}} <mat-icon> {{showDetails ? 'expand_less' : 'expand_more'}}</mat-icon></button>
+                              </div>
+                                <!-- <div class="div-inline-block">
+                            <form>
+                                <div class="form-field-div" >
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Keywords</mat-label>
+                                    <input matInput placeholder="Placeholder">
+                                  </mat-form-field>
+                                </div>
+                                <div class="div-inline-block">
+                                    <button mat-raised-button color="primary">
+                                        <mat-icon>question_mark</mat-icon>
+                                    </button>
+                                  </div>
+                                  <div class="div-inline-block">
+                                <button mat-raised-button color="primary">Search</button>
+                              </div>
+                              <div class="div-inline-block">
+                                <button mat-raised-button color="primary">Save</button>
+                              </div>
+    
+    
+                    </form>
+                </div> -->
+                </div>
+                <div class="vf-flex-container" *ngIf="showDetails">
+                <div class="div-inline-block">
+                    <form style="margin-top:0px">
+                      <div class="form-field-div" >
+                        <mat-form-field appearance="outline">
+                          <mat-label>Keywords</mat-label>
+                          <input matInput placeholder="Placeholder">
+                        </mat-form-field>
+                      </div>
+                    <div class="form-field-div" >
+                        <mat-form-field appearance="outline" class="mat-form-field-width">
+                            <mat-label>Process</mat-label>
+                            <mat-select>
+                                <mat-option value="All">All</mat-option>
+                                <mat-option value="AncillaryCharges - 1 - CwancillaryChargesProcesses">AncillaryCharges - 1 - CwancillaryChargesProcesses</mat-option>
+                                <mat-option value="AncillaryCharges - 2 - CwancillaryChargesProcesses">AncillaryCharges - 2 - CwancillaryChargesProcesses</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      </div>
+                      <div class="form-field-div">
+                        <mat-form-field appearance="outline" class="mat-form-field-width">
+                            <mat-label>Status</mat-label>
+                            <mat-select>
+                                <mat-option value="All">All</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      </div>
+                      <div class="form-field-div">
+                        <mat-form-field appearance="outline" class="mat-form-field-width">
+                            <mat-label>Step Name</mat-label>
+                            <mat-select>
+                                <mat-option value="All">All</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      </div>
+                      <div class="form-field-div">
+                        <mat-form-field appearance="outline" class="mat-form-field-width">
+                            <mat-label>Filter By</mat-label>
+                            <mat-select>
+                                <mat-option value="Date Last Updated">Date Last Updated</mat-option>
+                                <mat-option value="Start Date">Start Date</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      </div>
+                      <div class="form-field-div">
+                        <mat-form-field appearance="outline" style="width: 14em;">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                              <input matStartDate placeholder="Start date">
+                              <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                          </mat-form-field>
+                      </div>
+                      <!-- <div class="button-right-container"> -->
+                        <div class="form-field-div">
+                            <mat-form-field appearance="outline" class="mat-form-field-width">
+                                <mat-label>Search Condition</mat-label>
+                                <mat-select>
+                                    <mat-option value="AND">AND</mat-option>
+                                    <mat-option value="OR">OR</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                          </div>
+                          <div class="div-inline-block">
+                            <button mat-raised-button color="primary">Search</button>
+                          </div>
+                            <div class="div-inline-block">
+                                <button mat-raised-button color="primary">Save</button>
+                              </div>
+                                <div class="div-inline-block">
+                                    <button mat-raised-button color="primary">Clear</button>
+                                  </div>
+                                    <!-- </div> -->
+                    </form>                
+                </div>
+                    </div> 
+                    <div class="vf-flex-container">
+                        <mat-card class="mat-card-lvl2">
+                            <mat-card-header class="vf-card-title">
+                                <mat-card-title>Filter</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+        
+                                <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8 demo-table" >
+                                    <ng-container *ngFor="let column of displayedColumns1" [matColumnDef]="column.headerValue">
+                    
+                                        <!-- Others column -->
+                                        <div *ngIf="column.headerValue != 'Name' && column.headerValue != 'AddDel'">
+                                      <th mat-header-cell *matHeaderCellDef>
+                                        {{column.header}}
+                                      </th>
+                                      <td mat-cell *matCellDef="let row">
+                                        {{row[column.headerValue]}}
+                                      </td>
+                                      </div>
+                    
+                                      <!-- Name column -->
+                                      <div *ngIf="column.headerValue === 'Name'">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                          {{column.header}}
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                          <!-- {{row[column.headerValue]}} -->
+                                          <mat-form-field appearance="outline">
+                                            <mat-select>
+                                                <mat-option value="Charge/Charge">Charge/Charge</mat-option>
+                                                <mat-option value="Process/BusinessRule">Process/BusinessRule</mat-option>
+                                                <mat-option value="Charge/CustomerName">Charge/CustomerName</mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                        </td>
+                                        </div>
+    
+                                        <div *ngIf="column.headerValue === 'AddDel'">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                              {{column.header}}
+                                            </th>
+                                            <td mat-cell *matCellDef="let row">
+                                            <button *ngIf="row[column.headerValue] === '2'" mat-raised-button color="primary">Add Row</button>
+                                             <button mat-raised-button color="primary" >Delete</button>
+                                            </td>
+                                            </div>
+                    
+                                      </ng-container>
+                                      <tr mat-header-row *matHeaderRowDef="displayedColumnsValues1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsValues1;"></tr>
+                                  </table>
+        
+                                </mat-card-content>
+                                </mat-card>
+                    </div>
+                    </div>
+                        </mat-tab>
+                    <mat-tab label="Options"> 
+                        <form>
+                            <mat-card class="mat-card-lvl2">
+                                <mat-card-header class="vf-card-title">
+                                    <mat-card-title>Display Default</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="form-field-div" >
+                                     <mat-form-field appearance="outline">
+                                        <mat-label>Search Tab</mat-label>
+                                        <mat-select >
+                                            <mat-option value="Advanced">Advanced</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                      </div>
+                                      <!-- <br> -->
+                                      <div class="form-field-div">
+                                        <mat-form-field appearance="outline">
+                                           <mat-label>Selected Saved Search</mat-label>
+                                           <mat-select >
+                                               <mat-option value=""></mat-option>
+                                               <mat-option value="Notifs Today">Notifs Today</mat-option>
+                                           </mat-select>
+                                         </mat-form-field>
+                                         </div>
+                                         <div class="form-field-div">
+                                         <mat-checkbox>Run selected saved search when window is displayed</mat-checkbox> 
+                                        </div>
+                                      <div class="form-field-div">
+                                    * Max Results:  <mat-form-field appearance="outline">
+                                        <input matInput placeholder="Placeholder" value="200">
+                                      </mat-form-field>
+                                      </div>
+                                      <!-- <br> -->
+                                      <div class="form-field-div">
+                                  <mat-checkbox>No Maximum (Results may take longer to display)</mat-checkbox>    
+                                </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <div class="button-right-container">
+                                      <div class="button-right-class">
+                                    <button mat-raised-button color="primary">Search</button>
+                                  </div>
+                                    <div class="button-right-class">
+                                    <button mat-raised-button color="primary">Clear</button>
+                                  </div>
+                                    </div>
+                                </mat-card-actions>
+                            </mat-card>
+                        </form> </mat-tab>
+                  </mat-tab-group>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="vf-flex-container">
+            <mat-card class="mat-card-lvl1">
+                <mat-card-header class="vf-card-title">
+                    <mat-card-title>Step Summary</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <table mat-table [dataSource]="dataSourceStepSummary" class="mat-elevation-z8 demo-table">
+                        <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column.headerValue">
+        
+                            <!-- Others column -->
+                            <div *ngIf="column.headerValue !== 'Icon' && column.headerValue !== 'Detail'">
+                          <th mat-header-cell *matHeaderCellDef>
+                            {{column.header}}
+                          </th>
+                          <td mat-cell *matCellDef="let row">
+                            {{row[column.headerValue]}}
+                          </td>
+                          </div>
+        
+                          <!-- Icon column -->
+                          <div *ngIf="column.headerValue === 'Icon'">
+                            <th mat-header-cell *matHeaderCellDef>
+                              <!-- {{column.header}} -->
+                              <mat-icon class="material-icons">category</mat-icon>
+                              <!-- <mat-icon><span class="material-icons-round">category</span></mat-icon> -->
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                              <!-- {{row[column.headerValue]}} -->
+                              <mat-icon>
+                                <span class="material-icons-round" style="color: #a8b400;">
+                                  square
+                                </span>
+                              </mat-icon>
+                            </td>
+                            </div>
+
+                            <!-- Detail column -->
+                          <div *ngIf="column.headerValue === 'Detail'">
+                            <th mat-header-cell *matHeaderCellDef>
+                              {{column.header}}
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                              <!-- {{row[column.headerValue]}} -->
+                              <a routerLink="/notiftools/processinstancedetail"><mat-icon>search</mat-icon></a>
+                            </td>
+                            </div>
+        
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"></tr>
+                      </table>
+                      <mat-paginator #paginator
+                        class="demo-paginator"
+                        [length]="length"
+                        [pageSize]="pageSize"
+                        [disabled]="disabled"
+                        [hidePageSize]="hidePageSize"
+                        [pageIndex]="pageIndex"
+                        aria-label="Select page">
+                      </mat-paginator>
+                </mat-card-content>
+        
+            </mat-card>
+        </div>
+</div>

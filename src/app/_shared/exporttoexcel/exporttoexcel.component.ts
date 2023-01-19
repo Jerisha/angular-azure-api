@@ -15,6 +15,8 @@ const myData = [
   {
     ReportName : 'Solicited Errors',
     FileName : 'solicitedErrors_testj_05052020_093030',
+    // Filepath: "/opt/SP/osnapp/excel/Audit Data Files_BEEMA_20230103_150427.xlsx",
+    Filepath: "/../../assets/dataFiles/dcmTestFile.xlsx",
     CreatedBy : 'test.xxxxx@vodafone.com',
     Status : 'Available',
     StartTime : '05-May-2022 09:30:30',
@@ -58,6 +60,35 @@ const myData = [
     Duration : '10'
   },
 ]
+
+const DCMExportData = {
+  "ScreenIdentifier": "ExporttoExcelReport",
+  "ReportIdentifier": [
+      "Audit Data Files",
+      "Solicited Internal Discrepancy Process"
+  ],
+  "data": {
+      "ExportData": [
+          {
+              "ReportName": "Search View & Extract ",
+              "FileName": "Audit Data Files_Test_20230113_150427.xlsx",
+              // "Filepath": "/opt/SP/osnapp/excel/Audit Data Files_BEEMA_20230103_150427.xlsx",
+              "Filepath": "/../../assets/dataFiles/TestFile.xlsx",
+              "Status": "Available",
+              "Startdatetime": "13-Jan-2023 15:04:27",
+              "Enddatetime": "13-Jan-2023 15:04:27",
+              "Createdby": "test@vodafone.com",
+              "Duration": "00mins00sec"
+          }
+      ]
+  },
+  "Status": {
+      "StatusCode": "EUI000",
+      "StatusMessage": "Success",
+      "MessageType": "Informational"
+  }
+};
+
 @Component({
   selector: 'app-exporttoexcel',
   templateUrl: './exporttoexcel.component.html',
@@ -111,25 +142,24 @@ color: ThemePalette = 'primary';
   refresh(){    
     let request = Utils.preparePyExportSummary();
     //console.log('export2excel',JSON.stringify(request))
-    this.service.queryDetails(request).subscribe(x => {     
-       //console.log(x,'res')
-      if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode ==='EUI000') {
-        this.dataSource.data =x.data.ExportData
-        // this.exportData = x.data.ExportData
-        this.reports = [...new Set(x.data.ExportData.map((val:any)=> val.ReportName))]
-        //this.FilePath =this.exportData[0].Filepath
-      }
-      else {
-        console.log(x,'Export request Error Response')
-      }
-    },       
-    (error: any) => {
-      //  console.log(error,'Export Sumary API Function')  
+    this.dataSource.data = DCMExportData.data.ExportData;
+    console.log('Export Data', JSON.stringify(DCMExportData));
+    this.reports = [...new Set(DCMExportData.data.ExportData.map((val:any)=> val.ReportName))]
+    // this.service.queryDetails(request).subscribe(x => {     
+    //    console.log(JSON.stringify(x),'res')
+    //   if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode ==='EUI000') {
+    //     this.dataSource.data =x.data.ExportData
+    //     this.reports = [...new Set(x.data.ExportData.map((val:any)=> val.ReportName))]
+    //   }
+    //   else {
+    //     console.log(x,'Export request Error Response')
+    //   }
+    // },       
+    // (error: any) => { 
 
-    },
-    ()=>{
-      // console.log('Export Sumary API Completed','Export Sumary API Function')
-    });
+    // },
+    // ()=>{
+    // });
     
   }
 
@@ -144,40 +174,24 @@ color: ThemePalette = 'primary';
   downloadFile(FileFullPath:string) {
     // debugger
     // FileFullPath ='TelephoneRangeReports_BEEMA_20220613_101009.xlsx'
-    let request = Utils.preparePydownloadFile(FileFullPath);
-    //console.log(request,'download Request')
-    // this.activeDownloads.push(FileFullPath);
-    this.service.downloadFileDetails(request).subscribe((response: any) => {     
-      //console.log(response,'res')
-      if (response.ok) {        
-        //let type =  response.body.type.toString() 
-       let type =  'application/vnd.ms-excel'
-        // console.log(type,'type')
-          this.service.blob2File(response,type,FileFullPath.substring(FileFullPath.lastIndexOf('/')+1))
-      }
-      else {
-        console.log(response,'Download File request Error Response'); 
-        // if(this.activeDownloads.length > 0) {
-        //   let index = this.activeDownloads.indexOf(FileFullPath);
-        //    this.activeDownloads.splice(index,1);
-        // }
-        
-      }         
-   },       
-   (error: any) => {
-     //  console.log(error,'Download File API Function')  
-    //  if(this.activeDownloads.length > 0) { 
-    //   let index = this.activeDownloads.indexOf(FileFullPath);
-    //        this.activeDownloads.splice(index,1);
-    //  }
-   },
-   ()=>{
-     // console.log('Download File API Completed','Download File API Function')
-    //  if(this.activeDownloads.length > 0) {
-    //   let index = this.activeDownloads.indexOf(FileFullPath);
-    //        this.activeDownloads.splice(index,1);
-    //  }
-   });
+    let data = "This is sample download file for DCM";
+    let type =  'application/vnd.ms-excel';
+    let response = new Blob([data]);
+    this.service.blob2File(response,type,FileFullPath.substring(FileFullPath.lastIndexOf('/')+1))
+  //   let request = Utils.preparePydownloadFile(FileFullPath);
+  //   this.service.downloadFileDetails(request).subscribe((response: any) => {     
+  //     if (response.ok) {        
+  //      let type =  'application/vnd.ms-excel'
+  //         this.service.blob2File(response,type,FileFullPath.substring(FileFullPath.lastIndexOf('/')+1))
+  //     }
+  //     else {
+  //       console.log(response,'Download File request Error Response'); 
+  //     }         
+  //  },       
+  //  (error: any) => {
+  //  },
+  //  ()=>{
+  //  });
    
     
   }

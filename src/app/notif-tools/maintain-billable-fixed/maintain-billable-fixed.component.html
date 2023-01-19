@@ -1,0 +1,59 @@
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Maintain Billable Fixed</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-field-div">
+        <mat-form-field appearance="outline">
+          <mat-label>BT Charge Bands</mat-label>
+          <input matInput placeholder="Placeholder">
+        </mat-form-field>
+      </div>
+      <div class="form-field-div">
+        <button mat-raised-button type="button" color="primary">Search</button>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Charge Band Column -->
+        <ng-container matColumnDef="chargeBand">
+          <th mat-header-cell *matHeaderCellDef> Charge Band </th>
+          <td mat-cell *matCellDef="let element"> {{element.chargeBand}} </td>
+        </ng-container>
+
+        <!-- Billable Fixed Column -->
+        <ng-container matColumnDef="billableFixed">
+          <th mat-header-cell *matHeaderCellDef> Billable Fixed </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field appearance="outline" class="pb-0">
+              <mat-select value="yes">
+                <mat-option value="yes">Yes</mat-option>
+                <mat-option value="No">No</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Update Billable Column -->
+        <ng-container matColumnDef="updateBillable">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element"><button mat-raised-button type="button" color="primary">Update Billable
+              Fixed</button></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator #paginator
+        class="demo-paginator"
+        [length]="length"
+        [pageSize]="pageSize"
+        [disabled]="disabled"
+        [hidePageSize]="hidePageSize"
+        [pageIndex]="pageIndex"
+        aria-label="Select page">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

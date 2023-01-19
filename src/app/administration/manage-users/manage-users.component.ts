@@ -909,7 +909,7 @@ export class ManageUsersComponent implements OnInit {
   userreportscolums: any = [
     { header: 'User Name', headerValue: 'username' },
     { header: 'Email Address', headerValue: 'emailaddress' },
-    { header: 'Source System', headerValue: 'sources' },
+    // { header: 'Source System', headerValue: 'sources' },
     { header: 'Menu Group', headerValue: 'menugroup' },
     { header: 'Report Name', headerValue: 'reportname' }
   ];
@@ -922,7 +922,7 @@ export class ManageUsersComponent implements OnInit {
     { header: 'Active', headerValue: 'active' },
     { header: 'Email Address', headerValue: 'emailaddress' },
     { header: 'Telephone No', headerValue: 'telephoneno' },
-    { header: 'Y/W/ID', headerValue: 'yid' },
+    // { header: 'Y/W/ID', headerValue: 'yid' },
     { header: 'Created On', headerValue: 'createddttm' },
     { header: 'Created By', headerValue: 'createdby' }
   ];
@@ -1562,16 +1562,53 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 0);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'UserAccess');
-      this.spinner.show();
+      // this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           // console.log('userdata from response', res.Data);
-          this.userAccessData.data = res.Data[0].userdata;
+          // this.userAccessData.data = res.Data[0].userdata;
+          this.userAccessData.data = [
+            {
+              "username": "Test",
+              "firstname": "Test",
+              "lastname": "Test",
+              "profilename": "Test",
+              "sources": "Test",
+              "telephoneno": "1234567890",
+              "emailaddress": "test@vodafone.com",
+              "yid": "",
+              "active": "Yes",
+              "iscustomprofile": 0,
+              "istemporary": 0,
+              "createddttm": "17-May-2022 00:00:00",
+              "createdby": null,
+              "updateddttm": "09-Aug-2022 05:34:43",
+              "updatedby": "Test"
+            },
+            {
+              "username": "Test2",
+              "firstname": "Test2",
+              "lastname": "Test2",
+              "profilename": "Test2",
+              "sources": "Test2",
+              "telephoneno": "1234567890",
+              "emailaddress": "test2@vodafone.com",
+              "yid": "",
+              "active": "Yes",
+              "iscustomprofile": 0,
+              "istemporary": 0,
+              "createddttm": "17-May-2022 00:00:00",
+              "createdby": null,
+              "updateddttm": "09-Aug-2022 05:34:43",
+              "updatedby": "Test2"
+            },
+          ]
+          console.log(res);
           // User Profile Dropdown
           this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
           this.userProfilesDropdown.push('Custom');
           // console.log('data of manage users', this.userAccessData);
-          this.spinner.hide();
+          // this.spinner.hide();
         }
       );
     }
@@ -1590,7 +1627,8 @@ export class ManageUsersComponent implements OnInit {
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
-          this.datauserreports.data = res.Data;
+          // this.datauserreports.data = res.Data;
+          this.datauserreports.data = []
           this.spinner.hide();
         }
       );
@@ -1610,7 +1648,35 @@ export class ManageUsersComponent implements OnInit {
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
-          this.startupusermsgs.data = res.Data;
+          // this.startupusermsgs.data = res.Data;
+          this.startupusermsgs.data = [
+            {
+              "newsid": "Test",
+              "newsdescription": "",
+              "newsheader": "Test",
+              "newssubheader": "Test data",
+              "startdate": "29-Apr-2022 18:30:21",
+              "expirydate": "29-Jun-2022 00:00:00",
+              "emailaddress": "test@vodafone.com",
+              "createddttm": "17-May-2022 00:00:00",
+              "createdby": "Test",
+              "updateddttm": "29-Jun-2022 07:38:22",
+              "updatedby": "Test"
+            },
+            {
+              "newsid": "Test2",
+              "newsdescription": "",
+              "newsheader": "Test2",
+              "newssubheader": "Test data2",
+              "startdate": "29-Apr-2022 18:30:21",
+              "expirydate": "29-Jun-2022 00:00:00",
+              "emailaddress": "test2@vodafone.com",
+              "createddttm": "17-May-2022 00:00:00",
+              "createdby": "Test2",
+              "updateddttm": "29-Jun-2022 07:38:22",
+              "updatedby": "Test2"
+            }
+          ]
           // console.log('news data',res.Data);
           this.spinner.hide();
         }
@@ -1636,7 +1702,39 @@ export class ManageUsersComponent implements OnInit {
           {
           res.Data.length=res.Data.length-1;
           }
-          this.userprofilesdata.data = res.Data;
+          // this.userprofilesdata.data = res.Data;
+          this.userprofilesdata.data = [
+            {
+              "profilename": "Super Admin",
+              "profiledescription": "This is Super Admin",
+              "iseditprofile": 1.0,
+              "iscustomprofile": 0,
+              "isdefaultprofile": 0,
+              "isdelete": 1,
+              "createddttm": "17-May-2022 00:00:00",
+              "createdby": "Test",
+              "updateddttm": "28-Jul-2022 09:14:07",
+              "updatedby": "Test",
+              "profileitems": [
+                
+              ]
+            },
+            {
+              "profilename": "Readonly",
+              "profiledescription": "This is Requester",
+              "iseditprofile": 1.0,
+              "iscustomprofile": 0,
+              "isdefaultprofile": 0,
+              "isdelete": 1,
+              "createddttm": "17-May-2022 00:00:00",
+              "createdby": "Test2",
+              "updateddttm": "28-Jul-2022 09:14:07",
+              "updatedby": "Test2",
+              "profileitems": [
+                
+              ]
+            }
+          ]
           this.spinner.hide();
         }
       );
@@ -1647,7 +1745,7 @@ export class ManageUsersComponent implements OnInit {
 useraccessdetailsupdate()
 {
   let request = Utils.preparePyUIQuery('ManageUsers', 'UserAccess');
-      this.spinner.show();
+      // this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           // console.log('userdata from response', res.Data);
@@ -1656,7 +1754,7 @@ useraccessdetailsupdate()
           this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
           this.userProfilesDropdown.push('Custom');
           // console.log('data of manage users', this.userAccessData);
-          this.spinner.hide();
+          // this.spinner.hide();
         }
       );
 }

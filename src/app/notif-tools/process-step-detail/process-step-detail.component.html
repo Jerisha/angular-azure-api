@@ -1,0 +1,243 @@
+<div class="vf-flex-container-dir-col">
+  <div class="vf-flex-container">
+    <button mat-raised-button type="button" color="primary" (click)="backClicked()">Close</button>
+  </div>
+  <div class="vf-flex-container">
+    <form style="width:50%; display:inline-block;">
+      <mat-card class="mat-card-lvl2">
+        <mat-card-header class="vf-card-title">
+          <mat-card-title>Process Instance Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="container-fluid">
+            <div>
+              <div class="details-data">
+                <span class="label">Process:</span>
+                <span class="text-display">Notif Process</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Model Version</span>
+                <span class="text-display">1</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Start Date / Time</span>
+                <span class="text-display">01/06/2022 10:56:36.944</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Last Updated</span>
+                <span class="text-display">13/12/2022 08:57:39.000</span>
+              </div>
+            </div>
+            <div>
+              <div class="details-data">
+                <span class="label">Instance ID</span>
+                <span class="text-display">CHGOWN_W122825_0001009</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Instance Iteration</span>
+                <span class="text-display">1</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Status</span>
+                <span class="text-display">Resubmitted</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Duration</span>
+                <span class="text-display">207d 23:33:36.649</span>
+              </div>
+            </div>
+          </div>
+
+
+        </mat-card-content>
+
+      </mat-card>
+    </form>
+
+    <form style="width:49%; display:inline-block;">
+      <mat-card class="mat-card-lvl2">
+        <mat-card-header class="vf-card-title">
+          <mat-card-title>Step Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="container-fluid">
+            <div>
+              <div class="details-data">
+                <span class="label">Step Name</span>
+                <span class="text-display">Manage Route Lite Failures</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Start Date / Time</span>
+                <span class="text-display">01/06/2022 10:56:36.944</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Last Updated</span>
+                <span class="text-display">13/12/2022 08:57:39.000</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Step Iteration</span>
+                <span class="text-display">2</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="details-data">
+                <span class="label">Status</span>
+                <span class="text-display">Started</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Duration</span>
+                <span class="text-display">14d 23:33:36.649</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Server Type</span>
+                <span class="text-display">Task Engine</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Server ID</span>
+                <span class="text-display">ukfc21vr:6221</span>
+              </div>
+              <div class="details-data">
+                <span class="label">Task Detail</span>
+                <a href="#"><span class="text-display">Manage Route Kite Failure(107904)</span></a>
+              </div>
+            </div>
+          </div>
+
+
+        </mat-card-content>
+
+      </mat-card>
+    </form>
+  </div>
+
+  <div class="vf-flex-container">
+    <mat-card class="mat-card-lvl1">
+      <mat-card-header class="vf-card-title">
+        <mat-card-title>Step History</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSourceStepHistory" class="mat-elevation-z8 demo-table">
+          <ng-container *ngFor="let column of displayedColumnsStepHistory" [matColumnDef]="column.headerValue">
+
+            <div>
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{row[column.headerValue]}}
+              </td>
+            </div>
+
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsValuesStepHistory"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsValuesStepHistory;"></tr>
+        </table>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+  <div class="vf-flex-container">
+    <mat-card class="mat-card-lvl1">
+      <mat-card-header class="vf-card-title">
+        <mat-card-title>Control Actions</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSourceControlAction" class="mat-elevation-z8 demo-table">
+          <ng-container *ngFor="let column of displayedColumnsControlAction" [matColumnDef]="column.headerValue">
+
+            <div>
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{row[column.headerValue]}}
+              </td>
+            </div>
+
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsValuesControlAction"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsValuesControlAction;"></tr>
+        </table>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+  <div class="vf-flex-container">
+    <mat-card class="mat-card-lvl1">
+      <mat-card-header class="vf-card-title">
+        <mat-card-title>Activity Messages</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSourceActivityMsg" class="mat-elevation-z8 demo-table">
+          <ng-container *ngFor="let column of displayedColumnsActivityMsg" [matColumnDef]="column.headerValue">
+
+            <div>
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{row[column.headerValue]}}
+              </td>
+            </div>
+
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsValuesActivityMsg"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsValuesActivityMsg;"></tr>
+        </table>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+  <div class="vf-flex-container">
+    <mat-card class="mat-card-lvl1">
+      <mat-card-header class="vf-card-title">
+        <mat-card-title>Logged Fields</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSourceLoggedField" class="mat-elevation-z8 demo-table">
+          <ng-container *ngFor="let column of displayedColumnsLoggedField" [matColumnDef]="column.headerValue">
+
+            <div>
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{row[column.headerValue]}}
+              </td>
+            </div>
+
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsValuesLoggedField"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsValuesLoggedField;"></tr>
+        </table>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+  <div class="vf-flex-container">
+    <mat-card class="mat-card-lvl1">
+      <mat-card-header class="vf-card-title">
+        <mat-card-title>Step Errors</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSourceStepError" class="mat-elevation-z8 demo-table">
+          <ng-container *ngFor="let column of displayedColumnsStepError" [matColumnDef]="column.headerValue">
+
+            <div>
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{row[column.headerValue]}}
+              </td>
+            </div>
+
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsValuesStepError"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsValuesStepError;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

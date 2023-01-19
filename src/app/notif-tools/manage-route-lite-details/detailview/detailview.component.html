@@ -1,0 +1,133 @@
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Task Basic Info</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="vf-box-shadow1">
+        <div class="vf-flex-container-col">
+          <div class="vf-flex-container">
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Task Type</mat-label>
+                <input type="text" matInput readonly value="NGN Manage Route Lite Failures">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Task ID</mat-label>
+                <input type="text" matInput readonly value="33302">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Name</mat-label>
+                <input type="text" matInput value="Manage Route Lite Failures">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Description</mat-label>
+                <input type="text" matInput>
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">None</mat-label>
+                <mat-select>
+                  <mat-option value="L">2-Low</mat-option>
+                  <mat-option value="M">3-Med</mat-option>
+                  <mat-option value="H">4-High</mat-option>
+                  <mat-option value="C">1-Critical</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Status</mat-label>
+                <input type="text" matInput readonly placeholder="Active">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Accepted By</mat-label>
+                <input type="text" matInput readonly value="Gary Cordery">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Accepted Date</mat-label>
+                <input type="text" matInput readonly value="4/24/2015 9:33 AM">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Assigned To</mat-label>
+                <input type="text" matInput readonly value="NGN Route Lite Failures">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Delegation:</mat-label>
+                <input type="text" matInput readonly>
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Created Date</mat-label>
+                <input type="text" matInput readonly value="4/10/2015 12:39 PM">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Created By</mat-label>
+                <input type="text" matInput readonly value="My webMethods Administrator">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Last Updated Date</mat-label>
+                <input type="text" matInput readonly value="2/26/2016 11:06 AM">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Last Updated By</mat-label>
+                <input type="text" matInput readonly value="Murphy, Gerard">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Expiration Date</mat-label>
+                <input type="text" matInput>
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Time</mat-label>
+                <input type="time" matInput value="Murphy, Gerard">
+                <mat-hint align="end">GMT (24-hour)</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <mat-form-field class="vf-mr-negative">
+                <mat-label class="vf-label">Custom Task ID</mat-label>
+                <input type="text" matInput value="">
+              </mat-form-field>
+            </div>
+            <div class="form-field-div">
+              <div class="details-data">
+                <span class="label"> Process Instance ID: </span>
+                <span class="text-display"><a href="notiftools/processinstancedetail">59954eb0-de98-11e4-9d0e-c2460580556c</a>y</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div style="margin-top: 20px;">
+        <button mat-raised-button color="primary" style="margin-left: 0;">Apply</button>
+        <button mat-raised-button color="primary" (click)="backClicked()">Return</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

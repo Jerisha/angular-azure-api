@@ -1,151 +1,127 @@
 [
-  {
-    "displayName": "Process Management",
+  {"displayName": "Dial Code Management",
     "iconName": "",
     "route": "",
     "children": [
       {
-        "displayName": "Solicited/Internal Discrepancy Process",
+        "displayName": "NGN Notification",
         "iconName": "",
-        "route": "resolvingoferrors/solicitederrors",
-        "menuId": "MENU01"
+        "route": "",
+        "children": [
+          {
+            "displayName": "Submit Notif GUI",
+            "iconName": "",
+            "route": "notiftools/submitnotifgui",
+            "menuId": "MENU01"
+          },
+          {
+            "displayName": "Submit Notif File",
+            "iconName": "",
+            "route": "notiftools/submitnotiffile",
+            "menuId": "MENU02"
+          },
+          {
+            "displayName": "Search Notif",
+            "iconName": "",
+            "route": "notiftools/searchnotif",
+            "menuId": "MENU03"
+          }
+        ]
       },
       {
-        "displayName": "Unsolicited Process",
+        "displayName": "NGN Referance Data Management",
         "iconName": "",
-        "route": "resolvingoferrors/unsolicitederrors",
-        "menuId": "MENU04"
+        "route": "",
+        "children": [     
+          {
+            "displayName": "Maintain Billable Fixed",
+            "iconName": "",
+            "route": "notiftools/maintainbillablefixed",
+            "menuId": "MENU04"
+          },      
+          {
+            "displayName": "Maintain Duration Threshold",
+            "iconName": "",
+            "route": "notiftools/maintaindurationthreshold",
+            "menuId": "MENU05"
+          },
+          {
+            "displayName": "Maintain Charge Band Reporting Group",
+            "iconName": "",
+            "route": "notiftools/maintainchargeband",
+            "menuId": "MENU06"
+          },
+          {
+            "displayName": "Maintain Number Range Mappings",
+            "iconName": "",
+            "route": "notiftools/maintainnumberrange",
+            "menuId": "MENU07"
+          },
+          {
+            "displayName": "View Range Owners",
+            "iconName": "",
+            "route": "notiftools/viewrangeowner",
+            "menuId": "MENU08"
+          }
+        ]
+      },
+      {
+        "displayName": "Search DCM",
+        "iconName": "",
+        "route": "",
+        "children": [
+          {
+            "displayName": "Search View & Extract",
+            "iconName": "",
+            "route": "notiftools/searchviewextract",
+            "menuId": "MENU9"
+          }
+        ]
       }
     ]
   },
   {
-    "displayName": "Process Reports",
+    "displayName": "Monitoring",
     "iconName": "",
     "route": "",
     "children": [
       {
-        "displayName": "Solicited Resolution Report",
+        "displayName": "Batch Process Status",
         "iconName": "",
-        "route": "resolvingoferrors/solicitedresolutionreport",
-        "menuId": "MENU02"
-      },
-      {
-        "displayName": "Solicited Actions Report",
-        "iconName": "",
-        "route": "resolvingoferrors/solicitedactionreport",
-        "menuId": "MENU03"
-      },
-      {
-        "displayName": "Unsolicited Actions Report",
-        "iconName": "",
-        "route": "resolvingoferrors/unsolicitedactionreport",
-        "menuId": "MENU05"
-      }
-    ]
-  },
-  {
-    "displayName": "Record Creation",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Create Record",
-        "iconName": "",
-        "route": "transactions/transactions",
-        "menuId": "MENU12"
-      },
-      {
-        "displayName": "Create Internal Cease",
-        "iconName": "",
-        "route": "transactions/ceasetransaction",
-        "menuId": "MENU13"
-      }
-    ]
-  },
-  {
-    "displayName": "Audit Process Management",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Full Audit Details",
-        "iconName": "",
-        "route": "auditreports/fullauditdetails",
+        "route": "",
         "menuId": "MENU10"
       },
       {
-        "displayName": "Audit Discrepancy Report",
+        "displayName": "NGN Process Status",
         "iconName": "",
-        "route": "auditreports/auditdiscrepancyreport",
-        "menuId": "MENU11"
-      },
-      {
-        "displayName": "External Audit Details",
-        "iconName": "",
-        "route": "auditreports/externalauditdetails",
-        "menuId": "MENU06"
-      },
-      {
-        "displayName": "Full Audit History",
-        "iconName": "",
-        "route": "auditreports/fullaudithistory",
-        "menuId": "MENU07"
-      },
-      {
-        "displayName": "Audit User Action Summary",
-        "iconName": "",
-        "route": "auditreports/audituseractionsummary",
-        "menuId": "MENU09"
-      },
-      {
-        "displayName": "Separate Internal Audit Details",
-        "iconName": "",
-        "route": "auditreports/separateinternalauditdetails",
-        "menuId": "MENU08"
-      }
-    ]
-  },
-  {
-    "displayName": "Inventory Records",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Live Records",
-        "iconName": "",
-        "route": "reports/liverecords",
-        "menuId": "MENU20"
-      },
-      {
-        "displayName": "InFlight Records",
-        "iconName": "",
-        "route": "reports/inflightreport",
-        "menuId": "MENU22"
-      },
-      {
-        "displayName": "Telephone Range Report",
-        "iconName": "",
-        "route": "reports/telephonerangereport",
-        "menuId": "MENU23"
-      },
-      {
-        "displayName": "Transaction Details Records",
-        "iconName": "",
-        "route": "reports/transactiondetailsreport",
-        "menuId": "MENU21"
-      }
-    ]
-  },
-  {
-    "displayName": "Statistical Reports",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Transaction Source Command Summary",
-        "iconName": "",
-        "route": "statisticalreports/transactionsourcecommandhistory",
-        "menuId": "MENU24"
+        "route": "notiftools/processinstances",
+        "children": [
+          {
+            "displayName": "Process Instances",
+            "iconName": "",
+            "route": "notiftools/processinstances",
+            "menuId": "MENU11"
+          },
+          {
+            "displayName": "Tasks",
+            "iconName": "",
+            "route": "",
+            "children": [
+              {
+                "displayName": "My Inbox",
+                "iconName": "",
+                "route": "notiftools/myinbox",
+                "menuId": "MENU12"
+              },
+              {
+                "displayName": "NGN Search Task",
+                "iconName": "",
+                "route": "notiftools/searchtaskinbox",
+                "menuId": "MENU13"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -155,59 +131,10 @@
     "route": "",
     "children": [
       {
-        "displayName": "Audit Status Tracker",
-        "iconName": "",
-        "route": "administration/auditstatustracker",
-        "menuId": "MENU15"
-      },
-      {
-        "displayName": "Audit Data Files",
-        "iconName": "",
-        "route": "administration/auditdatafiles",
-        "menuId": "MENU14"
-      },
-      {
-        "displayName": "Restore Solicited Errors",
-        "iconName": "",
-        "route": "administration/restoresolicitederrors",
-        "menuId": "MENU26"
-      },
-      {
-        "displayName": "Data Correction Summary",
-        "iconName": "",
-        "route": "administration/datacorrectionsummary",
-        "menuId": "MENU16"
-      },
-      {
-        "displayName": "Unresolved Transaction",
-        "iconName": "",
-        "route": "administration/unresolvedtransaction",
-        "menuId": "MENU18"
-      },
-      {
-        "displayName": "Unresolved Errors",
-        "iconName": "",
-        "route": "administration/unresolvederrors",
-        "menuId": "MENU17"
-      },
-      {
         "displayName": "Manage Users",
         "iconName": "",
         "route": "administration/manageusers",
-        "menuId": "MENU19"
-      }
-    ]
-  },
-  {
-    "displayName": "Configurational Reference Data",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Reference List",
-        "iconName": "",
-        "route": "report-references/ReferenceList",
-        "menuId": "MENU25"
+        "menuId": "MENU14"
       }
     ]
   }

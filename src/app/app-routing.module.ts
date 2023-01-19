@@ -95,7 +95,13 @@ const routes: Routes = [
     canActivateChild: [AuthGuard]
 
 
-  }
+  },
+  {
+    path: 'notiftools',
+    component: AppLayoutComponent,
+    loadChildren: () => import('./notif-tools/notif-tools.module').then(x => x.NotifToolsModule),
+    canActivateChild: [AuthGuard]
+  },
   // {
   //   path: 'governance',
   //   component: AppLayoutComponent,

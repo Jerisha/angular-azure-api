@@ -1,0 +1,24 @@
+.label {
+    display: inline-block;
+    font: 500 14px/20px Roboto, "Helvetica Neue" !important;
+    color: rgba(0, 0, 0, 1);
+    min-width: 160px;
+}
+
+.row-contener {
+    border: 1px solid black;
+    padding: 20px;
+    border-top: none;
+}
+
+.first-div {
+    border-top: 1px solid black;
+}
+
+.right-block {
+    float: right;
+}
+
+p {
+    margin: 0;
+}

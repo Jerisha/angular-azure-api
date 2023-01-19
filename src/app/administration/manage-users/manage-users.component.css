@@ -169,15 +169,14 @@ background-color: #3f51b5!important;
     width: 115px !important;       
     
     }
-    .rl-fixed-bottom-bar-table .mat-raised-button {
+    /* .rl-fixed-bottom-bar-table .mat-raised-button {
       background-color: #4a4d4e;
       color: white;
-      /* width: 9vw; */
       line-height: 2em;
       font-size: .85em;
       margin-left: 1vw;
       padding: 0px;
-    }
+    } */
     .rl-fixed-bottom-bar-table .mat-raised-button .mat-icon{
       font-size: 1.6em;
       height:min-content;
@@ -187,15 +186,14 @@ background-color: #3f51b5!important;
    {
     background-color: lightgray!important;
    }
-.rl-fixed-bottom-bar .mat-raised-button {
+/* .rl-fixed-bottom-bar .mat-raised-button {
   background-color: #4a4d4e;
   color: white;
-  /* width: 9vw; */
   line-height: 2em;
   font-size: .85em;
   margin-left: 1vw;
   padding: 0px;
-}
+} */
 .rl-fixed-bottom-bar .mat-raised-button .mat-icon{
   font-size: 1.6em;
   height:min-content;
@@ -207,11 +205,9 @@ background-color: #3f51b5!important;
   max-height: calc(100vh - 23vh);
   overflow:auto
 } 
-.rl-fixed-bottom-bar-main {
+/* .rl-fixed-bottom-bar-main {
   margin-top: 6px;
   bottom: 0;
-  /* position: absolute; */
-  /* position: sticky; */
   margin-bottom: 3px;
   display: flex;
   justify-content: flex-start;
@@ -220,14 +216,14 @@ background-color: #3f51b5!important;
   flex-wrap: wrap;
   flex-direction: row;  
   
-  }
-  .rl-fixed-bottom-bar-main .mat-raised-button {
+  } */
+  /* .rl-fixed-bottom-bar-main .mat-raised-button {
     background-color: #4a4d4e;
     color: white;    
     line-height: 2em;
     font-size: .85em;
     margin-left: 1vw;
-  }
+  } */
   .rl-fixed-bottom-bar-main .mat-raised-button .mat-icon{
     font-size: 1.6em;
     height: 1em;
@@ -421,13 +417,14 @@ th.mat-header-cell:first-of-type{
   }
 
   .btn-color{
-    background-color: #4a4d4e;
+    background-color: #00b0ca;
     color: white;
     
     }
 
     .rm6{
       margin-right: 6px;
+      margin-top: 10px;
       }
 
       
@@ -449,6 +446,7 @@ th.mat-header-cell:first-of-type{
       gap: 10px;
       flex-wrap:nowrap;
       justify-content: flex-start;
+      margin-top: 5px;
       }
       .rightFilters-items{
       flex-shrink: 1;

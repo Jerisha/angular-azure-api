@@ -1,6 +1,6 @@
 <!-- <app-top-nav class="fixed-topnav" fxHide.gt-xs></app-top-nav> -->
 
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple" [fullScreen]="true">
   <p style="color: white"> Loading... </p>
 </ngx-spinner>
 
@@ -8,17 +8,16 @@
   <mat-sidenav #appDrawer mode="over" opened="false" style="background-color: rgb(236, 236, 236); width:290px">
 
     <div style="background-color: #e60000;">
-      <div style="margin-left: 3%;
-      margin-top: 0%;">
+      <div style="margin-left: 3%; margin-top: 0%; height: 45px;">
         <img src="assets/images/vodafone.png" class="search-logo" alt="Logo">
         <!-- <mat-form-field class="example-full-width" style="margin-left:4%; margin-top: 4%;"  > -->
-        <mat-form-field appearance="standard" class="main-search colfilter">
+        <!-- <mat-form-field appearance="standard" class="main-search colfilter">
           <input matInput name="strSearch" [(ngModel)]="strSearch" placeholder="Search" autocomplete="off"
             style="padding-left: 30px;width: 150px;height: 16px;padding-top: 10px;">
           <button *ngIf="strSearch" matSuffix mat-icon-button aria-label="Clear" (click)="strSearch=''">
             <mat-icon>close</mat-icon>
           </button>
-        </mat-form-field>
+        </mat-form-field> -->
       </div>
     </div>
 
@@ -33,7 +32,7 @@
   <!-- <ng-container *ngIf="!isError"> -->
 
   <app-top-nav fxHide.xs></app-top-nav>
-  <div class="page-header">
+  <!-- <div class="page-header">
     <div style="padding: 2px;"> {{baseRoot}}</div>
     <mat-icon>arrow_right</mat-icon>
     <div style="padding: 2px;">{{childRoot}}</div>
@@ -44,7 +43,7 @@
       <mat-icon class="info" *ngIf="isFav" (click)="addRemoveFavoriteReport('Remove')"
         matTooltip="Remove from Favorite ">star</mat-icon>
     </ng-container>
-  </div>
+  </div> -->
   <alert></alert>
   <div fxFlex>
     <router-outlet></router-outlet>

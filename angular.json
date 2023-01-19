@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/OSNWeb",
+            "outputPath": "dist/DCM",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -108,8 +108,8 @@
               ],
            
               "optimization": {
-                "scripts": true,
-                 "styles": true,
+                "scripts": false,
+                 "styles": false,
                  "fonts": false
              },
               "outputHashing": "all",
@@ -172,8 +172,8 @@
               ],
            
               "optimization": {
-                "scripts": true,
-                 "styles": true,
+                "scripts": false,
+                 "styles": false,
                  "fonts": false
              },
               "outputHashing": "all",

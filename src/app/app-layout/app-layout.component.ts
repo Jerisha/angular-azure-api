@@ -64,7 +64,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
     this.navService.appDrawer = this.appDrawer;
-    this.navService.currentUrl.subscribe((url: any) => {
+    this.navService.currentUrl.subscribe((url: any) => {      
       this.userDetails = this.authService.currentUserValue;
       this.favReports = this.userDetails?.favourites;
       if (!this.ignoreFavMenu.includes(url)) {

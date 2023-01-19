@@ -1,0 +1,260 @@
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Search</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Advanced">
+          <form>
+            <mat-card>
+              <mat-card-header class="vf-card-title">
+                <mat-card-title>Filter</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="form-field-div">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Field Name</mat-label>
+                    <mat-select disableRipple value="1">
+                      <mat-option value="1">Name 1</mat-option>
+                      <mat-option value="2">Name 2</mat-option>
+                      <mat-option value="3">Name 3</mat-option>
+                      <mat-option value="4">Name 4</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-field-div">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Value</mat-label>
+                    <mat-select disableRipple value="1">
+                      <mat-option value="1">value 1</mat-option>
+                      <mat-option value="2">Value 2</mat-option>
+                      <mat-option value="3">Value 3</mat-option>
+                      <mat-option value="4">Value 4</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-field-div">
+                  <mat-icon>add_circle</mat-icon>
+                  <mat-icon>do_not_disturb_on</mat-icon>
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <div class="button-right-container">
+                  <div class="button-right-class">
+                    <button mat-raised-button color="primary">Search</button>
+                  </div>
+                  <div class="button-right-class">
+                    <button mat-raised-button color="primary">Save</button>
+                  </div>
+                  <div class="button-right-class">
+                    <button mat-raised-button color="primary">Clear</button>
+                  </div>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+          </form>
+        </mat-tab>
+        <mat-tab label="Saved">
+          <form>
+            <mat-card>
+              <div>
+                <div class="form-field-div">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Saved Search</mat-label>
+                    <mat-select value="select1">
+                      <mat-option value="select1">All My Tasks</mat-option>
+                      <mat-option value="select2">My Accepted Tasks</mat-option>
+                      <mat-option value="select3">My Critical Tasks</mat-option>
+                      <mat-option value="select4">New Tasks This Week</mat-option>
+                      <mat-option value="select5">Tasks That Expire Today</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-field-div">
+                  <button mat-raised-button color="primary">Search</button>
+                </div>
+                <div class="form-field-div" style="float: right;">
+                  <button mat-raised-button color="primary">Delete</button>
+                  <button mat-raised-button color="primary" *ngIf="!deatilsBlock" (click)="displayOrHide()">Details
+                    <mat-icon>expand_more</mat-icon></button>
+                  <button mat-raised-button color="primary" *ngIf="deatilsBlock"
+                    (click)="displayOrHide()">Close<mat-icon>expand_less</mat-icon></button>
+                </div>
+              </div>
+              <div *ngIf="deatilsBlock">
+                <div class="details-data">
+                  <span class="label"> Description: </span>
+                  <span class="text-display">All tasks assigned to me or my roles.</span>
+                </div>
+                <div>
+                  <mat-card-header class="vf-card-title">
+                    <mat-card-title>Filter</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="form-field-div">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Field Name</mat-label>
+                        <mat-select disableRipple value="1">
+                          <mat-option value="1">Name 1</mat-option>
+                          <mat-option value="2">Name 2</mat-option>
+                          <mat-option value="3">Name 3</mat-option>
+                          <mat-option value="4">Name 4</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-field-div">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Value</mat-label>
+                        <input matInput>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-field-div">
+                      <mat-icon>add_circle</mat-icon>
+                      <mat-icon>do_not_disturb_on</mat-icon>
+                    </div>
+                  </mat-card-content>
+                  <mat-card-actions style="margin-bottom: 0px !important;">
+                    <div class="button-right-container">
+                      <div class="button-right-class">
+                        <button mat-raised-button color="primary">Search</button>
+                      </div>
+                      <div class="button-right-class">
+                        <button mat-raised-button color="primary">Update</button>
+                      </div>
+                      <div class="button-right-class">
+                        <button mat-raised-button color="primary">Save</button>
+                      </div>
+                      <div class="button-right-class">
+                        <button mat-raised-button color="primary">Clear</button>
+                      </div>
+                    </div>
+                  </mat-card-actions>
+                </div>
+              </div>
+            </mat-card>
+          </form>
+        </mat-tab>
+        <mat-tab label="Options">
+          <form>
+            <mat-card>
+              <mat-card-header class="vf-card-title">
+                <mat-card-title>Display Default</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="form-field-div">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Search Tab</mat-label>
+                    <mat-select value="basic">
+                      <mat-option value="basic">Advanced</mat-option>
+                      <mat-option value="saved">Saved</mat-option>
+                      <mat-option value="saved-details">Saved Details</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-field-div">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Selected Saved Search</mat-label>
+                    <mat-select value="select1">
+                      <mat-option value="select1">All My Tasks</mat-option>
+                      <mat-option value="select2">My Accepted Tasks</mat-option>
+                      <mat-option value="select3">My Critical Tasks</mat-option>
+                      <mat-option value="select4">New Tasks This Week</mat-option>
+                      <mat-option value="select5">Tasks That Expire Today</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-field-div">
+                  <mat-checkbox>Run selected saved search when window is displayed</mat-checkbox>
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <div class="button-right-container">
+                  <div class="button-right-class">
+                    <button mat-raised-button color="primary">Save</button>
+                  </div>
+                  <div class="button-right-class">
+                    <button mat-raised-button color="primary">Cancel</button>
+                  </div>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Inbox</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="line-height">
+        <div class="button-block">
+          <button mat-raised-button color="primary" style="margin-left: 0;" (click)="delegateDialogbox()">Delegate</button>
+          <button mat-raised-button color="primary" (click)="removeDelegateDialogbox()">Remove Delegation</button>
+        </div>
+        <div class="link-block">
+          <a href="notiftools/subscriptions" style="margin-right: 25px;">Subscriptions</a>
+          <a href="notiftools/scheduleddelegations">Scheduled Delegations</a>
+        </div>
+      </div>
+      <div class="line-height">
+        <button mat-raised-button color="primary" class="export-btn"> Export Table</button>
+      </div>
+      <div>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+          <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column.headerValue">
+
+            <!-- Checkbox Column -->
+            <div *ngIf="column.headerValue === 'select'">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox style="margin-right:20px;">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox style="margin-right:20px;">
+                </mat-checkbox>
+              </td>
+            </div>
+
+            <!-- Others column -->
+            <div *ngIf="column.headerValue != 'taskID'">
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{row[column.headerValue]}}
+              </td>
+            </div>
+
+            <!-- Notif id column -->
+            <div *ngIf="column.headerValue === 'taskID'">
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <a href="#" [routerLink]="['routelitedetails']"> {{row[column.headerValue]}} </a>
+              </td>
+            </div>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"></tr>
+        </table>
+        <mat-paginator #paginator
+          class="demo-paginator"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

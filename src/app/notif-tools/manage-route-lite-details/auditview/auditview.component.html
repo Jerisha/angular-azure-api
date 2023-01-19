@@ -1,0 +1,64 @@
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Task Audit Log</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <table mat-table class="mat-elevation-z8 demo-table" [dataSource]="auditdatasource" >
+          <ng-container *ngFor="let column of displayedColumnsAudit" [matColumnDef]="column.headerValue">
+
+            <!-- Others column -->
+            <div *ngIf="column.headerValue == 'Operation' ">
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <a href="#"> {{row[column.headerValue]}} </a>
+              </td>
+            </div>
+
+            <div *ngIf="column.headerValue === 'CreatedDate'">
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{row[column.headerValue]}}
+              </td>
+            </div>
+
+            <!-- Number ranges column -->
+            <div *ngIf="column.headerValue === 'Source'">
+              <!-- Number Range table -->
+              <th mat-header-cell *matHeaderCellDef>{{column.header}}</th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element[column.headerValue]}} </td> -->
+              <td mat-cell *matCellDef="let row">
+                <a href="#"> {{row[column.headerValue]}} </a>
+              </td>
+            </div>
+            <div *ngIf="column.headerValue === 'DelegatedBy'">
+              <!-- Number Range table -->
+              <th mat-header-cell *matHeaderCellDef>{{column.header}}</th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element[column.headerValue]}} </td> -->
+              <td mat-cell *matCellDef="let row">
+
+              </td>
+            </div>
+            <div *ngIf="column.headerValue === 'RollBack'">
+              <!-- Number Range table -->
+              <th mat-header-cell *matHeaderCellDef>{{column.header}}</th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element[column.headerValue]}} </td> -->
+              <td mat-cell *matCellDef="let row">
+                <mat-icon>repeat</mat-icon>
+              </td>
+            </div>
+
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsValuesAudit"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsValuesAudit;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

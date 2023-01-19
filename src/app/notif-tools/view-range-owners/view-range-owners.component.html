@@ -1,0 +1,104 @@
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Range Owner Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Select radio button -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <mat-radio-group>
+              <mat-radio-button value="false"></mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </ng-container>
+
+        <!-- Owner Name Column -->
+        <ng-container matColumnDef="ownerName">
+          <th mat-header-cell *matHeaderCellDef> Owner Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.ownerName}} </td>
+        </ng-container>
+
+        <!-- Owner Type Description Column -->
+        <ng-container matColumnDef="ownerType">
+          <th mat-header-cell *matHeaderCellDef> Owner Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.ownerType}} </td>
+        </ng-container>
+
+        <!-- Trunk Type Column -->
+        <ng-container matColumnDef="trunkType">
+          <th mat-header-cell *matHeaderCellDef> Trunk Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.trunkType}} </td>
+        </ng-container>
+
+        <!-- Direct Dial Mobile Column -->
+        <ng-container matColumnDef="directDialMobile">
+          <th mat-header-cell *matHeaderCellDef> Direct Dial Mobile </th>
+          <td mat-cell *matCellDef="let element"> {{element.directDialMobile}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator #paginator
+        class="demo-paginator"
+        [length]="length"
+        [pageSize]="pageSize"
+        [disabled]="disabled"
+        [hidePageSize]="hidePageSize"
+        [pageIndex]="pageIndex"
+        aria-label="Select page">
+      </mat-paginator>
+
+      <div class="vf-flex-container" *ngIf="!showAddEditblock">
+        <button mat-raised-button type="button" color="primary" class="first-btn" (click)="showAddEditRangeOwner('add')">Add New Range Owner</button>
+        <button mat-raised-button type="button" color="primary" (click)="showAddEditRangeOwner('edit')">Edit</button>
+        <button mat-raised-button type="button" color="primary" (click)="deleteDialogbox()">Delete</button>
+      </div>
+
+      <mat-card class="sub-card" *ngIf="showAddEditblock">
+        <mat-card-header class="vf-card-title">
+          <mat-card-title>{{blockName}} Range Owner</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-field-div">
+            <mat-form-field appearance="outline">
+              <mat-label>*Owner Name</mat-label>
+              <input matInput placeholder="Placeholder">
+            </mat-form-field>
+          </div>
+          <div class="form-field-div">
+            <mat-form-field appearance="outline">
+              <mat-label>*Owner Type</mat-label>
+              <mat-label>Please select a value</mat-label>
+              <mat-select disableRipple>
+                <mat-option value="bt">BT</mat-option>
+                <mat-option value="olo">OLO</mat-option>
+                <mat-option value="vf">VF</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-field-div">
+            <mat-form-field appearance="outline">
+              <mat-label>Trunk Type</mat-label>
+              <input matInput placeholder="Placeholder">
+            </mat-form-field>
+          </div>
+          <div class="form-field-div">
+            <mat-form-field appearance="outline">
+              <mat-label>Direct Dial</mat-label>
+              <input matInput placeholder="Placeholder">
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-raised-button type="submit" color="primary" class="first-btn">Submit</button>
+            <button mat-raised-button type="button" color="primary" (click)="showAddEditRangeOwner('cancel')">Cancel</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>

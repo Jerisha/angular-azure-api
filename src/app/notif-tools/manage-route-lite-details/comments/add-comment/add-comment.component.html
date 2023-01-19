@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-header class="vf-card-title">
+    <mat-card-title>New Comment</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="display: flex; flex-wrap: wrap;">
+      <div class="div-inline-block">
+        <mat-form-field class="side-textarea">
+          <mat-label>*Comment Text</mat-label>
+          <textarea name="remarks" matInput maxlength="500"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="form-field-div">
+        <input type="file" hidden #fileupload>
+        <div class="vf-flex-container-col"><span class="upload-button"><button mat-raised-button color="primary"
+          style="margin-left:0px;" (click)="fileupload.click()">Select Attachment File</button> <span style="margin: 0 10px;"> No File chosen </span></span>
+        </div>
+      </div>
+      <div class="form-field-div" style="margin-top: 10px;">
+        <button mat-raised-button color="primary">Clear</button>
+        <button mat-raised-button color="primary">Attach</button>
+      </div>
+    </div>
+  </mat-card-content>
+    <mat-card-actions>
+      <div class="button-right-container">
+        <div class="button-right-class">
+          <button mat-raised-button color="primary">Create</button>
+        </div>
+        <div class="button-right-class">
+          <button mat-raised-button color="primary" (click)="backClicked()">Cancel</button>
+        </div>
+      </div>
+    </mat-card-actions>
+</mat-card>

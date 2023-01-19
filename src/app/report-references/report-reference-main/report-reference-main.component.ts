@@ -19,6 +19,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Select } from 'src/app/uicomponents/models/select';
 import { MatOption } from '@angular/material/core';
 import { MatSort } from '@angular/material/sort';
+import { report } from 'process';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -599,9 +600,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
 
 
-          // this.data = res.data[reportName]; 
-
-          this.dataSource.data = res.data[reportName];
+          // this.data = res.Data[reportName]; 
+          
+          console.log("sourceData",res.Data[reportName]);
+          this.dataSource.data = res.Data[reportName];
+          
      //Franchise new code
           // if (reportName === 'Franchise') {
           //   USERS.forEach(user => {
@@ -702,15 +705,15 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
           }
 
-          this.recordIdentifier = res.params.RecordIdentifier;
+          this.recordIdentifier = res.ResponseParams.RecordIdentifier;
 
           if (this.currentReportName === 'Franchise') {
 
-            // this.data = res.data[reportName]; 
+            // this.data = res.Data[reportName]; 
 
-            this.dataSource.data = res.data[reportName];
+            this.dataSource.data = res.Data[reportName];
 
-             this.recordIdentifier = res.params.RecordIdentifier;
+             this.recordIdentifier = res.ResponseParams.RecordIdentifier;
            
 
             this.reportReferenceService.franchiseDropdowns = [];
@@ -737,7 +740,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
             this.dataSource.data = res.data["Olos"];
 
-            this.recordIdentifier = res.params.RecordIdentifier;
+            this.recordIdentifier = res.ResponseParams.RecordIdentifier;
 
           } else if (this.currentReportName === 'Company') {
 
@@ -745,7 +748,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
             this.dataSource.data = res.data["Companys"];
 
-            this.recordIdentifier = res.params.RecordIdentifier;
+            this.recordIdentifier = res.ResponseParams.RecordIdentifier;
 
             this.reportReferenceService.franchiseDropdowns = [];
 
@@ -774,11 +777,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
           else {
 
-            // this.data = res.data[reportName]; 
+            // this.data = res.Data[reportName]; 
 
-            this.dataSource.data = res.data[reportName];
+            this.dataSource.data = res.Data[reportName];
 
-            this.recordIdentifier = res.params.RecordIdentifier;
+            this.recordIdentifier = res.ResponseParams.RecordIdentifier;
 
           }
 
@@ -831,8 +834,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         (res: any) => {
           this.isLoading = false;
 
-          // this.data = res.data[reportName];
-          this.dataSource.data = res.data[reportName];
+          // this.data = res.Data[reportName];
+          this.dataSource.data = res.Data[reportName];
 
           // //Franchise new code
           // if (reportName === 'Franchise') {
@@ -896,11 +899,11 @@ this.ErrorTypeFilter?.forEach((element: any) => {
 this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: false });
 });
 }
-          this.recordIdentifier = res.params.RecordIdentifier;
+          this.recordIdentifier = res.ResponseParams.RecordIdentifier;
           if (this.currentReportName === 'Franchise') {
-            // this.data = res.data[reportName];
-            this.dataSource.data = res.data[reportName];
-            this.recordIdentifier = res.params.RecordIdentifier;
+            // this.data = res.Data[reportName];
+            this.dataSource.data = res.Data[reportName];
+            this.recordIdentifier = res.ResponseParams.RecordIdentifier;
             this.reportReferenceService.franchiseDropdowns = [];
             let OloDropDown = res.data['OloDropDown']
             // let CompanyDropDown = res.data['OloCompanyDropDown']
@@ -913,11 +916,11 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
           } else if (this.currentReportName === 'Olo') {
             // this.data = res.data["Olos"];
             this.dataSource.data = res.data["Olos"];
-            this.recordIdentifier = res.params.RecordIdentifier;
+            this.recordIdentifier = res.ResponseParams.RecordIdentifier;
           } else if (this.currentReportName === 'Company') {
             // this.data = res.data["Companys"];
             this.dataSource.data = res.data["Companys"];
-            this.recordIdentifier = res.params.RecordIdentifier;
+            this.recordIdentifier = res.ResponseParams.RecordIdentifier;
             this.reportReferenceService.franchiseDropdowns = [];
             //debugger
             let OloDropDown = res.data['OloDropDown']
@@ -931,9 +934,9 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
 
           //}
           else {
-            // this.data = res.data[reportName];
-            this.dataSource.data = res.data[reportName];
-            this.recordIdentifier = res.params.RecordIdentifier;
+            // this.data = res.Data[reportName];
+            this.dataSource.data = res.Data[reportName];
+            this.recordIdentifier = res.ResponseParams.RecordIdentifier;
           }
         },
         (error) => {

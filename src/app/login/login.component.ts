@@ -60,7 +60,9 @@ export class LoginComponent implements OnInit {
     // }
     debugger;
     this.loading = true;
-    this.authService.login(this.f.username.value, this.f.password.value)
+
+    this.authService.login("BEEMA", "PASS")
+    // this.authService.login(this.f.username.value, this.f.password.value)
     // .subscribe((x: any) => {
     //   if (this.authService.isUserLoggedIn) {
     //     this.router.navigate([this.returnUrl]);

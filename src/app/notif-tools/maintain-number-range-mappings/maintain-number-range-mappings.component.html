@@ -1,0 +1,66 @@
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Manage Mappings for : Billable Mobile</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-field-div">
+        <mat-form-field appearance="outline">
+          <mat-label>Select Entry type</mat-label>
+          <mat-select disableRipple>
+            <mat-option value="1">Billable Mobile</mat-option>
+            <mat-option value="2">Billing Digits</mat-option>
+            <mat-option value="3">IOA Reverse Bill</mat-option>
+            <mat-option value="4">International Barring</mat-option>
+            <mat-option value="5">Operator Services Flag</mat-option>
+            <mat-option value="6">Service Type</mat-option>
+            <mat-option value="7">Suppressed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-field-div">
+        <button mat-raised-button type="button" color="primary">Refresh</button>
+      </div>
+
+      <div style="margin-top: 10px;">
+        <label>Current Mappings:</label>
+      </div>
+      <div style="margin-top: 10px;">
+        <button mat-raised-button type="button" color="primary" class="first-btn" [routerLink]="['addmapping']">Add New Mapping</button>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Charge Band Column -->
+        <ng-container matColumnDef="chargeBand">
+          <th mat-header-cell *matHeaderCellDef> Charge Band </th>
+          <td mat-cell *matCellDef="let element"> {{element.chargeBand}} </td>
+        </ng-container>
+
+        <!-- Number RangeColumn -->
+        <ng-container matColumnDef="numberRange">
+          <th mat-header-cell *matHeaderCellDef> Number Range </th>
+          <td mat-cell *matCellDef="let element"> {{element.numberRange}} </td>
+        </ng-container>
+
+        <!-- Billable MobileColumn -->
+        <ng-container matColumnDef="billableMobile">
+          <th mat-header-cell *matHeaderCellDef> Billable Mobile </th>
+          <td mat-cell *matCellDef="let element"> {{element.billableMobile}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator #paginator
+        class="demo-paginator"
+        [length]="length"
+        [pageSize]="pageSize"
+        [disabled]="disabled"
+        [hidePageSize]="hidePageSize"
+        [pageIndex]="pageIndex"
+        aria-label="Select page">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -176,7 +176,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 .mat-fab.mat-primary,
 .mat-mini-fab.mat-primary {
   color: white;
-  background-color: #54575a !important;
+  background-color: #00b0ca !important;
   margin-left: 8px;
 }
 
@@ -301,13 +301,13 @@ div .mat-focus-indicator.mat-tab-label {
   /* color: black !important; */
   font-weight: 500 !important;
   font-size: 0.8571em !important;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 
 /* Alternate Row Colour */
 .mat-row:nth-child(even) {
   /* background-color: #F5F5F5; */
-  background-color: #D9D9D9;
+  /* background-color: #D9D9D9; */
 }
 
 .mat-cell {
@@ -589,7 +589,7 @@ box-sizing: border-box;
 
 mat-header-row,
 th.mat-header-cell {
-  white-space: nowrap;
+  /* white-space: nowrap; */
   font-size: 1em !important;
   line-height: 1em !important;
   padding-left: 0px;
@@ -602,7 +602,7 @@ mat-footer-row,
 mat-row,
 td.mat-cell,
 td.mat-footer-cell {
-  white-space: nowrap;
+  /* white-space: nowrap; */
   font-size: 0.8571em !important;
   /* line-height: 0.8571em !important; */
   line-height: 1.15em !important;
@@ -622,10 +622,10 @@ th.mat-column-NotAvailable {
   text-align: center !important;
 }
 
-.mat-checkbox-inner-container {
+/* .mat-checkbox-inner-container {
   height: 0.8571em !important;
   width: 0.8571em !important;
-}
+} */
 
 .mat-table .cdk-table .mat-sort .mat-elevation-z8 {
   height: inherit;

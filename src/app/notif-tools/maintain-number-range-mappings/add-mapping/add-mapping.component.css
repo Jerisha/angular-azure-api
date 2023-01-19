@@ -1,0 +1,27 @@
+mat-card {
+    padding: 25px;
+}
+
+.vf-card-title{
+    box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
+    background-color:#e60000;
+    color:white;
+    height: 25px;
+    padding-top: 5px;
+} 
+
+mat-card-content {
+    border: 1px solid #54575a;
+    padding: 20px 15px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.btn-container {
+    margin-top: 20px;
+}
+
+.form-field-div {
+    display: inline-block;
+    padding-right: 1em;
+}

@@ -4,14 +4,26 @@
         <h1></h1>
     </div>
 </nav>
-
+<div>
+    <mat-toolbar class="banner mat-elevation-z1 ">
+      
+        <span style="display: flex;"  >
+          <img src="assets/images/vodafone.png" alt="image">
+          <span style="margin-left: 5px;">Dial Code Management</span>
+        </span>
+        <i class='bx bx-log-out' id="log_out" ></i>
+      
+      </mat-toolbar>
+</div>
 <alert></alert>
 <div class="container">
-   
-    <div class="img">
+    
+
+    <!-- <div class="img">
         <img src="assets/images/side_img.PNG">
-    </div>
+    </div> -->
     <div class="login-content">
+
 
         <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onSubmit()">
 
@@ -60,16 +72,16 @@
                     </mat-error>
                 </mat-form-field>
             </div>
-            <button [class.spinner]="loading" [disabled]="loading" class="btn btn-primary">
+            <!-- <button [class.spinner]="loading" [disabled]="loading" class="btn btn-primary">
                 
                 Login
-            </button>
-            <div>
+            </button> -->
+            <!-- <div>
                 <p style="text-align: justify;">
                     For Windows AD Authentication, please use your VF-ROOT domain credentials.
 
                 </p>
-            </div>
+            </div> -->
 
         </form>
     </div>

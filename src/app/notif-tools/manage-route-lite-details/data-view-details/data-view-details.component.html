@@ -1,0 +1,85 @@
+<div>
+  <mat-card>
+    <!-- <div class="liverecord-sec">
+      <div class="container-fluid">
+        <div>
+          <div class="details-data">
+            <span class="label"> Notif Id: </span>
+            <span class="text-display">NEWNUM_Administrator_0000010" readonly</span>
+          </div>
+          <div class="details-data">
+            <span class="label"> Issue Date: </span>
+            <span class="text-display">09/04/2015</span>
+          </div>
+        </div>
+        <div>
+          <div class="details-data">
+            <span class="label"> Notif Type: </span>
+            <span class="text-display">New Number Range</span>
+          </div>
+          <div class="details-data">
+            <span class="label"> Network Notes: </span>
+            <span class="text-display">UAT connectivity run</span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div style="display: flex; flex-wrap: wrap;">
+      <div class="form-field-div">
+        <mat-form-field appearance="outline">
+          <mat-label>Notif Id</mat-label>
+          <input matInput value="NEWNUM_Administrator_0000010" readonly>
+        </mat-form-field>
+      </div>
+      <div class="form-field-div">
+        <mat-form-field appearance="outline">
+          <mat-label>Notif Type</mat-label>
+          <input matInput value="New Number Range" readonly>
+        </mat-form-field>
+      </div>
+      <div class="form-field-div">
+        <mat-form-field appearance="outline">
+          <mat-label>Issue Date</mat-label>
+          <input matInput value="09/04/2015" readonly>
+        </mat-form-field>
+      </div>
+      <div class="div-inline-block">
+        <mat-form-field class="side-textarea">
+          <mat-label>Network Notes</mat-label>
+          <textarea name="remarks" matInput maxlength="500" value="UAT connectivity run" readonly></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<div>
+  <mat-card>
+    <mat-card-header class="vf-card-title">
+      <mat-card-title>Number Ranges</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+          <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column.headerValue">
+            <!-- All columns -->
+            <div>
+              <th mat-header-cell *matHeaderCellDef>
+                {{column.header}}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{row[column.headerValue]}}
+              </td>
+            </div>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"></tr>
+        </table>
+      </div>
+      <div style="margin-top: 20px;">
+        <button mat-raised-button color="primary" style="margin-left: 0;">Accept</button>
+        <button mat-raised-button color="primary" (click)="backClicked()">Return</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

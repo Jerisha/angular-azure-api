@@ -51,7 +51,8 @@ export class HttpWrapperService {
                         
                     case WebMethods.QUERY:
                     case WebMethods.GET:
-                        transData.params = val.ResponseParams
+                        // transData.params = val.ResponseParams
+                        transData.params = val.ReponseParams
                         transData.data = val.Data
                         break;
                     case WebMethods.PAFQUERY:
@@ -151,6 +152,7 @@ export class HttpWrapperService {
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
+                // `${environment.api_al}${endPoint.toString()}`, 
                 `${environment.api_al}${endPoint.toString()}`,                
                 JSON.stringify(body),
                 responseType,
